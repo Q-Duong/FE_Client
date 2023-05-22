@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSelector } from 'react-redux'
 import { Link, useLocation } from 'react-router-dom'
 import { useHistory } from 'react-router';
-import { Col, Dropdown, Row } from 'react-bootstrap'
+import { Col, Container, Dropdown, Row } from 'react-bootstrap'
 import { faLocationDot, faPhone, faMotorcycle } from '@fortawesome/free-solid-svg-icons';
 
 import logo from '../assets/images/Logo-2.png'
@@ -14,18 +14,37 @@ import { removeToken } from '../redux/token/tokenSlice'
 
 import search from '../assets/images/icon/search.png';
 import cart from '../assets/images/icon/cart.png';
-import heart from '../assets/images/icon/heart.png';
+import user from '../assets/images/icon/user.svg';
 import { propTypes } from 'react-bootstrap/esm/Image';
 import { wareHouseAPI } from '../api/api';
 const logo1 = "https://www.chili.vn/blogs/wp-content/uploads/2019/03/thiet-ke-web-ban-hang-1.png";
 const mainNav = [
     {
-        display: "Sản phẩm",
-        path: "/catalog"
+        display: "About Technova",
+        path: "/about"
     },
     {
-        display: "Tin Tức ",
-        path: "/pagenews"
+        display: "Microsoft 365 ",
+        path: "/microsoft-365"
+    },
+    {
+        display: "Autodesk",
+        path: "/autodesk"
+    },
+    {
+        display: "Adobe",
+        path: "/adobe"
+    },
+    {
+        display: "Bim",
+        path: "/bim"
+    },
+    {
+        display: "Gải pháp",
+        path: "/giai-phap"
+    },{
+        display: "Dịch vụ",
+        path: "/dich-vu"
     },
     {
         display: "Liên hệ",
@@ -98,15 +117,15 @@ const Header = (props) => {
         <>
             <div className="header" ref={headerRef}>
                 <div className="header__top" ref={headerTopRef}>
-                    <div className="container">
+                    {/* <Container>
                         <Row >
-                            <Col lg="4" xs="4" className="header__top__left"><FontAwesomeIcon icon={faLocationDot} /> 60 Cửa hàng khắp cả nước</Col>
-                            <Col lg="4" xs="4" className="header__top__mid"><FontAwesomeIcon icon={faPhone} /> Đặt hàng: 0919889558</Col>
-                            <Col lg="4" xs="4" className="header__top__right"><FontAwesomeIcon icon={faMotorcycle} /> Freeship từ 50.000vnd</Col>
+                            <Col lg="4" xs="4" className="header__top__left"></Col>
+                            <Col lg="4" xs="4" className="header__top__mid"></Col>
+                            <Col lg="4" xs="4" className="header__top__right"><FontAwesomeIcon icon={faMotorcycle} /> HOTLINE: HCM : 08. 3512 8760 - HN :0912611827</Col>
                         </Row>
-                    </div>
+                    </Container> */}
                 </div>
-                <div className="container">
+                <Container>
 
                     <div className="header__menu">
                         <div className="header__menu__mobile-toggle" onClick={menuToggle}>
@@ -134,21 +153,20 @@ const Header = (props) => {
                                     </div>
                                 ))
                             }
-                            <div className="header__menu__item header__menu__search__item">
-                                <img src={search} className="search" onClick={handleSearchFormShow} />
-                            </div>
+                            
                         </div>
                         <div className="header__menu__right">
-
-
-                            <div className="header__menu__item header__menu__right__item">
-                                <Dropdown className="buttomCart">
-                                    <Dropdown.Toggle className="buttomOpiton" id="dropdown-custom-components">
+                            <div className="header__menu__right__search__item">
+                                <img src={search} className="search" onClick={handleSearchFormShow} />
+                            </div>
+                            <div className="header__menu__right__cart">
+                                <Dropdown className="header__menu__right__cart__btn">
+                                    <Dropdown.Toggle className="header__menu__right__cart__btn__opiton" id="dropdown-custom-components">
 
                                         <img src={cart} />
                                         {
                                             cartItems.length !== 0 ?
-                                                <span className="cartLength">{cartItems.length}</span>
+                                                <span className="header__menu__right__cart__btn__opiton__length">{cartItems.length}</span>
                                                 : <></>
                                         }
 
@@ -156,9 +174,12 @@ const Header = (props) => {
                                     <HeaderUserInfo cartItems={cartItems} token={token} onLogout={handleLogout} />
                                 </Dropdown>
                             </div>
+                            <div className="header__menu__right__user__item">
+                                <img src={user} className="search" onClick={handleSearchFormShow} />
+                            </div>
                         </div>
                     </div>
-                </div>
+                </Container>
             </div>
             <Search
                 showSearchForm={showSearchForm}

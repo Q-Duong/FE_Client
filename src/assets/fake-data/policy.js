@@ -1,27 +1,20 @@
 const policy = [
     {
-        name: "Miễn phí giao hàng",
+        name: "PHẦN MỀM",
        
-        description: "Miễn phí ship với đơn hàng > 150₫",
-        icon: "bx bx-shopping-bag"
+        description: "",
+        icon: "bx bx-save"
     },
     {
-        name: "Thanh toán COD",
-        description: "Thanh toán khi nhận hàng (COD)",
-        icon: "bx bx-credit-card"
+        name: "PHẦN CỨNG",
+        description: "",
+        icon: "bx bx-customize"
     },
     {
-        name: "Khách hàng thân thiết ",
-        description: "Ưu đãi ",
-        icon: "bx bx-diamond"
+        name: "GIẢI PHÁP CÔNG NGHỆ",
+        description: "",
+        icon: "bx bx-shuffle"
     },
-    {
-
-        name: "Hỗ trợ đổi trả ",
-        description: "Đổi, trả hàng trong 7 ngày",
-
-        icon: "bx bx-donate-heart"
-    }
 ]
 
 export default policy

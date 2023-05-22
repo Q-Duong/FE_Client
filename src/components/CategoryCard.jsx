@@ -15,7 +15,7 @@ const CategoryCard = props => {
                 <div class="category_product_item">
                     <img className='image_category' src={`${process.env.REACT_APP_IMAGEURL}${item.image}`}/>
                     <div class="a">
-                    {item.name}
+                    {item.display}
                     </div>
                 </div>
 

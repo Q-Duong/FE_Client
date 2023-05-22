@@ -1,0 +1,37 @@
+.carousel-inner{
+    max-height: 450px;
+    @include mobile {
+        max-height: 150px !important;
+    }
+}
+.carousel-item{
+    height: 100%;
+}
+.carousel-control-prev-icon,
+.carousel-control-next-icon{
+    background-color: black;
+    border-radius: 50%;
+    background-size: 64% 64%;
+}
+// .carousel-control-prev {
+//     // top: 50%;
+//     // bottom: 0;
+//     // right: 0;
+//     // align-items: center;
+//     width: auto;
+//     min-width: 0;
+//     margin-right: 15%;
+//     margin-bottom: 1rem;
+//     margin-left: 15%;
+// }
+.carousel-indicators{
+    bottom: -50px;
+}
+.carousel-indicators [data-bs-target] {
+    background-color: #111111;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-left: 5px;
+    margin-right: 5px;
+}

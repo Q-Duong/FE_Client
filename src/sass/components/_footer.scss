@@ -1,7 +1,7 @@
 .footer {
     padding: 70px 0 0 0;
     background-color: $footer-background;
-    color: #ffffff;
+    color: #616161;
     font-size: 1.1rem;
 
     &__logo {
@@ -29,6 +29,7 @@
     &__content {
         p {
             margin-bottom: 1.25rem;
+            color: #616161;
         }
         hr{
             margin: 0 !important;

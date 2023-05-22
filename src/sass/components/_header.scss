@@ -6,10 +6,10 @@
     width: 100%;
     z-index: 99;
     height: $header-height;
-    transition: height 0.3s ease;
+    // transition: height 0.3s ease;
     border-bottom:  1px solid #d2d2d7;
 
-    .header__top{
+    &.__top{
         padding: 10px 0;
         font-size: 14px;
     
@@ -41,25 +41,28 @@
         height: $header-mobile-height;
     }
 
-    .container {
-        // height: 100%;
-    }
-
-    &.shrink {
-        height: $header-shrink-height;
-        box-shadow: $box-shadow;
-        z-index: 100;
+    // &.shrink {
+    //     height: $header-shrink-height;
+    //     box-shadow: $box-shadow;
+    //     z-index: 100;
         
 
-        @include mobile {
-            height: $header-shrink-height;
-        }
-    }
+    //     @include mobile {
+    //         height: $header-shrink-height;
+    //     }
+    // }
 
     &__logo {
         @include flex(center,center);
         pointer-events: all;
-
+        @include mobile {
+            position: absolute;
+            margin-left: auto;
+            margin-right: auto;
+            left: 0;
+            right: 0;
+            text-align: center;
+        }
         img {
             height: 45px;
             width: 100px;
@@ -68,9 +71,13 @@
 
     &__menu {
         @include flex(center, space-between);
-        height: 59px;
-        font-size: 1.5rem;
+        height: $header-height;
+        font-size: 13px;
+        color: #262626;
 
+        @include mobile {
+            @include flex(center, space-between);
+        }
         &__item ~ &__item {
             margin-left: 39px;
 
@@ -95,30 +102,88 @@
 
         &__left,
         &__right {
-            @include flex(center, center);
+            @include flex(center, flex-end);
             height: 100%;
         }
 
+        // &__search{
+        //     &__item{
+        //         @include flex(center, center);
+        //         position: absolute;
+        //         left: 0;
+        //         &__search {
+        //             display: none;
+        //             &.active {
+        //                 display: block;
+        //             }
+        //         }
+        //     }
+        // }
+
         &__right {
-            font-size: 2.25rem;
 
-            &__item {
-                @include flex(center, center);
+            width: 20%;
+            // @include flex(center, center);
 
-                @include tablet {
-                    margin-left: 10px;
+            // @include tablet {
+            //     margin-left: 10px;
+            // }
+            &__search {
+                &__item{
+                    @include mobile {
+                        position: absolute;
+                        left:55px;
+                        top:15px
+                    }
+                
+                    // &.active {
+                    //     display: block;
+                    // }
                 }
-                &__search {
-                    display: none;
-                    &.active {
-                        display: block;
+            }
+               
+            &__cart{
+                &__btn{
+                    border: 0px solid;
+                    margin: 0 0 5px 15px;
+                    @include mobile {
+                        margin: 0;
+                    }
+                    &__opiton{
+                        background-color: transparent !important;
+                        border: 0;
+                        position: unset !important;
+                        &__length{
+                            color: #0d0d0d;
+                            font-size: 11px;
+                            font-weight: 400;
+                            position: absolute;
+                            left: 18px;
+                            top: 20px;
+                            background-color: #d1d1d1;
+                            padding: 1px 5px 0px 5px;
+                            border-radius: 8px;
+                            @include mobile {
+                                top: 15px;
+                            }
+                        }
+                    }
+                    &__opiton:hover{
+                        background-color: transparent !important;
+                        border: 0 !important;
+                    }
+                        
+                    &__opiton:focus{
+                        box-shadow: none !important;
                     }
                 }
-               
             }
-
-            @include mobile {
-                font-size: 1.5rem;
+            &__user{
+                &__item{
+                    float: right;
+                    height: 30px;
+                    width: 30px;
+                }
             }
         }
 
@@ -164,83 +229,23 @@
 
             @include tablet {
                 display: block;
+                position: relative;
                 font-size: 2.5rem;
             }
         }
     }
 }
-.header__menu__search__item{
-    position: absolute;
-    right: 100px
-}
-
-.buttomCart{
-    border: 0px solid;
-    margin: 0px 0px 8px -25px;
-}
-
-.cartLength {
-    color: #0d0d0d;
-    font-size: 11px;
-    font-weight: 400;
-    position: absolute;
-    left: 18px;
-    top: 20px;
-    background-color: #d1d1d1;
-    padding: 1px 5px 0px 5px;
-    border-radius: 8px;
-    
-}
-
-.buttomOpiton{
-    background-color: transparent !important;
-    border: 0;
-}
 
 
-.buttomOpiton:hover{
+.header__menu__right__cart__btn__opiton:hover{
  background-color: transparent !important;
  border: 0 !important;
 }
 
-.buttomOpiton:focus{
+.header__menu__right__cart__btn__opiton:focus{
     box-shadow: none !important;
 }
 
 .search{
     cursor: pointer;
 }
-
-// .btn:hover{
-//     border: 1px solid transparent ;
-//     background-color: #ffffff;
-// }
-
-
-.dropdown-toggle::after {
-    display: none;
-}
-
-
-.dropdown-menu{
-    width:330px;
-    margin-top: 14px;
-    border-radius: 10px;
-    border: 1px solid #d2d2d7;
-}
-
-  .dropdown-item{
-    width: 80%;
-    border-top: 1px solid #d2d2d7;
-    padding: 0.8rem 10rem 0.8rem 0;
-    margin: 0 auto;
-    -webkit-transition: all, 0.6s !important;
-	-o-transition: all, 0.6s !important;
-  }
-  .dropdown-item:hover{
-        border-radius: 10px;
-        width: 95%;
-        -webkit-transition: all, 0.6s;
-        -o-transition: all, 0.6s;
-        transition: all, 0.6s;
-  }

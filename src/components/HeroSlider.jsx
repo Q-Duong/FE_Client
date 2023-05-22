@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import {Carousel} from "react-bootstrap"
 import Button from './Button'
-const imga = "https://cdn.tgdd.vn/bachhoaxanh/banners/2505/thuc-pham-dong-lanh-08062022133258.jpg" ;
-const imgb = "https://cdn.tgdd.vn/bachhoaxanh/banners/2505/sua-gia-dai-ly-1506202210212.jpg";
-const imgc = "https://cdn.tgdd.vn/bachhoaxanh/banners/2505/nuoc-yen-17062022132744.png";
+const imga = "https://technova.com.vn/wp-content/uploads/2016/07/12121.png" ;
+const imgb = "https://technova.com.vn/wp-content/uploads/2019/01/cruzr-1000x2500.jpg";
+const imgc = "https://technova.com.vn/wp-content/uploads/2016/07/getmedia.jpg";
 const HeroSlider = props => {
 
     const data = props.data
@@ -42,21 +42,21 @@ const HeroSlider = props => {
         <Carousel>
         <Carousel.Item>
           <img
-            className="d-block w-100"
+            className="d-block w-100 carousel-item"
             src={imga}
             alt="First slide"
           />
         </Carousel.Item>
         <Carousel.Item>
           <img
-            className="d-block w-100"
+            className="d-block w-100 carousel-item"
             src={imgb}
             alt="Second slide"
           />
         </Carousel.Item>
         <Carousel.Item>
           <img
-            className="d-block w-100"
+            className="d-block w-100 carousel-item"
             src={imgc}
             alt="Third slide"
           />  
