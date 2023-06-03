@@ -1,11 +1,11 @@
 import axios from 'axios';
 
 const axi =  axios.create({
-  baseURL: `http://127.0.0.1:3001`
+  baseURL: `http://127.0.0.1:3000`
 });
 
 const brandAPI = {
-  getAll: () => axi.get('/brand'),
+  getAll: () => axi.get('/v1/product'),
   update: (brand) => 
     axi.put(`/brand/${brand.get('_id')}`, 
       brand,

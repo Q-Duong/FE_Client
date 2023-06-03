@@ -15,9 +15,11 @@ import heroSliderData from '../assets/fake-data/hero-slider'
 import policy from '../assets/fake-data/policy'
 import category from '../assets/fake-data/category'
 
-import banner from '../assets/images/banner.png'
+//import banner from '../assets/images/banner.png'
 import SectionProductsbyCategory from '../components/SectionProductsbyCategory';
 import { Container } from 'react-bootstrap';
+const banner = "https://technova.com.vn/wp-content/uploads/2016/07/12121.png" ;
+
 
 const Home = () => {
     // const [products, setProducts] = useState([])

@@ -1,16 +1,21 @@
 const category = [
     {
-        display: "Áo thun",
+        display: "Microsoft 365",
         categorySlug: "ao-thun"
     },
     {
-        display: "Áo somi",
+        display: "Autodesk",
         categorySlug: "ao-somi"
     },
     {
-        display: "Quần jean",
+        display: "Adobe",
+        categorySlug: "quan-jean"
+    },
+    {
+        display: "Bim",
         categorySlug: "quan-jean"
     }
+    
 ]
 
 export default category

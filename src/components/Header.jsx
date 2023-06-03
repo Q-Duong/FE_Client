@@ -17,7 +17,7 @@ import cart from '../assets/images/icon/cart.png';
 import user from '../assets/images/icon/user.svg';
 import { propTypes } from 'react-bootstrap/esm/Image';
 import { wareHouseAPI } from '../api/api';
-const logo1 = "https://www.chili.vn/blogs/wp-content/uploads/2019/03/thiet-ke-web-ban-hang-1.png";
+const logo1 = "https://technova.com.vn/wp-content/uploads/2016/08/Logo-Technova-01.png";
 const mainNav = [
     {
         display: "About Technova",

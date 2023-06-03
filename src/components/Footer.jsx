@@ -8,7 +8,7 @@ import Grid from './Grid'
 
 import logo from '../assets/images/Logo-2.png'
 import { Row } from 'react-bootstrap';
-const logo1 = "https://www.chili.vn/blogs/wp-content/uploads/2019/03/thiet-ke-web-ban-hang-1.png";
+const logo1 = "https://technova.com.vn/wp-content/uploads/2016/08/Logo-Technova-01.png";
 const footerAboutLinks = [
 
     {
@@ -132,7 +132,7 @@ const Footer = () => {
                                 <script>
                                 document.write(new Date().getFullYear());
                                 </script>
-                                Vương Phạm. All rights reserved.
+                                Quốc Dương. All rights reserved.
                             </p>
                             
                         </div>
