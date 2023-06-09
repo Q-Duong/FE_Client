@@ -20,10 +20,6 @@ import { wareHouseAPI } from '../api/api';
 const logo1 = "https://technova.com.vn/wp-content/uploads/2016/08/Logo-Technova-01.png";
 const mainNav = [
     {
-        display: "About Technova",
-        path: "/about"
-    },
-    {
         display: "Microsoft 365 ",
         path: "/microsoft-365"
     },
@@ -140,16 +136,50 @@ const Header = (props) => {
                             <div className="header__menu__left__close" onClick={menuToggle}>
                                 <i className='bx bx-chevron-left'></i>
                             </div>
+                            <div
+                                className={`header__menu__item header__menu__left__item`}
+                            >
+                                <nav class="header__menu mobile-menu">
+                                    <ul>
+                                        <li className={`nav-item`}>
+                                        <Link to={'/about'}><span></span>About Technova</Link>
+                                            <ul class="dropdown">
+                                                <li>
+                                                    <a href="">Giới thiệu</a>
+                                                </li>
+                                                <li>
+                                                    <a href="">Đối tác</a>
+                                                </li>
+                                                <li>
+                                                    <a href="">Tuyển dụng</a>
+                                                </li>
+                                                <li>
+                                                    <a href="">Hỗ trợ</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
                             {
                                 mainNav.map((item, index) => (
                                     <div
                                         key={index}
-                                        className={`header__menu__item header__menu__left__item ${index === activeNav ? 'active' : ''}`}
+                                        className={`header__menu__item header__menu__left__item`}
                                         onClick={menuToggle}
                                     >
-                                        <Link to={item.path}>
-                                            <span>{item.display}</span>
-                                        </Link>
+                                        <nav class="header__menu mobile-menu">
+                                            <ul>
+                                                <li className={`nav-item ${index === activeNav ? 'active' : ''}`}>
+                                                    <Link to={item.path}><span>{item.display}</span></Link>
+                                                    <ul class="dropdown">
+                                                        <li>
+                                                            <a href="">xxzvc</a>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </nav>
                                     </div>
                                 ))
                             }
@@ -175,7 +205,9 @@ const Header = (props) => {
                                 </Dropdown>
                             </div>
                             <div className="header__menu__right__user__item">
-                                <img src={user} className="search" onClick={handleSearchFormShow} />
+                                <Link to={'/login'}>
+                                    <img src={user} />
+                                </Link>
                             </div>
                         </div>
                     </div>

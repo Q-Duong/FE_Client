@@ -21,23 +21,23 @@
 .search-model-form {
 	width: 100%;
 	/* margin: 0 20px 0 20px; */
-	background-color: #fa8c16;
-	height: 50px;
+	background-color: $main-color;
+	height: 54px;
 }
 
 .input_container{
 	position: relative;
 	width: 600px;
-	height: 50px;
+	height: 54px;
 	margin: 0 auto;
 	font-size: 22px;
-	background: #fa8c16;
+	background: $main-color;
 }
 
 .input_container .input_search{
 	height: 50px;
 	width: 100%;
-	background: #fa8c16;
+	background: $main-color;
 	color: #fff;
 	border: none;
 	border-radius: 10px;

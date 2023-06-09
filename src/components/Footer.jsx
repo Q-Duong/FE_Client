@@ -55,28 +55,33 @@ const Footer = () => {
                 >
                     <div>
                         <div className="footer__title">
-                        <FontAwesomeIcon icon={faPhone} /> Tổng đài hỗ trợ (7:00 - 21:00)
+                        <FontAwesomeIcon icon={faLocationDot} /> Địa chỉ
                         </div>
                         <div className="footer__content">
                             <p>
-                                Liên hệ đặt hàng: <strong>0917889558</strong>
-                            </p>
-                            <p>
-                                Thắc mắc đơn hàng: <strong>0943705326</strong>
-                            </p>
-                            <p>
-                                Góp ý, khiếu nại: <strong>0919644515</strong>
+                            289/1 Ung Văn Khiêm, <hr />
+                            Phường 25, Quận Binh Thạnh, TP.HCM
                             </p>
                         </div>
                         <div className="footer__border"></div>
                         <div className="footer__title">
-                        <FontAwesomeIcon icon={faLocationDot} /> Liên hệ
+                        <FontAwesomeIcon icon={faPhone} /> Liên hệ
                         </div>
                         <div className="footer__content">
                             <p>
-                            Tầng 3-4 Hub Building <hr />
-                            195/10E Điện Biên Phủ, P.15 , <hr />
-                            Q.Bình Thạnh, TP.Hồ Chí Minh
+                                Hồ Chí Minh: <strong>0835128760</strong>
+                            </p>
+                            <p>
+                                Hà Nội: <strong>0912611827</strong>
+                            </p>
+                            <p>
+                                <strong>Email: </strong>
+                            </p>
+                            <p>
+                                Hồ Chí Minh: <strong>kinhdoanh@technova.com.vn</strong>
+                            </p>
+                            <p>
+                                Hà Nội: <strong>linhnguyen@technova.com.vn</strong>
                             </p>
                         </div>
                     </div>
