@@ -5,7 +5,7 @@ const axi =  axios.create({
 });
 
 const brandAPI = {
-  getAll: () => axi.get('/v1/product'),
+  getAll: () => axi.get('/v1/brand'),
   update: (brand) => 
     axi.put(`/brand/${brand.get('_id')}`, 
       brand,
@@ -14,7 +14,7 @@ const brandAPI = {
 }
 
 const categoryAPI = {
-  getAll: () => axi.get('/category'),
+  getAll: () => axi.get('/v1/category'),
   update: (category) => {
     return axi.put(`/category/${category._id}`,{
       categoryName:category.categoryName,
@@ -31,8 +31,8 @@ const customerAPI = {
   updatePassword: (token, newPassword) => axi.patch('/customer/password',{newPassword},{headers: {'x-access-token': token}})
 }
 
-const wareHouseAPI = {
-  getAll: () => axi.get(`/warehouse`),
+const productAPI = {
+  getAll: () => axi.get(`/v1/product`),
   getAndSortBySoldQuantity: (limit) => axi.get(`/warehouse/top/${limit}`),
   search: (searchTerm) => axi.get(`/warehouse?searchTerm=${searchTerm}`),
   getById: (id) => axi.get(`/warehouse/${id}`),
@@ -75,4 +75,4 @@ const commentAPI = {
     return axi.post('/comment',inputComment,{headers:{'x-access-token': token}})
   }
 }
-export {brandAPI, categoryAPI, customerAPI, wareHouseAPI, supplierAPI, exportOrderAPI,contactAPI,commentAPI};
+export {brandAPI, categoryAPI, customerAPI, productAPI, supplierAPI, exportOrderAPI,contactAPI,commentAPI};

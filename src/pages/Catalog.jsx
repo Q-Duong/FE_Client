@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 
-import { categoryAPI, wareHouseAPI } from '../api/api';
+import { categoryAPI, productAPI } from '../api/api';
 import Helmet from '../components/Helmet'
 import CheckBox from '../components/CheckBox'
 
@@ -46,7 +46,7 @@ const Catalog = () => {
     useEffect(() => {
         async function getProducts() {
             try {
-                const response = await wareHouseAPI.getAll();
+                const response = await productAPI.getAll();
                 const productDatas = response.data
                 const tempBrands = productDatas.reduce((arrBrands, product) => {
                     if (!arrBrands.some(brand => brand._id == product.product.brand._id))

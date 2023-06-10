@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import PropTypes from 'prop-types'
-import { wareHouseAPI } from '../api/api';
+import { productAPI } from '../api/api';
 import Grid from './Grid';
 import ProductCard from './ProductCard';
 import Section, { SectionBody, SectionTitle } from './Section';
@@ -18,7 +18,7 @@ function SectionProductsbyCategory(props) {
     useEffect(() => {
         async function getProductByCategory() {
             try {
-                const response = await wareHouseAPI.getByCategoryId(category._id);
+                const response = await productAPI.getByCategoryId(category._id);
                 setProducts(response.data)
             } catch (error) {
                 alert(error.response.data.message)

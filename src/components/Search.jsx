@@ -6,7 +6,7 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import search from '../assets/images/icon/search-icon.svg';
 import { useEffect } from 'react';
 import { productModalSlice } from '../redux/product-modal/productModalSlice';
-import { productAPI, wareHouseAPI } from '../api/api';
+import { productAPI } from '../api/api';
 import {ListGroup} from 'react-bootstrap'
 import { useHistory } from 'react-router-dom';
 
@@ -49,7 +49,7 @@ function Search(props) {
 
         async function searching() {
             try {
-                const res = await wareHouseAPI.search(searchTerm);
+                const res = await productAPI.search(searchTerm);
                 if(res.status === 200) {
                     setSearchedProducts(res.data)
                 } else {

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Button } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 
-import { wareHouseAPI } from '../api/api';
+import { productAPI } from '../api/api';
 import CheckBox from '../components/CheckBox';
 import Helmet from '../components/Helmet'
 import InfinityList from '../components/InfinityList'
@@ -43,7 +43,7 @@ const Catogory = () => {
     useEffect(() => {
         async function getProducts() {
             try {
-                const response = await wareHouseAPI.getByCategoryId(id);
+                const response = await productAPI.getByCategoryId(id);
                 const productDatas = response.data
                 const tempBrands = productDatas.reduce((arrBrands, product) => {
                     if (!arrBrands.some(brand => brand._id == product.product.brand._id))

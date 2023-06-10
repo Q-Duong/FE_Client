@@ -16,7 +16,7 @@ import search from '../assets/images/icon/search.png';
 import cart from '../assets/images/icon/cart.png';
 import user from '../assets/images/icon/user.svg';
 import { propTypes } from 'react-bootstrap/esm/Image';
-import { wareHouseAPI } from '../api/api';
+import { brandAPI, categoryAPI } from '../api/api';
 const logo1 = "https://technova.com.vn/wp-content/uploads/2016/08/Logo-Technova-01.png";
 const mainNav = [
     {
@@ -42,10 +42,6 @@ const mainNav = [
         display: "Dịch vụ",
         path: "/dich-vu"
     },
-    {
-        display: "Liên hệ",
-        path: "/contact"
-    }
 ]
 
 const Header = (props) => {
@@ -59,7 +55,34 @@ const Header = (props) => {
     const { pathname } = useLocation()
 
     const activeNav = mainNav.findIndex(e => e.path === pathname)
+    const [brands, setBrands] = useState([])
+    const [categories, setCategories] = useState([])
+    
+    useEffect(() => {
+        async function getBrands() {
+            try {
+                const response = await brandAPI.getAll();
+                const brands = response.data
+                setBrands(brands)
+            } catch (error) {
+                alert(error)
+            }
+        }
+        getBrands()
+    },[])
 
+    useEffect(() => {
+        async function getCategories() {
+            try {
+                const response = await categoryAPI.getAll();
+                const categories = response.data
+                setCategories(categories)
+            } catch (error) {
+                alert(error.response.data.message)
+            }
+        }
+        getCategories()
+    }, [])
 
     function handleSearchFormShow() {
         setShowSearchForm(!showSearchForm)
@@ -161,8 +184,8 @@ const Header = (props) => {
                                     </ul>
                                 </nav>
                             </div>
-                            {
-                                mainNav.map((item, index) => (
+                            {/* {
+                                brands.map((item, index) => (
                                     <div
                                         key={index}
                                         className={`header__menu__item header__menu__left__item`}
@@ -173,17 +196,110 @@ const Header = (props) => {
                                                 <li className={`nav-item ${index === activeNav ? 'active' : ''}`}>
                                                     <Link to={item.path}><span>{item.display}</span></Link>
                                                     <ul class="dropdown">
-                                                        <li>
-                                                            <a href="">xxzvc</a>
-                                                        </li>
+                                                        {
+                                                            categories.map((item, index) => (
+                                                                <li>
+                                                                    <a href={item.path}>{item.display}</a>
+                                                                </li>
+                                                            ))
+                                                        }
                                                     </ul>
                                                 </li>
                                             </ul>
                                         </nav>
                                     </div>
                                 ))
-                            }
+                            } */}
                             
+                        </div>
+                        <div
+                            className={`header__menu__item header__menu__left__item`}
+                        >
+                            <nav class="header__menu mobile-menu">
+                                <ul>
+                                    <li className={`nav-item`}>
+                                    <Link to={'/contact'}><span></span>Toàn bộ sản phẩm</Link>
+                                        <ul class="dropdown">
+                                            <li>
+                                                <a href=""></a>
+                                            </li>
+                                            <li>
+                                                <a href="">Làm Website</a>
+                                            </li>
+                                            <li>
+                                                <a href="">Làm Game</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <div
+                            className={`header__menu__item header__menu__left__item`}
+                        >
+                            <nav class="header__menu mobile-menu">
+                                <ul>
+                                    <li className={`nav-item`}>
+                                    <Link to={'/contact'}><span></span>Giải pháp</Link>
+                                        <ul class="dropdown">
+                                            <li>
+                                                <a href="">Cloud Solutions</a>
+                                            </li>
+                                            <li>
+                                                <a href="">Backup & Restore</a>
+                                            </li>
+                                            <li>
+                                                <a href="">Dành cho doanh nghiệp CRM</a>
+                                            </li>
+                                            <li>
+                                                <a href="">Máy chủ / Hệ thống</a>
+                                            </li>
+                                            <li>
+                                                <a href="">Giáo dục</a>
+                                            </li>
+                                            <li>
+                                                <a href="">EHMS</a>
+                                            </li>
+                                            <li>
+                                                <a href="">Email Marketing</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <div
+                            className={`header__menu__item header__menu__left__item`}
+                        >
+                            <nav class="header__menu mobile-menu">
+                                <ul>
+                                    <li className={`nav-item`}>
+                                    <Link to={'/contact'}><span></span>Dịch vụ</Link>
+                                        <ul class="dropdown">
+                                            <li>
+                                                <a href="">Thiết kế đồ hoạ</a>
+                                            </li>
+                                            <li>
+                                                <a href="">Làm Website</a>
+                                            </li>
+                                            <li>
+                                                <a href="">Làm Game</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <div
+                            className={`header__menu__item header__menu__left__item`}
+                        >
+                            <nav class="header__menu mobile-menu">
+                                <ul>
+                                    <li className={`nav-item`}>
+                                    <Link to={'/contact'}><span></span>Liên hệ</Link>
+                                    </li>
+                                </ul>
+                            </nav>
                         </div>
                         <div className="header__menu__right">
                             <div className="header__menu__right__search__item">

@@ -28,7 +28,7 @@ function LoginForm(props) {
         <>
             <Col className="loginForm">
                 <div className="loginForm__title">
-                    Đăng nhập vào trang wed
+                    Đăng nhập
                 </div>
                 <Form onSubmit={handleLoginSubmit}>
                     <Form.Group className="mb-3">

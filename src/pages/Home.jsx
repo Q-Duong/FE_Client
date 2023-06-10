@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { wareHouseAPI, categoryAPI } from '../api/api';
+import { productAPI, categoryAPI } from '../api/api';
 
 import Helmet from '../components/Helmet'
 import HeroSlider from '../components/HeroSlider'
@@ -22,34 +22,34 @@ const banner = "https://technova.com.vn/wp-content/uploads/2016/07/12121.png" ;
 
 
 const Home = () => {
-    // const [products, setProducts] = useState([])
-    // const [categories, setCategories] = useState([])
+    const [products, setProducts] = useState([])
+    const [categories, setCategories] = useState([])
     
-    // useEffect(() => {
-    //     async function getProducts() {
-    //         try {
-    //             const response = await wareHouseAPI.getAndSortBySoldQuantity(5);
-    //             const products = response.data
-    //             setProducts(products)
-    //         } catch (error) {
-    //             alert(error)
-    //         }
-    //     }
-    //     getProducts()
-    // },[])
+    useEffect(() => {
+        async function getProducts() {
+            try {
+                const response = await productAPI.getAndSortBySoldQuantity(5);
+                const products = response.data
+                setProducts(products)
+            } catch (error) {
+                alert(error)
+            }
+        }
+        getProducts()
+    },[])
 
-    // useEffect(() => {
-    //     async function getCategories() {
-    //         try {
-    //             const response = await categoryAPI.getAll();
-    //             const categories = response.data
-    //             setCategories(categories)
-    //         } catch (error) {
-    //             alert(error.response.data.message)
-    //         }
-    //     }
-    //     getCategories()
-    // }, [])
+    useEffect(() => {
+        async function getCategories() {
+            try {
+                const response = await categoryAPI.getAll();
+                const categories = response.data
+                setCategories(categories)
+            } catch (error) {
+                alert(error.response.data.message)
+            }
+        }
+        getCategories()
+    }, [])
 
     return (
         <Helmet title="Trang chủ">

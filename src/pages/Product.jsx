@@ -6,7 +6,7 @@ import Grid from '../components/Grid'
 import ProductCard from '../components/ProductCard'
 import ProductView from '../components/ProductView'
 
-import { wareHouseAPI } from '../api/api'
+import { productAPI } from '../api/api'
 import { useParams } from 'react-router-dom'
 
 const Product = props => {
@@ -20,9 +20,9 @@ const Product = props => {
         async function getProduct() {
             
             try {
-                const resProduct = await wareHouseAPI.getById(id);
+                const resProduct = await productAPI.getById(id);
                 const tempProduct = resProduct.data
-                const resRelatedProduct = await wareHouseAPI.getByCategoryId(tempProduct.product.category)
+                const resRelatedProduct = await productAPI.getByCategoryId(tempProduct.product.category)
                 const tempRelatedproducts = resRelatedProduct.data
                 setProduct(tempProduct)
                 setRelatedProducts(tempRelatedproducts)
