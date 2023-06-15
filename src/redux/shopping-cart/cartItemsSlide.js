@@ -12,24 +12,23 @@ export const cartItemsSlice = createSlice({
     reducers: {
         addItem: (state, action) => {
             const newItem = action.payload
-            console.log(state.value)
-            const duplicated = state.value.find(item => item._id === newItem._id)
+            const duplicated = state.value.find(item => item.id === newItem.id)
             if(duplicated) {
                 duplicated.quantity += newItem.quantity;
             } else {
                 state.value.unshift(newItem)
             }
-            localStorage.setItem('cartItems', JSON.stringify(state.value.sort((a, b) => a._id > b._id ? 1 : (a._id < b._id ? -1 : 0))))
+            localStorage.setItem('cartItems', JSON.stringify(state.value.sort((a, b) => a.id > b.id ? 1 : (a.id < b.id ? -1 : 0))))
         },
         updateItem: (state, action) => {
             if(action.payload.quantity <= 0)
-                state.value = state.value.filter(item => item._id !== action.payload._id)
+                state.value = state.value.filter(item => item.id !== action.payload.id)
             else
-                state.value = state.value.map(item => item._id === action.payload._id ? action.payload : item)
+                state.value = state.value.map(item => item.id === action.payload.id ? action.payload : item)
             localStorage.setItem('cartItems', JSON.stringify(state.value.sort((a, b) => a.id > b.id ? 1 : (a.id < b.id ? -1 : 0))))
         },
         removeItem: (state, action) => {
-            state.value = state.value.filter(item => item._id !== action.payload._id)
+            state.value = state.value.filter(item => item.id !== action.payload.id)
             localStorage.setItem('cartItems', JSON.stringify(state.value.sort((a, b) => a.id > b.id ? 1 : (a.id < b.id ? -1 : 0))))
         },
         removeAll: (state, action) => {

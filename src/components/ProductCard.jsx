@@ -9,7 +9,6 @@ import { set } from '../redux/product-modal/productModalSlice'
 
 import Button from './Button'
 
-import numberWithCommas from '../utils/numberWithCommas'
 
 const ProductCard = props => {
     const {item} = props
@@ -17,29 +16,15 @@ const ProductCard = props => {
 
     return (
         item ?
-        <div className="product-card">
+        <div  icon="bx bx-cart"
+        animate={true}
+         className="product-card">
             <Link to={`/product/${item._id}`}>
                 <div className="product-card__image">
-                    <img src={`${process.env.REACT_APP_IMAGEURL}${item.product.image}`} alt="" />
+                    <img src={`${item.image.path}`} alt={item.name} />
                 </div>
-                <h3 className="product-card__name">{item.product.name}</h3>
-                <div className="product-card__content__left">
-                    <p className="product-card__content__left__text">{numberWithCommas(item.soldPrice)}</p> 
-                </div>
+                <h3 className="product-card__name">{item.name}</h3>
             </Link>
-            <div className="product-card__content__right">
-                <div className="product-card__btn">
-                    <Button
-                        
-                        icon="bx bx-cart"
-                        animate={true}
-                        onClick={() => dispatch(set(item))}
-                        className="add"
-                    >
-                        +
-                    </Button>
-                </div>
-            </div>
         </div>
         : <div>loading</div>
     )

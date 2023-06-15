@@ -10,8 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { customerAPI } from '../api/api';
 import { addToken } from '../redux/token/tokenSlice';
 
-import { validatePhone } from '../utils/valiedateCustomerData'
-import { faAngleRight,faCartXmark } from '@fortawesome/free-solid-svg-icons';
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
 
 import { Link } from 'react-router-dom';
@@ -21,10 +20,7 @@ function Login() {
     const dispatch = useDispatch()
     async function handleLoginSubmit(formValues) {
         try {
-            if (!validatePhone(formValues.phone)) {
-                alert('your phone is invalid')
-                return
-            }
+
             const res = await customerAPI.login(formValues)
             alert('đăng nhập thành công')
             dispatch(addToken(res.data.accessToken))

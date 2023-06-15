@@ -22,12 +22,12 @@ const Product = props => {
             try {
                 const resProduct = await productAPI.getById(id);
                 const tempProduct = resProduct.data
-                const resRelatedProduct = await productAPI.getByCategoryId(tempProduct.product.category)
-                const tempRelatedproducts = resRelatedProduct.data
+                //const resRelatedProduct = await productAPI.getByCategoryId(tempProduct.product.category)
+                //const tempRelatedproducts = resRelatedProduct.data
                 setProduct(tempProduct)
-                setRelatedProducts(tempRelatedproducts)
+                //setRelatedProducts(tempRelatedproducts)
             } catch (error) {
-                alert(error.response.data.message)
+                alert(error)
             }
         }
         getProduct()
@@ -36,13 +36,13 @@ const Product = props => {
 
     return (
         product ?
-        <Helmet title={product.product.productName}>
+        <Helmet title={product.name}>
             <Section>
                 <SectionBody>
                     <ProductView product={product}/>
                 </SectionBody>
             </Section>
-            <Section>
+            {/* <Section>
                 <SectionTitle>
                     Khám phá thêm
                 </SectionTitle>
@@ -62,7 +62,7 @@ const Product = props => {
                         }
                     </Grid>
                 </SectionBody>
-            </Section>
+            </Section> */}
         </Helmet>
         : <div>loading</div>
     )

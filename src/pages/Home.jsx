@@ -1,55 +1,42 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { productAPI, categoryAPI } from '../api/api';
+import { productAPI, categoryAPI, brandAPI } from '../api/api';
 
 import Helmet from '../components/Helmet'
 import HeroSlider from '../components/HeroSlider'
 // import Carousel from '../components/Carousel'
-import Section, { SectionTitle, SectionBody, SectionTitleDiscount } from '../components/Section'
+import Section, { SectionTitle, SectionBody } from '../components/Section'
 import PolicyCard from '../components/PolicyCard'
 import Grid from '../components/Grid'
 import ProductCard from '../components/ProductCard'
 import CategoryCard from '../components/CategoryCard'
 
 import heroSliderData from '../assets/fake-data/hero-slider'
-import policy from '../assets/fake-data/policy'
-import category from '../assets/fake-data/category'
-
-//import banner from '../assets/images/banner.png'
-import SectionProductsbyCategory from '../components/SectionProductsbyCategory';
 import { Container } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import { addItem } from '../redux/shopping-cart/cartItemsSlide';
 const banner = "https://technova.com.vn/wp-content/uploads/2016/07/12121.png" ;
 
 
 const Home = () => {
     const [products, setProducts] = useState([])
     const [categories, setCategories] = useState([])
-    
+    const [brands, setBrands] = useState([])
     useEffect(() => {
-        async function getProducts() {
+        async function getData() {
             try {
-                const response = await productAPI.getAndSortBySoldQuantity(5);
-                const products = response.data
-                setProducts(products)
+                const responseGetCategories = await categoryAPI.getAll();
+                const responseGetBrands = await brandAPI.getAll();
+                const responseGetProducts = await productAPI.getAll();
+                setCategories(responseGetCategories.data.data);
+                setBrands(responseGetBrands.data.data);
+                setProducts(responseGetProducts.data.data);
             } catch (error) {
                 alert(error)
             }
         }
-        getProducts()
+        getData()
     },[])
-
-    useEffect(() => {
-        async function getCategories() {
-            try {
-                const response = await categoryAPI.getAll();
-                const categories = response.data
-                setCategories(categories)
-            } catch (error) {
-                alert(error.response.data.message)
-            }
-        }
-        getCategories()
-    }, [])
 
     return (
         <Helmet title="Trang chủ">
@@ -65,7 +52,6 @@ const Home = () => {
             
             
             {/* end hero slider */}
-
             {/* policy section */}
             <Container>
                 <Section>
@@ -77,11 +63,10 @@ const Home = () => {
                             gap={20}
                         >
                             {
-                                policy.map((item, index) => <Link key={index} to="/policy">
+                                categories.map((item, index) => <Link key={index} to="/policy">
                                     <PolicyCard
                                         name={item.name}
-                                        description={item.description}
-                                        icon={item.icon}
+                                        icon={item.image.path}
                                     />
                                 </Link>)
                             }
@@ -91,7 +76,7 @@ const Home = () => {
                 {/* end policy section */}
                 <Section>
                     <SectionTitle>
-                        Danh mục sản phẩm
+                        Thương hiệu hàng đầu
                     </SectionTitle>
                     <SectionBody>
                         <Grid
@@ -101,10 +86,10 @@ const Home = () => {
                             gap={20}
                         >
                             {
-                                category.map((item) => (
-                                    <Link to={`/category/${item._id}`}>
+                                brands.map((item) => (
+                                    <Link to={`/category/${item.id}`}>
                                         <CategoryCard
-                                            name={item._id}
+                                            name={item.id}
                                             item={item}
                                         />
                                     </Link>
@@ -117,9 +102,9 @@ const Home = () => {
 
 
                 {/* section top products*/}
-                {/* <Section>
+                <Section>
                     <SectionTitle>
-                        Sản phẩm bán chạy trong tuần
+                        Sản phẩm nổi bật
                     </SectionTitle>
                     <SectionBody>
                         <Grid
@@ -131,14 +116,14 @@ const Home = () => {
                             {
                                 products.map((item) => (
                                     <ProductCard
-                                        key={item._id}
+                                        key={item.id}
                                         item={item}
                                     />
                                 ))
                             }
                         </Grid>
                     </SectionBody>
-                </Section> */}
+                </Section>
                 {/* end section top products */}
 
                 {/* section product by category id */}

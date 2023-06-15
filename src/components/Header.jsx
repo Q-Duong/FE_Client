@@ -15,8 +15,8 @@ import { removeToken } from '../redux/token/tokenSlice'
 import search from '../assets/images/icon/search.png';
 import cart from '../assets/images/icon/cart.png';
 import user from '../assets/images/icon/user.svg';
-import { propTypes } from 'react-bootstrap/esm/Image';
-import { brandAPI, categoryAPI } from '../api/api';
+import { aboutCompanyAPI, brandAPI, categoryAPI, productAPI, solutionAPI } from '../api/api';
+import { Menu, MenuItem } from '@mui/material';
 const logo1 = "https://technova.com.vn/wp-content/uploads/2016/08/Logo-Technova-01.png";
 const mainNav = [
     {
@@ -53,36 +53,47 @@ const Header = (props) => {
     const dispatch = useDispatch()
     const history = useHistory()
     const { pathname } = useLocation()
-
+    const [aboutCompany, setAboutCompany] = useState([])
+    const [news, setNews] = useState([])
     const activeNav = mainNav.findIndex(e => e.path === pathname)
     const [brands, setBrands] = useState([])
     const [categories, setCategories] = useState([])
-    
+    const [solutions, setSolutions] = useState([])
+    const [products, setProducts] = useState([])
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
     useEffect(() => {
-        async function getBrands() {
+        async function getData() {
             try {
-                const response = await brandAPI.getAll();
-                const brands = response.data
-                setBrands(brands)
+                const resGetCategories = await categoryAPI.getAll();
+                const resGetBrands = await brandAPI.getAll();
+                const resGetAboutCompany = await aboutCompanyAPI.getAll();
+                const resGetSolutions = await solutionAPI.getAll();
+                const resGetProducts = await productAPI.getAll();
+
+                setCategories(resGetCategories.data.data);
+                setBrands(resGetBrands.data.data.filter((value, index) => {
+                    if(index === 2){
+                        return false
+                    }
+                    return true
+                }));
+                setAboutCompany(resGetAboutCompany.data.data);
+                setSolutions(resGetSolutions.data.data)
+                setProducts(resGetProducts.data.data)
             } catch (error) {
                 alert(error)
             }
         }
-        getBrands()
+        getData()
     },[])
-
-    useEffect(() => {
-        async function getCategories() {
-            try {
-                const response = await categoryAPI.getAll();
-                const categories = response.data
-                setCategories(categories)
-            } catch (error) {
-                alert(error.response.data.message)
-            }
-        }
-        getCategories()
-    }, [])
 
     function handleSearchFormShow() {
         setShowSearchForm(!showSearchForm)
@@ -90,7 +101,7 @@ const Header = (props) => {
 
     async function handleSearch(searchTerm) {
         setShowSearchForm(!showSearchForm)
-        history.push(`/search?searchTerm=${searchTerm}`)
+        history.push(`/catalog?name=${searchTerm}`)
     };
 
     function handleLogout() {
@@ -118,19 +129,6 @@ const Header = (props) => {
     const menuLeft = useRef(null)
 
     const menuToggle = () => menuLeft.current.classList.toggle('active')
-
-
-    const iconUser = React.forwardRef(({ children, onClick }, ref) => (
-        <i className="bx bx-user"
-            ref={ref}
-            onClick={(e) => {
-                e.preventDefault();
-                onClick(e);
-            }}>
-            {children}
-        </i>
-    ));
-
 
     return (
         <>
@@ -167,24 +165,20 @@ const Header = (props) => {
                                         <li className={`nav-item`}>
                                         <Link to={'/about'}><span></span>About Technova</Link>
                                             <ul class="dropdown">
-                                                <li>
-                                                    <a href="">Giới thiệu</a>
-                                                </li>
-                                                <li>
-                                                    <a href="">Đối tác</a>
-                                                </li>
-                                                <li>
-                                                    <a href="">Tuyển dụng</a>
-                                                </li>
-                                                <li>
-                                                    <a href="">Hỗ trợ</a>
-                                                </li>
+                                                
+                                                {
+                                                    aboutCompany?.map(item => (
+                                                        <li key={item.id}>
+                                                            <Link to={`about-company/${item.id}`}>{item.title}</Link>
+                                                        </li>
+                                                    ))
+                                                }
                                             </ul>
                                         </li>
                                     </ul>
                                 </nav>
                             </div>
-                            {/* {
+                            {
                                 brands.map((item, index) => (
                                     <div
                                         key={index}
@@ -194,45 +188,26 @@ const Header = (props) => {
                                         <nav class="header__menu mobile-menu">
                                             <ul>
                                                 <li className={`nav-item ${index === activeNav ? 'active' : ''}`}>
-                                                    <Link to={item.path}><span>{item.display}</span></Link>
+                                                    <Link to={`#`}><span>{item.name}</span></Link>
                                                     <ul class="dropdown">
                                                         {
-                                                            categories.map((item, index) => (
+                                                            item.products?.map((item, index) => (
                                                                 <li>
-                                                                    <a href={item.path}>{item.display}</a>
+                                                                   <Link to={`/product/${item.id}`}>{item.name}</Link>
                                                                 </li>
                                                             ))
                                                         }
+                                                        <li>
+                                                        <Link to={`catalog`}>Xem tất cả</Link>
+                                                        </li>
                                                     </ul>
                                                 </li>
                                             </ul>
                                         </nav>
                                     </div>
                                 ))
-                            } */}
+                            }
                             
-                        </div>
-                        <div
-                            className={`header__menu__item header__menu__left__item`}
-                        >
-                            <nav class="header__menu mobile-menu">
-                                <ul>
-                                    <li className={`nav-item`}>
-                                    <Link to={'/contact'}><span></span>Toàn bộ sản phẩm</Link>
-                                        <ul class="dropdown">
-                                            <li>
-                                                <a href=""></a>
-                                            </li>
-                                            <li>
-                                                <a href="">Làm Website</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Làm Game</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </nav>
                         </div>
                         <div
                             className={`header__menu__item header__menu__left__item`}
@@ -242,27 +217,13 @@ const Header = (props) => {
                                     <li className={`nav-item`}>
                                     <Link to={'/contact'}><span></span>Giải pháp</Link>
                                         <ul class="dropdown">
-                                            <li>
-                                                <a href="">Cloud Solutions</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Backup & Restore</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Dành cho doanh nghiệp CRM</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Máy chủ / Hệ thống</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Giáo dục</a>
-                                            </li>
-                                            <li>
-                                                <a href="">EHMS</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Email Marketing</a>
-                                            </li>
+                                            {
+                                                solutions?.map(solution => (
+                                                    <li key={solution.id}>
+                                                        <Link to={`/solution/${solution.id}`}>{solution.title}</Link>
+                                                    </li>
+                                                ))
+                                            }
                                         </ul>
                                     </li>
                                 </ul>
@@ -321,9 +282,46 @@ const Header = (props) => {
                                 </Dropdown>
                             </div>
                             <div className="header__menu__right__user__item">
-                                <Link to={'/login'}>
-                                    <img src={user} />
-                                </Link>
+                                    <img 
+                                        src={user} 
+                                        aria-controls={open ? 'basic-menu' : undefined}
+                                        aria-haspopup="true"
+                                        aria-expanded={open ? 'true' : undefined}
+                                        onClick={handleClick}
+                                    />
+                                    <Menu
+                                        id="basic-menu"
+                                        anchorEl={anchorEl}
+                                        open={open}
+                                        onClose={handleClose}
+                                        MenuListProps={{
+                                        'aria-labelledby': 'basic-button',
+                                        }}
+                                    >
+                                        {
+                                            token ?
+                                            <>
+                                                <MenuItem onClick={handleClose}>
+                                                    <Link to="/profile">Xem thông tin</Link>
+                                                </MenuItem>
+                                                <MenuItem onClick={() => {
+                                                    handleClose()
+                                                    dispatch(removeToken())
+                                                }}>
+                                                    Đăng xuất
+                                                </MenuItem>
+                                            </>:
+                                            <>
+                                                <MenuItem onClick={handleClose}>
+                                                    <Link to="/login">Đăng nhập</Link>
+                                                </MenuItem>
+                                                <MenuItem onClick={handleClose}>
+                                                    <Link to="/register">Đăng ký</Link>
+                                                </MenuItem>
+                                            </> 
+                                        }
+                                        
+                                    </Menu>
                             </div>
                         </div>
                     </div>

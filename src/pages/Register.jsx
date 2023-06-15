@@ -10,7 +10,7 @@ import RegisterForm from '../components/RegisterForm';
 import { addToken } from '../redux/token/tokenSlice';
 import {validateCustomerData} from '../utils/valiedateCustomerData';
 
-import { faAngleRight,faCartXmark } from '@fortawesome/free-solid-svg-icons';
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
 
 import { Link } from 'react-router-dom';
@@ -29,6 +29,7 @@ function Register() {
             try {
                 const res = await customerAPI.register(registerData)
                 const token = res.data
+                console.log(res.data)
                 alert('đăng ký thành công')
                 dispatch(addToken(token))
                 history.push('/')

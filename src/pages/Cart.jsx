@@ -32,7 +32,7 @@ const Cart = () => {
  
 
     useEffect(() => {
-        setTotalBill(cartItems.reduce((total, item) => total + (Number(item.quantity) * Number(item.soldPrice)), 0))
+        setTotalBill(cartItems.reduce((total, item) => total + (Number(item.quantity) * Number(item.price)), 0))
         setTotalProducts(cartItems.length)
         
     }, [cartItems])

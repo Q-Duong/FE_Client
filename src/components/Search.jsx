@@ -1,11 +1,9 @@
 import React, { useRef, useState } from 'react';
-import PropTypes from 'prop-types';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import search from '../assets/images/icon/search-icon.svg';
 import { useEffect } from 'react';
-import { productModalSlice } from '../redux/product-modal/productModalSlice';
 import { productAPI } from '../api/api';
 import {ListGroup} from 'react-bootstrap'
 import { useHistory } from 'react-router-dom';
@@ -43,23 +41,23 @@ function Search(props) {
     },[showSearchForm])
 
     useEffect(() => {
-        if(typingTimeoutRef.current) {
-            clearTimeout(typingTimeoutRef.current)
-        }
+        // if(typingTimeoutRef.current) {
+        //     clearTimeout(typingTimeoutRef.current)
+        // }
 
-        async function searching() {
-            try {
-                const res = await productAPI.search(searchTerm);
-                if(res.status === 200) {
-                    setSearchedProducts(res.data)
-                } else {
-                    console.log(res.data.message)
-                }
-            } catch (error) {
-                alert.log(error.response.data.message)
-            }
-        }
-        typingTimeoutRef.current = setTimeout(searching,200)
+        // async function searching() {
+        //     try {
+        //         const res = await productAPI.search(searchTerm);
+        //         if(res.status === 200) {
+        //             setSearchedProducts(res.data)
+        //         } else {
+        //             console.log(res.data.message)
+        //         }
+        //     } catch (error) {
+        //         alert(error.response.data.message)
+        //     }
+        // }
+        // typingTimeoutRef.current = setTimeout(searching,200)
     },[searchTerm])
 
     return (

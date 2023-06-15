@@ -7,9 +7,6 @@ import cart from '../assets/images/icon/cart.png';
 import heart from '../assets/images/icon/heart.png';
 import CartPre from '../components/CartPre'
 
-import { useSelector } from 'react-redux';
-
-
 HeaderUserInfo.propTypes = {
     onLogout: PropTypes.func,
 };

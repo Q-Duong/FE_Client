@@ -12,13 +12,13 @@ LoginForm.propTypes = {
 function LoginForm(props) {
     const { onLoginSubmit } = props
 
-    const [phone, setPhone] = useState('')
+    const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
     function handleLoginSubmit(e) {
         e.preventDefault()
         const formvalues = {
-            phone,
+            email,
             password
         }
         onLoginSubmit(formvalues)
@@ -33,7 +33,7 @@ function LoginForm(props) {
                 <Form onSubmit={handleLoginSubmit}>
                     <Form.Group className="mb-3">
                         
-                        <Form.Control className="loginForm__input" type="text" placeholder="Số điện thoại" minLength={10} name="phone" value={phone} onChange={(e) => setPhone(e.target.value)} />
+                        <Form.Control pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" className="loginForm__input" type="text" placeholder="email" minLength={10} name="phone" value={email} onChange={(e) => setEmail(e.target.value)} />
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicPassword">

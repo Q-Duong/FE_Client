@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
+/* eslint-disable no-undef */
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import StarRatings from 'react-star-ratings';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
@@ -11,30 +11,17 @@ import { remove } from '../redux/product-modal/productModalSlice'
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
 import Button from './Button'
-import numberWithCommas from '../utils/numberWithCommas'
 
-import ReactHtmlParser from 'react-html-parser';
-import { commentAPI } from '../api/api';
-import { useSelector } from 'react-redux';
-import formatDate from '../utils/formatDate';
+import {   Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { productAPI } from '../api/api';
 
 const ProductView = props => {
     const dispatch = useDispatch()
-
-    let { product } = props
-
-    const [previewImg, setPreviewImg] = useState('')
-
-    const [comments, setComments] = useState([])
-
+    const [isLeft, setIsLeft] = useState(true)
+    const { product } = props
+    const [productPackages, setProductPackages] = useState([]);
+    const [productBenefits, setProductBenefits] = useState([]);
     const [quantity, setQuantity] = useState(1)
-
-    const [isLeft, setIsLeft] = useState(false)
-
-    //  const changeRating = ( newRating, name ) => {
-    //     this.setState({
-    //       rating: newRating
-    //     });
 
     const updateQuantity = (type) => {
         if (type === 'plus') {
@@ -43,31 +30,48 @@ const ProductView = props => {
             setQuantity(quantity - 1 < 1 ? 1 : quantity - 1)
         }
     }
-
-    useEffect(() => {
-        setPreviewImg(product ? product.product.image : '')
-        setQuantity(1)
-    }, [product])
-
-    useEffect(() => {
-        async function getCommnets() {
-            try {
-                console.log(product)
-                const res = await commentAPI.getAll(product.product._id)
-                const comments = res.data
-                setComments(comments)
-            } catch (error) {
-                alert(error.response.data.message)
-            }
-        }
-        getCommnets()
-    }, [product])
-
+  
     const addToCart = () => {
         const action = addItem({ ...product, quantity })
         dispatch(action)
         alert('Thêm thành công')
     }
+
+    useEffect(
+        () => {
+          if(!product){
+            return;
+          }
+          async function prepareData() {
+            try {
+              const resPackages = await productAPI.getPackages(product.id);
+              const resBenefits = await productAPI.getBenefits(product.id);
+                console.log(resPackages)
+              const productPackages = resPackages.data;
+              const benefits = resBenefits.data;
+              
+              const sortBenefits = benefits.map(benefit => {
+                const values = benefit.benefitValues;
+  
+                const sortBenefitValues = [];
+                for(const productPackage of productPackages){
+                  const foundValue = values.find(v => v.productPackage.id === productPackage.id)
+                  sortBenefitValues.push(foundValue);
+                }    
+
+                console.log(resPackages)
+                benefit.benefitValues = sortBenefitValues;
+                return benefit;
+              })
+              
+              setProductPackages(productPackages)
+              setProductBenefits(sortBenefits)
+            } catch (error) {
+              alert(error)
+            }
+          }
+          prepareData()
+        },[product])
 
     const goToCart = () => {
         const action = addItem({ ...product, quantity })
@@ -86,51 +90,33 @@ const ProductView = props => {
                                 <div class="product__details__breadcrumb">
                                     <Link to="/">Trang chủ</Link>
                                     <FontAwesomeIcon icon={faAngleRight} className="faAngleRight" />
-                                    <span>{product.product.name}</span>
+                                    <span>{product.name}</span>
                                 </div>
+                                
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-lg-7 col-md-7">
-                                <img src={`${process.env.REACT_APP_IMAGEURL}${previewImg}`} alt="" />
+                                <img src={`${product.image.path}`} alt="" />
                             </div>
                             <div class="col-lg-1 d-none d-lg-block"> </div>
                             <div class="col-lg-4 col-md-5">
                                 <div class="product__details__text">
-                                    <h3>{product.product.name}</h3>
-                                    <div class="rating ">
-                                        <div class="row d-flex ">
-
-                                        </div>
-                                    </div>
-                                    <h5>{numberWithCommas(product.soldPrice)}</h5>
-                                    <span>Danh mục:</span>
-
+                                    <h3>{product.name}</h3>
                                     <div className="product__info__item">
                                         <div className="product__info__item__quantity">
-                                            <div className="product__info__item__title">
-                                                Số lượng ({product.product.unit})
-                                            </div>
-                                            <div className="product__info__item__quantity">
-                                                <div className="product__info__item__quantity__btn" onClick={() => updateQuantity('minus')}>
-                                                    <i className="bx bx-minus"></i>
-                                                </div>
-                                                <div className="product__info__item__quantity__input">
-                                                    {quantity}
-                                                </div>
-                                                <div className="product__info__item__quantity__btn" onClick={() => updateQuantity('plus')}>
-                                                    <i className="bx bx-plus"></i>
-                                                </div>
+                                            <div>
+                                                Thương hiệu: {product?.brand?.name}
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div class="product__info__item">
-                                        <Button onClick={() => { addToCart() }}>thêm vào giỏ</Button>
-                                    </div>
-                                    <div class="product__info__item">
-                                        <Button onClick={() => { goToCart() }}>Thêm và xem giỏ hàng</Button>
+                                    <div className="product__info__item">
+                                        <div className="product__info__item__quantity">
+                                            <div >
+                                                Loại sản phẩm: ({product?.category?.name})
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -139,21 +125,20 @@ const ProductView = props => {
                 </div>
 
             
-            <div class="product__details__content">
+                <div class="product__details__content">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="product__details__tab">
                                 <ul class="nav nav-tabs" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" data-toggle="tab" href="#tabs-5" role="tab">Bảng giá</a>
+                                    <li class="nav-item" onClick={() => {setIsLeft(true)}}>
+                                        <a class="nav-link active" data-toggle="tab" href="#tabs-5" role="tab">Gói sản phẩm</a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#tabs-6" role="tab">Đặc điểm nổi bật</a>
+                                    <li class="nav-item" onClick={() => {setIsLeft(false)}}>
+                                        <a class="nav-link" data-toggle="tab" href="#tabs-6" role="tab">Mô tả</a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link active" data-toggle="tab" href="#tabs-7" role="tab">Đánh giá(5)</a>
-                                    </li></ul>
+                                  
+                                    </ul>
 
 {/* 
                 <div class="product__details__content">
@@ -173,38 +158,58 @@ const ProductView = props => {
                                     <div class="tab-content">
 
                                         {
-                                            !isLeft ?
+                                            isLeft ?
                                                 <div class="tab-pane active" id="tabs-7" role="tabpanel">
-                                                    <div class="product__details__tab__content">
-                                                        <h3>Mức độ hài lòng {comments.reduce((total, comment) => total += comment.star, 0)}/{5 * comments.length}</h3>
-                                                        {
-                                                            comments.map(comment => (
-                                                                <div class="product__details__tab__content__item">
-                                                                    <div class="blog__hero__text">
-                                                                        <h2></h2>
-                                                                        <ul>
-                                                                            <li>{formatDate(comment.createdAt)}</li>
-                                                                        </ul>
-                                                                    </div>
-                                                                    <StarRatings
-                                                                        rating={comment.star}
-                                                                        starRatedColor="#fa8c16"
-                                                                        numberOfStars={5}
-                                                                        name='rating'
-                                                                        starDimension="25px"
-                                                                        starSpacing="5px"
-                                                                    />
-                                                                    <p><strong>{comment.order.customerName}</strong>: {comment.content}</p>
-                                                                </div>
-                                                            ))
-                                                        }
-
-                                                    </div>
+                                                    <TableContainer sx={{ minWidth: 1000 }}>
+                                                        <Table>
+                                                            <TableHead>
+                                                            <TableRow>
+                                                            <TableCell></TableCell>
+                                                                {
+                                                                productPackages?.map(productPackage => (
+                                                                    <TableCell>{productPackage.name}</TableCell>
+                                                                ))
+                                                                }
+                                                                
+                                                            </TableRow>
+                                                            </TableHead>
+                                                            <TableBody>
+                                                            {
+                                                                productBenefits?.map(benefit => (
+                                                                <TableRow >
+                                                                    <TableCell align="left">{benefit.name}</TableCell>
+                                                                    {
+                                                                    benefit.benefitValues.map(benefitValue => (
+                                                                        <TableCell align="left">
+                                                                            <p>{benefitValue.value}</p>
+                                                                        </TableCell>
+                                                                    ))
+                                                                    }
+                                                                </TableRow>
+                    
+                                                                ))
+                                                            }
+                                                            <TableRow>
+                                                                <TableCell></TableCell>
+                                                                {
+                                                                    productPackages.map(item => 
+                                                                        <TableCell>
+                                                                        <Button onClick={() => {
+                                                                                dispatch(addItem({id: item.id, name: `${product.name} - ${item.name}`, quantity: 1, imagePath: product.image.path, price: item.price}))
+                                                                        }}>Mua</Button>
+                                                                    </TableCell>
+                                                                    )
+                                                                }
+                                                            </TableRow>
+                                                            </TableBody>
+                                                        </Table>
+                                                    </TableContainer>
                                                 </div> :
                                                 <div class="tab-pane active" id="tabs-6" role="tabpanel">
                                                     <div class="product__details__tab__content">
                                                         <p class="note">
-                                                            {ReactHtmlParser(product.product.description)}</p>
+                                                        <div dangerouslySetInnerHTML={{ __html: product.description }} />
+                                                        </p>
                                                     </div>
                                                 </div>
                                         }
@@ -219,6 +224,7 @@ const ProductView = props => {
             <div>loading</div>
     )
 }
+
 
 ProductView.propTypes = {
     product: PropTypes.object

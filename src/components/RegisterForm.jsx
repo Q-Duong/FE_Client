@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Form, Button, Col } from 'react-bootstrap';
 import { useState } from 'react';
@@ -41,11 +41,11 @@ function RegisterForm(props) {
                     </Form.Group>
 
                     <Form.Group className="mb-3" >
-                        <Form.Control className="registerForm__input" type="text" placeholder="Số điện thoại" minLength={10} name="phone" value={phone} onChange={(e) => setPhone(e.target.value)}/>
+                        <Form.Control pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b" className="registerForm__input" type="text" placeholder="Số điện thoại" minLength={10} name="phone" value={phone} onChange={(e) => setPhone(e.target.value)}/>
                     </Form.Group>
 
                     <Form.Group className="mb-3">
-                        <Form.Control className="registerForm__input" type="email" placeholder="Email" name="email" value={email} onChange={(e) => setEmail(e.target.value)}/>
+                        <Form.Control pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" className="registerForm__input" type="email" placeholder="Email" name="email" value={email} onChange={(e) => setEmail(e.target.value)}/>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicEmail">
