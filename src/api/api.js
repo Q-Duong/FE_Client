@@ -34,8 +34,8 @@ const customerAPI = {
       'Content-Type': 'application/json'
     }
   }),
-  forgotPassword: (email) => axi.post('/customer/forgotpassword', {fromEmail:email}),
-  getInfo: (token) => axi.get('/customer/info', {headers: {'x-access-token': token}}),
+  forgotPassword: (email) => axi.post('/v1/auth/forgot-password', {email}),
+  getInfo: (token) => axi.get('/v1/user/info', {headers: {'Authorization': `Bearer ${token}`}}),
   updatePassword: (token, newPassword) => axi.patch('/customer/password',{newPassword},{headers: {'x-access-token': token}})
 }
 
@@ -59,15 +59,26 @@ const supplierAPI = {
   }
 }
 
-const exportOrderAPI = {
-  getAll: () => axi.get('/exportOrder'),
-  getByCustomerId: (token) => axi.get('/exportOrder/customer',{
+const orderAPI = {
+  getAll: (token) => axi.get('/v1/order/by-owner',{
     headers: {
-      "x-access-token": token
+      "Authorization": `Bearer ${token}`
     }
   }),
-  create: (inputExportOrder) => {
-    return axi.post(`/exportOrder`,inputExportOrder)
+  create: (order) => {
+    return axi.post(`/v1/order`,order,{
+      headers: {
+        'Content-Type': `application/json`,
+
+      }
+    })
+  },
+  payMoMo: (input) => {
+    return axi.post(`/v1/momo`,input,{
+      headers: {
+        'Content-Type': `application/json`,
+      }
+    })
   }
 }
 
@@ -77,14 +88,6 @@ const contactAPI = {
   }
 }
 
-const commentAPI = {
-  getAll: (productId) => {
-    return axi.get(`/comment/product/${productId}`)
-  },
-  create: (token,inputComment) => {
-    return axi.post('/comment',inputComment,{headers:{'x-access-token': token}})
-  }
-}
 const newsAPI = {
   getAll: () => axi.get(`/v1/news?queryType=activate`),
   create: (createNews) =>
@@ -135,4 +138,4 @@ const solutionAPI = {
     }),
   delete: (id) => axi.delete(`/v1/solution/${id}`),
 };
-export {brandAPI, categoryAPI, customerAPI, productAPI, supplierAPI, exportOrderAPI,contactAPI,commentAPI, newsAPI, aboutCompanyAPI, solutionAPI};
+export {brandAPI, categoryAPI, customerAPI, productAPI, supplierAPI, orderAPI,contactAPI, newsAPI, aboutCompanyAPI, solutionAPI};

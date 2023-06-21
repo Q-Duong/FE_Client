@@ -18,11 +18,11 @@ const CartPre = props => {
         <Link to={`/product/${item._id}`}>
             <div className="cartpre__item" >
                 <div className="cartpre__item__image">
-                    <img src={`${item.image}`} alt="" />
+                    <img src={`${item.imagePath}`} alt="" />
                 </div>
                 <div className="cartpre__item__info">
                     <div className="cartpre__item__info__name">
-                        {`${item.name} - ${item.quantity} sản phẩm`}  
+                        {`${item.name}`}  
                     </div>
                     <div className="cartpre__item__info__quantity">      
                         x{item.quantity}                

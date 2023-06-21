@@ -4,7 +4,6 @@ import { Route, Switch } from 'react-router-dom'
 
 import Home from '../pages/Home'    
 import Catalog from '../pages/Catalog'
-import Cart from '../pages/Cart'
 import Product from '../pages/Product'
 import Login from '../pages/Login'
 import Register from '../pages/Register'
@@ -24,7 +23,6 @@ const Routes = () => {
             <Route path='/catalog' component={Catalog}/>
             <Route path='/search' component={Search}/>
             <Route path='/category/:id' component={Category}/>
-            <Route path='/cart' component={Cart}/>
             <Route path='/checkout' component={Checkout}/>
             <Route path='/login' component={Login}/>
             <Route path='/register' component={Register}/>

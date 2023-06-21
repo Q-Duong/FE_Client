@@ -304,6 +304,9 @@ const Header = (props) => {
                                                 <MenuItem onClick={handleClose}>
                                                     <Link to="/profile">Xem thông tin</Link>
                                                 </MenuItem>
+                                                <MenuItem onClick={handleClose}>
+                                                    <Link to="/order">Xem đơn hàng</Link>
+                                                </MenuItem>
                                                 <MenuItem onClick={() => {
                                                     handleClose()
                                                     dispatch(removeToken())
