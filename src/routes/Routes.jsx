@@ -28,9 +28,9 @@ const Routes = () => {
             <Route path='/register' component={Register}/>
             <Route path='/order' component={Order}/>
             <Route path='/contact' component={Contact}/>
-            <Route path='/pagenews' component={PageNews}/>
-            <Route path='/updatepassword' component={UpdatePassword}/>
-            <Route path='/forgotpassword' component={ForgotPassword}/>
+            <Route path='/news' component={PageNews}/>
+            <Route path='/update-password' component={UpdatePassword}/>
+            <Route path='/forgot-password' component={ForgotPassword}/>
         </Switch>
     )
 }

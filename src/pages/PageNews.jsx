@@ -1,57 +1,43 @@
 
 import Helmet from '../components/Helmet'
 
-
-import Section, { SectionTitle, SectionBody } from '../components/Section'
-
-import Grid from '../components/Grid'
+import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
+import { useEffect, useState } from 'react';
+import { newsAPI } from '../api/api';
+import { Container } from 'react-bootstrap';
 
 
 function PageNews() {
+
+  const {id} = useParams();
+
+  const [news, setNews] = useState(null);
+
+  useEffect(
+    () => {
+      
+      async function getNewsById(){
+        try {
+          const res = await newsAPI.getById(id);
+          setNews(res.data);
+        } catch (error) {
+          alert(error);
+        }
+      }
+      if(id)
+        getNewsById()
+    },[id]
+  )
   return (
-    <Helmet title="Tin tức ">
-
-      <Section>
-        <SectionBody>
-          <Grid
-            col={4}
-            mdCol={2}
-            smCol={1}
-            gap={20}
-          >
-
-          </Grid>
-        </SectionBody>
-      </Section>
-      {/* end policy section */}
-      <Section>
-        <SectionTitle>
-          Danh mục tin tức
-        </SectionTitle>
-        <SectionBody>
-          <Grid
-            col={8}
-            mdCol={4}
-            smCol={4}
-            gap={20}
-          >
-
-          </Grid>
-        </SectionBody>
-      </Section>
-
-
-
-      <Section>
-        <SectionTitle>
-          tin tức
-        </SectionTitle>
-
-
-      </Section>
-
+    news ?
+    <Helmet title={news.title}>
+        <h3>{news.title}</h3>
+        <Container>
+          <div dangerouslySetInnerHTML={{ __html: news.content }} />
+        </Container>
     </Helmet>
-  );
+    : <div>loading</div>
+)
 }
 
 export default PageNews;

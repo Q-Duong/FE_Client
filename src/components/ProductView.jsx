@@ -15,6 +15,7 @@ import Button from './Button'
 import {   Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { productAPI } from '../api/api';
 
+
 const ProductView = props => {
     const dispatch = useDispatch()
     const [isLeft, setIsLeft] = useState(true)
@@ -98,25 +99,19 @@ const ProductView = props => {
 
                         <div class="row">
                             <div class="col-lg-7 col-md-7">
-                                <img src={`${product.image.path}`} alt="" />
+                                
+                                    <img className="img__details" src={`${product.image.path}`} alt="" />
+                                
                             </div>
                             <div class="col-lg-1 d-none d-lg-block"> </div>
-                            <div class="col-lg-4 col-md-5">
+                            <div class="col-lg-4 col-md-5 product__details__">
                                 <div class="product__details__text">
-                                    <h3>{product.name}</h3>
-                                    <div className="product__info__item">
-                                        <div className="product__info__item__quantity">
-                                            <div>
-                                                Thương hiệu: {product?.brand?.name}
-                                            </div>
-                                        </div>
+                                    <h2>{product.name}</h2>
+                                    <div>
+                                        <span>Thương hiệu: </span> {product?.brand?.name}  
                                     </div>
-                                    <div className="product__info__item">
-                                        <div className="product__info__item__quantity">
-                                            <div >
-                                                Loại sản phẩm: ({product?.category?.name})
-                                            </div>
-                                        </div>
+                                    <div>
+                                        <span>Loại sản phẩm: </span>({product?.category?.name})
                                     </div>
                                 </div>
                             </div>
@@ -132,42 +127,24 @@ const ProductView = props => {
                             <div class="product__details__tab">
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li class="nav-item" onClick={() => {setIsLeft(true)}}>
-                                        <a class="nav-link active" data-toggle="tab" href="#tabs-5" role="tab">Gói sản phẩm</a>
+                                        <a class="nav-link active"  href="#tabs-5" role="tab">Gói sản phẩm</a>
                                     </li>
                                     <li class="nav-item" onClick={() => {setIsLeft(false)}}>
-                                        <a class="nav-link" data-toggle="tab" href="#tabs-6" role="tab">Mô tả</a>
+                                        <a class="nav-link"  href="#tabs-6" role="tab">Mô tả</a>
                                     </li>
-                                  
-                                    </ul>
-
-{/* 
-                <div class="product__details__content">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="product__details__tab">
-                                    <ul class="nav nav-tabs" role="tablist">
-                                        <li class="nav-item">
-                                            <a class={isLeft ? 'nav-link active' : 'nav-link'} onClick={() => setIsLeft(true)} data-toggle="tab" href="#tabs-6" role="tab">Đặc điểm nổi bật</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class={isLeft ? 'nav-link' : 'nav-link active'} onClick={() => setIsLeft(false)} data-toggle="tab" href="#tabs-7" role="tab">Đánh giá({comments.length})</a>
-                                        </li> */}
-
-                                    
+                                </ul>
                                     <div class="tab-content">
-
                                         {
                                             isLeft ?
-                                                <div class="tab-pane active" id="tabs-7" role="tabpanel">
-                                                    <TableContainer sx={{ minWidth: 1000 }}>
+                                                <div class="tab-pane active" id="tabs-5" role="tabpanel">
+                                                    <TableContainer style={{maxWidth: '100%', width: '100%', overflowX: 'auto'}}>
                                                         <Table>
-                                                            <TableHead>
+                                                            <TableHead className="head_package">
                                                             <TableRow>
                                                             <TableCell></TableCell>
                                                                 {
                                                                 productPackages?.map(productPackage => (
-                                                                    <TableCell>{productPackage.name}</TableCell>
+                                                                    <TableCell className="package_title">{productPackage.name}</TableCell>
                                                                 ))
                                                                 }
                                                                 
@@ -177,10 +154,10 @@ const ProductView = props => {
                                                             {
                                                                 productBenefits?.map(benefit => (
                                                                 <TableRow >
-                                                                    <TableCell align="left">{benefit.name}</TableCell>
+                                                                    <TableCell className="benefit_title" align="center">{benefit.name}</TableCell>
                                                                     {
                                                                     benefit.benefitValues.map(benefitValue => (
-                                                                        <TableCell align="left">
+                                                                        <TableCell  align="center">
                                                                             <p>{benefitValue.value}</p>
                                                                         </TableCell>
                                                                     ))
@@ -193,7 +170,7 @@ const ProductView = props => {
                                                                 <TableCell></TableCell>
                                                                 {
                                                                     productPackages.map(item => 
-                                                                        <TableCell>
+                                                                        <TableCell align="center">
                                                                         <Button onClick={() => {
                                                                                 dispatch(addItem({id: item.id, name: `${product.name} - ${item.name}`, quantity: 1, imagePath: product.image.path, price: item.price}))
                                                                         }}>Mua</Button>

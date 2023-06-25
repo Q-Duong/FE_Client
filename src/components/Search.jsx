@@ -41,23 +41,27 @@ function Search(props) {
     },[showSearchForm])
 
     useEffect(() => {
-        // if(typingTimeoutRef.current) {
-        //     clearTimeout(typingTimeoutRef.current)
-        // }
+        if(!searchTerm)
+            return;
 
-        // async function searching() {
-        //     try {
-        //         const res = await productAPI.search(searchTerm);
-        //         if(res.status === 200) {
-        //             setSearchedProducts(res.data)
-        //         } else {
-        //             console.log(res.data.message)
-        //         }
-        //     } catch (error) {
-        //         alert(error.response.data.message)
-        //     }
-        // }
-        // typingTimeoutRef.current = setTimeout(searching,200)
+        if(typingTimeoutRef.current) {
+            clearTimeout(typingTimeoutRef.current)
+        }
+
+        async function searching() {
+            try {
+                
+                const res = await productAPI.getAll(`q=${searchTerm}`);
+                if(res.status === 200) {
+                    setSearchedProducts(res.data.data)
+                } else {
+                    console.log(res.data.message)
+                }
+            } catch (error) {
+                alert(error)
+            }
+        }
+        typingTimeoutRef.current = setTimeout(searching,200)
     },[searchTerm])
 
     return (
@@ -76,8 +80,8 @@ function Search(props) {
                         <ListGroup className="search_seggest">
                         {
                             searchedProducts.map(product => (
-                                <ListGroup.Item onClick={() => handleClickSearchItem(product._id)}>
-                                   <FontAwesomeIcon className='search_icon' icon={faMagnifyingGlass} /> {product.product.name}
+                                <ListGroup.Item onClick={() => handleClickSearchItem(product.id)}>
+                                   <FontAwesomeIcon className='search_icon' icon={faMagnifyingGlass} /> {product.name}
                                 </ListGroup.Item>
                             ))
                         }

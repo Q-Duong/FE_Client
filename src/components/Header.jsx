@@ -1,12 +1,9 @@
 import React, { useRef, useEffect, useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSelector } from 'react-redux'
 import { Link, useLocation } from 'react-router-dom'
 import { useHistory } from 'react-router';
-import { Col, Container, Dropdown, Row } from 'react-bootstrap'
-import { faLocationDot, faPhone, faMotorcycle } from '@fortawesome/free-solid-svg-icons';
+import {  Container, Dropdown,  } from 'react-bootstrap'
 
-import logo from '../assets/images/Logo-2.png'
 import { useDispatch } from 'react-redux'
 import HeaderUserInfo from './HeaderInfo'
 import Search from './Search'
@@ -15,7 +12,7 @@ import { removeToken } from '../redux/token/tokenSlice'
 import search from '../assets/images/icon/search.png';
 import cart from '../assets/images/icon/cart.png';
 import user from '../assets/images/icon/user.svg';
-import { aboutCompanyAPI, brandAPI, categoryAPI, productAPI, solutionAPI } from '../api/api';
+import { aboutCompanyAPI, brandAPI, solutionAPI } from '../api/api';
 import { Menu, MenuItem } from '@mui/material';
 const logo1 = "https://technova.com.vn/wp-content/uploads/2016/08/Logo-Technova-01.png";
 const mainNav = [
@@ -54,12 +51,9 @@ const Header = (props) => {
     const history = useHistory()
     const { pathname } = useLocation()
     const [aboutCompany, setAboutCompany] = useState([])
-    const [news, setNews] = useState([])
     const activeNav = mainNav.findIndex(e => e.path === pathname)
     const [brands, setBrands] = useState([])
-    const [categories, setCategories] = useState([])
     const [solutions, setSolutions] = useState([])
-    const [products, setProducts] = useState([])
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -72,22 +66,18 @@ const Header = (props) => {
     useEffect(() => {
         async function getData() {
             try {
-                const resGetCategories = await categoryAPI.getAll();
                 const resGetBrands = await brandAPI.getAll();
                 const resGetAboutCompany = await aboutCompanyAPI.getAll();
                 const resGetSolutions = await solutionAPI.getAll();
-                const resGetProducts = await productAPI.getAll();
 
-                setCategories(resGetCategories.data.data);
                 setBrands(resGetBrands.data.data.filter((value, index) => {
-                    if(index === 2){
+                    if(index === 3){
                         return false
                     }
                     return true
                 }));
                 setAboutCompany(resGetAboutCompany.data.data);
                 setSolutions(resGetSolutions.data.data)
-                setProducts(resGetProducts.data.data)
             } catch (error) {
                 alert(error)
             }
@@ -157,9 +147,7 @@ const Header = (props) => {
                             <div className="header__menu__left__close" onClick={menuToggle}>
                                 <i className='bx bx-chevron-left'></i>
                             </div>
-                            <div
-                                className={`header__menu__item header__menu__left__item`}
-                            >
+                            <div className={`header__menu__item header__menu__left__item`}>
                                 <nav class="header__menu mobile-menu">
                                     <ul>
                                         <li className={`nav-item`}>
@@ -207,61 +195,57 @@ const Header = (props) => {
                                     </div>
                                 ))
                             }
+
+                            <div className={`header__menu__item header__menu__left__item`}>
+                                <nav class="header__menu mobile-menu">
+                                    <ul>
+                                        <li className={`nav-item`}>
+                                        <Link to={'/contact'}><span></span>Giải pháp</Link>
+                                            <ul class="dropdown">
+                                                {
+                                                    solutions?.map(solution => (
+                                                        <li key={solution.id}>
+                                                            <Link to={`/solution/${solution.id}`}>{solution.title}</Link>
+                                                        </li>
+                                                    ))
+                                                }
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                            <div className={`header__menu__item header__menu__left__item`}>
+                                <nav class="header__menu mobile-menu">
+                                    <ul>
+                                        <li className={`nav-item`}>
+                                        <Link to={'/contact'}><span></span>Dịch vụ</Link>
+                                            <ul class="dropdown">
+                                                <li>
+                                                    <a href="">Thiết kế đồ hoạ</a>
+                                                </li>
+                                                <li>
+                                                    <a href="">Làm Website</a>
+                                                </li>
+                                                <li>
+                                                    <a href="">Làm Game</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                            <div className={`header__menu__item header__menu__left__item`}>
+                                <nav class="header__menu mobile-menu">
+                                    <ul>
+                                        <li className={`nav-item`}>
+                                        <Link to={'/contact'}><span></span>Liên hệ</Link>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
                             
                         </div>
-                        <div
-                            className={`header__menu__item header__menu__left__item`}
-                        >
-                            <nav class="header__menu mobile-menu">
-                                <ul>
-                                    <li className={`nav-item`}>
-                                    <Link to={'/contact'}><span></span>Giải pháp</Link>
-                                        <ul class="dropdown">
-                                            {
-                                                solutions?.map(solution => (
-                                                    <li key={solution.id}>
-                                                        <Link to={`/solution/${solution.id}`}>{solution.title}</Link>
-                                                    </li>
-                                                ))
-                                            }
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                        <div
-                            className={`header__menu__item header__menu__left__item`}
-                        >
-                            <nav class="header__menu mobile-menu">
-                                <ul>
-                                    <li className={`nav-item`}>
-                                    <Link to={'/contact'}><span></span>Dịch vụ</Link>
-                                        <ul class="dropdown">
-                                            <li>
-                                                <a href="">Thiết kế đồ hoạ</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Làm Website</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Làm Game</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                        <div
-                            className={`header__menu__item header__menu__left__item`}
-                        >
-                            <nav class="header__menu mobile-menu">
-                                <ul>
-                                    <li className={`nav-item`}>
-                                    <Link to={'/contact'}><span></span>Liên hệ</Link>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
+                        
                         <div className="header__menu__right">
                             <div className="header__menu__right__search__item">
                                 <img src={search} className="search" onClick={handleSearchFormShow} />

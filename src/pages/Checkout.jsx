@@ -99,7 +99,7 @@ const Checkout = () => {
         } catch (error) {
             alert(error.response.data.message)
         } finally{
-            dispatch(removeAll())
+            // dispatch(removeAll())
         }
     }
 

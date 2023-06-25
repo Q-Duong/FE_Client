@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPhone, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom'
 import logoFooter from '../assets/images/icon/logoSaleNoti.png'
 
 import Grid from './Grid'
-
+import { aboutCompanyAPI, brandAPI, solutionAPI } from '../api/api';
 import logo from '../assets/images/Logo-2.png'
 import { Row } from 'react-bootstrap';
 const logo1 = "https://technova.com.vn/wp-content/uploads/2016/08/Logo-Technova-01.png";
@@ -44,6 +44,21 @@ const footerCustomerLinks = [
     }
 ]
 const Footer = () => {
+
+    const [aboutCompany, setAboutCompany] = useState([])
+
+
+    useEffect(() => {
+        async function getData() {
+            try {
+                const resGetAboutCompany = await aboutCompanyAPI.getAll();
+                setAboutCompany(resGetAboutCompany.data.data);
+            } catch (error) {
+                alert(error)
+            }
+        }
+        getData()
+    },[])
     return (
         <footer className="footer">
             <div className="container">
@@ -87,15 +102,13 @@ const Footer = () => {
                     </div>
                     <div>
                         <div className="footer__title">
-                            Giới thiệu
+                            About TechNova
                         </div>
                         <div className="footer__content">
                             {
-                                footerAboutLinks.map((item, index) => (
-                                    <p key={index}>
-                                        <Link to={item.path}>
-                                            {item.display}
-                                        </Link>
+                                aboutCompany?.map(item => (
+                                    <p key={item.id}>
+                                        <Link to={`about-company/${item.id}`}>{item.title}</Link>
                                     </p>
                                 ))
                             }
@@ -103,29 +116,31 @@ const Footer = () => {
                     </div>
                     <div>
                         <div className="footer__title">
-                            Chăm sóc khách hàng
+                            Giải Pháp
                         </div>
                         <div className="footer__content">
                             {
-                                footerCustomerLinks.map((item, index) => (
-                                    <p key={index}>
-                                        <Link to={item.path}>
-                                            {item.display}
-                                        </Link>
+                                aboutCompany?.map(item => (
+                                    <p key={item.id}>
+                                        <Link to={`about-company/${item.id}`}>{item.title}</Link>
                                     </p>
                                 ))
                             }
                         </div>
                     </div>
-                    <div className="footer__about">
-                        <p>
-                            <Link to="/">
-                                <img src={logo1} className="footer__logo" alt="" />
-                            </Link>
-                        </p>
-                        <p>
-                            Hướng đến mục tiêu mang lại niềm vui ăn mặc mới mỗi ngày cho hàng triệu người tiêu dùng Việt.
-                        </p>
+                    <div>
+                        <div className="footer__title">
+                            Dịch vụ
+                        </div>
+                        <div className="footer__content">
+                            {
+                                aboutCompany?.map(item => (
+                                    <p key={item.id}>
+                                        <Link to={`about-company/${item.id}`}>{item.title}</Link>
+                                    </p>
+                                ))
+                            }
+                        </div>
                     </div>
                 </Grid>
                 <Row>

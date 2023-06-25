@@ -40,7 +40,7 @@ const customerAPI = {
 }
 
 const productAPI = {
-  getAll: () => axi.get(`/v1/product?queryType=activate`),
+  getAll: (filter) => axi.get(`/v1/product?queryType=activate&${filter}`),
   getAndSortBySoldQuantity: (limit) => axi.get(`/warehouse/top/${limit}`),
   search: (searchTerm) => axi.get(`/warehouse?searchTerm=${searchTerm}`),
   getById: (id) => axi.get(`/v1/product/${id}`),
@@ -89,6 +89,7 @@ const contactAPI = {
 }
 
 const newsAPI = {
+  getById: (id) => axi.get(`/v1/news/${id}`),
   getAll: () => axi.get(`/v1/news?queryType=activate`),
   create: (createNews) =>
     axi.post(`/v1/news`, createNews, {

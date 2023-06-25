@@ -1,24 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react'
 
-import { categoryAPI, productAPI } from '../api/api';
+import { brandAPI, categoryAPI, productAPI } from '../api/api';
 import Helmet from '../components/Helmet'
 import CheckBox from '../components/CheckBox'
 
 import Button from '../components/Button'
 import InfinityList from '../components/InfinityList'
-import Section, { SectionBody, SectionTitle } from '../components/Section';
-import Grid from '../components/Grid';
-import CategoryCard from '../components/CategoryCard';
-
+import ReactPaginate from 'react-paginate'
 
 const Catalog = () => {
     const initFilter = {
+        categories: [],
         brands: []
     }
 
     const [products, setProducts] = useState([])
-
-    const [productFilter, setProductFilter] = useState([])
 
     const [filter, setFilter] = useState(initFilter)
 
@@ -26,14 +22,15 @@ const Catalog = () => {
 
     const [brands, setBrands] = useState([])
 
-    const [activeCategory, setActiveCategory] = useState(null)
+    const [pageCount, setPageCount] = useState(0)
 
+    const [activePage, setActivePage] = useState(1)
 
     useEffect(() => {
         async function getCategories() {
             try {
                 const response = await categoryAPI.getAll();
-                const categories = response.data
+                const categories = response.data.data
                 setCategories(categories)
             } catch (error) {
                 alert(error.response.data.message)
@@ -42,83 +39,67 @@ const Catalog = () => {
         getCategories()
     }, [])
 
+    useEffect(() => {
+        async function getBrands() {
+            try {
+                const response = await brandAPI.getAll();
+                const brands = response.data.data
+                setBrands(brands)
+            } catch (error) {
+                alert(error.response.data.message)
+            }
+        }
+        getBrands()
+    }, [])
+
 
     useEffect(() => {
         async function getProducts() {
             try {
-                const response = await productAPI.getAll();
-                const productDatas = response.data
-                const tempBrands = productDatas.reduce((arrBrands, product) => {
-                    if (!arrBrands.some(brand => brand._id == product.product.brand._id))
-                        arrBrands.push(product.product.brand)
-                    return arrBrands
-                }, [])
-                setProducts(productDatas)
-                setProductFilter(productDatas)
-                setBrands(tempBrands)
+                const filterBrands = filter? filter.brands: [];
+                const filterCategories = filter? filter.categories: [];
+                const queryBrand = filterBrands.length > 0 ? `brandIds[]=${filterBrands.join('&brandIds[]=')}&`: '';
+                const queryCategory = filterCategories.length > 0 ? `categoryIds[]=${filterCategories.join('&categoryIds[]=')}&`: '';
+                const queryPage = `page=${activePage}`
+
+                const queryParams = queryBrand + queryCategory + queryPage;
+                const response = await productAPI.getAll(queryParams);
+                setPageCount(response.data.meta.pageCount)
+                setProducts(response.data.data)
 
             } catch (error) {
-                alert(error.response.data.message)
-          
+                alert(error)
             }
         }
         getProducts()
-    }, [])
+    }, [filter,activePage])
+
+    const handlePageClick = (event) => {
+        setActivePage(event.selected);
+      };
+    
 
 
-    const filterSelect = (checked, item) => {
+    const filterBrandSelect = (checked, item) => {
         if (checked) {
-            setFilter({ ...filter, brands: [...filter.brands, item._id] })
+            setFilter({ ...filter, brands: [...filter.brands, item.id] })
         } else {
-            const newBrand = filter.brands.filter(e => e !== item._id)
-            setFilter({ ...filter, brands: newBrand })
+            const newBrands = filter.brands.filter(e => e !== item.id)
+            setFilter({ ...filter, brands: newBrands })
+        }
+    }
+
+    const filterCategoySelect = (checked, item) => {
+        if (checked) {
+            setFilter({ ...filter, categories: [...filter.categories, item.id] })
+        } else {
+            const newCategories = filter.categories.filter(e => e !== item.id)
+            setFilter({ ...filter, categories: newCategories })
         }
     }
 
 
-    const clearFilter = () => {setFilter(initFilter); setActiveCategory(null)}
-
-    useEffect(
-        () => {
-            try {
-                let temp = [...products]
-
-                if (filter.brands.length > 0) {
-                    temp = temp.filter(e => filter.brands.includes(e.product.brand._id))
-                }
-                setProductFilter(temp)
-            } catch (err) { }
-        },
-        [filter]
-    )
-
-    useEffect(() => {
-        try {
-            if(activeCategory){
-                let temp = [...products]
-                temp = temp.filter(e => e.product.category === activeCategory)
-                const tempBrands = temp.reduce((arrBrands, product) => {
-                    if (!arrBrands.some(brand => brand._id == product.product.brand._id))
-                        arrBrands.push(product.product.brand)
-                    return arrBrands
-                }, [])
-                setBrands(tempBrands)
-                setProductFilter(temp)
-            } else {
-                let temp = [...products]
-                const tempBrands = temp.reduce((arrBrands, product) => {
-                    console.log(product)
-                    if (!arrBrands.some(brand => brand._id == product.product.brand._id))
-                        arrBrands.push(product.product.brand)
-                    return arrBrands
-                }, [])
-                setBrands(tempBrands)
-                setProductFilter(temp)
-
-            }
-          
-        } catch (err) { }
-    }, [activeCategory])
+    const clearFilter = () => {setFilter(initFilter)}
 
     const filterRef = useRef(null)
 
@@ -130,7 +111,24 @@ const Catalog = () => {
                     <div className="catalog__filter__close" onClick={() => showHideFilter()}>
                         <i className="bx bx-left-arrow-alt"></i>
                     </div>
-
+                    <div className="catalog__filter__widget">
+                        <div className="catalog__filter__widget__title">
+                            Danh mục sản phẩm
+                        </div>
+                        <div className="catalog__filter__widget__content">
+                            {
+                                categories.map((item) => (
+                                    <div key={item.id} className="catalog__filter__widget__content__item">
+                                        <CheckBox
+                                            label={item.name}
+                                            onChange={(input) => filterCategoySelect(input.checked, item)}
+                                            checked={filter.categories.includes(item.id)}
+                                        />
+                                    </div>
+                                ))
+                            }
+                        </div>
+                    </div>
 
                     <div className="catalog__filter__widget">
                         <div className="catalog__filter__widget__title">
@@ -139,11 +137,11 @@ const Catalog = () => {
                         <div className="catalog__filter__widget__content">
                             {
                                 brands.map((item) => (
-                                    <div key={item._id} className="catalog__filter__widget__content__item">
+                                    <div key={item.id} className="catalog__filter__widget__content__item">
                                         <CheckBox
                                             label={item.name}
-                                            onChange={(input) => filterSelect(input.checked, item)}
-                                            checked={filter.brands.includes(item._id)}
+                                            onChange={(input) => filterBrandSelect(input.checked, item)}
+                                            checked={filter.brands.includes(item.id)}
                                         />
                                     </div>
                                 ))
@@ -161,34 +159,18 @@ const Catalog = () => {
                     <Button size="sm" onClick={() => showHideFilter()}>bộ lọc</Button>
                 </div>
                 <div className="catalog__content">
-                    <Section>
-                        <SectionTitle>
-                            Danh mục  sản phẩm
-                        </SectionTitle>
-                        <SectionBody>
-                            <Grid
-                                col={8}
-                                mdCol={4}
-                                smCol={4}
-                                gap={20}
-                            >
-                                {
-                                    categories.map((item) => (
-                                        <div onClick={() => { setActiveCategory(item._id) }}>
-                                            <CategoryCard
-                                                key={item._id}
-                                                item={item}
-                                            />
-                                        </div>
-                                    ))
-                                }
-                            </Grid>
-                        </SectionBody>
-                    </Section>
-
                     <InfinityList
-                        products={productFilter}                     
+                        products={products}                     
                     />                 
+                    <ReactPaginate
+                        breakLabel="..."
+                        nextLabel="->"
+                        onPageChange={handlePageClick}
+                        pageRangeDisplayed={5}
+                        pageCount={pageCount? pageCount: 0}
+                        previousLabel="<-"
+                        renderOnZeroPageCount={null}
+                    />
                 </div>
             </div>           
         </Helmet>

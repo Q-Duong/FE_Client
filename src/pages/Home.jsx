@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { productAPI, categoryAPI, brandAPI } from '../api/api';
+import { productAPI, categoryAPI, brandAPI, newsAPI } from '../api/api';
 
 import Helmet from '../components/Helmet'
 import HeroSlider from '../components/HeroSlider'
@@ -12,9 +12,10 @@ import ProductCard from '../components/ProductCard'
 import CategoryCard from '../components/CategoryCard'
 
 import heroSliderData from '../assets/fake-data/hero-slider'
-import { Container } from 'react-bootstrap';
+import { Container, Row } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { addItem } from '../redux/shopping-cart/cartItemsSlide';
+import NewsCard from '../components/NewsCard';
 const banner = "https://technova.com.vn/wp-content/uploads/2016/07/12121.png" ;
 
 
@@ -22,15 +23,18 @@ const Home = () => {
     const [products, setProducts] = useState([])
     const [categories, setCategories] = useState([])
     const [brands, setBrands] = useState([])
+    const [news, setNews] = useState([])
     useEffect(() => {
         async function getData() {
             try {
                 const responseGetCategories = await categoryAPI.getAll();
                 const responseGetBrands = await brandAPI.getAll();
                 const responseGetProducts = await productAPI.getAll();
+                const resGetNews = await newsAPI.getAll()
                 setCategories(responseGetCategories.data.data);
                 setBrands(responseGetBrands.data.data);
                 setProducts(responseGetProducts.data.data);
+                setNews(resGetNews.data.data)
             } catch (error) {
                 alert(error)
             }
@@ -82,7 +86,7 @@ const Home = () => {
                         <Grid
                             col={8}
                             mdCol={4}
-                            smCol={4}
+                            smCol={3}
                             gap={20}
                         >
                             {
@@ -122,6 +126,27 @@ const Home = () => {
                                 ))
                             }
                         </Grid>
+                    </SectionBody>
+                </Section>
+                {/* end section top products */}
+
+
+                 {/* section top products*/}
+                 <Section>
+                    <SectionTitle>
+                        Tin tức
+                    </SectionTitle>
+                    <SectionBody>
+                        <Row>
+                            {
+                                news.map((item) => (
+                                    <NewsCard
+                                        key={item.id}
+                                        item={item}
+                                    />
+                                ))
+                            }
+                        </Row>
                     </SectionBody>
                 </Section>
                 {/* end section top products */}

@@ -8,17 +8,18 @@ function Order() {
     const token = useSelector(state => state.token.value)
 
     useEffect(() => {
+        
         async function getOrders() {
             try {
                 const res = await orderAPI.getAll(token)
                 const data = res.data.data
                 setOrders(data)
             } catch (error) {
-                console.log(error)
-                alert(error)
+                window.alert(error)
             }
         }
-        getOrders()
+        if(token)
+            getOrders()
     }, [token])
 
     return (

@@ -13,7 +13,7 @@ const CategoryCard = props => {
         item ?
             <div className="category_product">
                 <div class="category_product_item">
-                    <img className='image_category' src={`${item.image.path}`} alt={item.name}/>
+                    <img className="image_category" src={`${item.image.path}`} alt={item.name}/>
                     <div class="a">
                     {item.name}
                     </div>
