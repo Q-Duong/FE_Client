@@ -4,6 +4,7 @@ import { Form, Button, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
+import Helmet from '../components/Helmet'
 
 LoginForm.propTypes = {
     onLoginSubmit: PropTypes.func.isRequired
@@ -25,7 +26,7 @@ function LoginForm(props) {
     }
 
     return (
-        <>
+        <Helmet title="Đăng nhập">
             <Col className="loginForm">
                 <div className="loginForm__title">
                     Đăng nhập
@@ -52,7 +53,7 @@ function LoginForm(props) {
                     </Button>
                 </Form>
             </Col>
-        </>
+        </Helmet>
     );
 }
 

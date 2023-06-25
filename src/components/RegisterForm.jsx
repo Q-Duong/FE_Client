@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Form, Button, Col } from 'react-bootstrap';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Helmet from '../components/Helmet'
 
 RegisterForm.propTypes = {
     onRegisterSubmit: PropTypes.func.isRequired,
@@ -24,7 +25,7 @@ function RegisterForm(props) {
     }
     return (
 
-        <>
+        <Helmet title="Đăng ký">
             <Col className="registerForm">
                 <div className="registerForm__title">
                     <h1>Tạo tài khoản của bạn</h1>
@@ -61,7 +62,7 @@ function RegisterForm(props) {
                     </Button>
                 </Form>
             </Col>
-        </>
+        </Helmet>
     );
 }
 

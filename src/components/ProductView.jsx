@@ -171,9 +171,9 @@ const ProductView = props => {
                                                                 {
                                                                     productPackages.map(item => 
                                                                         <TableCell align="center">
-                                                                        <Button onClick={() => {
+                                                                        <Button className="carousel_button btn" onClick={() => {
                                                                                 dispatch(addItem({id: item.id, name: `${product.name} - ${item.name}`, quantity: 1, imagePath: product.image.path, price: item.price}))
-                                                                        }}>Mua</Button>
+                                                                        }}>Chọn Mua</Button>
                                                                     </TableCell>
                                                                     )
                                                                 }
@@ -184,9 +184,10 @@ const ProductView = props => {
                                                 </div> :
                                                 <div class="tab-pane active" id="tabs-6" role="tabpanel">
                                                     <div class="product__details__tab__content">
-                                                        <p class="note">
-                                                        <div dangerouslySetInnerHTML={{ __html: product.description }} />
-                                                        </p>
+                                                        <p class="note"></p>
+                                                        <div class="product__details__tab__content__item">
+                                                            <p dangerouslySetInnerHTML={{ __html: product.description }}></p>
+                                                        </div>
                                                     </div>
                                                 </div>
                                         }

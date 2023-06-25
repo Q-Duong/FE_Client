@@ -23,24 +23,26 @@ const Home = () => {
     const [products, setProducts] = useState([])
     const [categories, setCategories] = useState([])
     const [brands, setBrands] = useState([])
-    const [news, setNews] = useState([])
-    useEffect(() => {
-        async function getData() {
-            try {
-                const responseGetCategories = await categoryAPI.getAll();
-                const responseGetBrands = await brandAPI.getAll();
-                const responseGetProducts = await productAPI.getAll();
-                const resGetNews = await newsAPI.getAll()
-                setCategories(responseGetCategories.data.data);
-                setBrands(responseGetBrands.data.data);
-                setProducts(responseGetProducts.data.data);
-                setNews(resGetNews.data.data)
-            } catch (error) {
-                alert(error)
-            }
-        }
-        getData()
-    },[])
+    const [news, setNews] = useState([
+       
+    ])
+    // useEffect(() => {
+    //     async function getData() {
+    //         try {
+    //             const responseGetCategories = await categoryAPI.getAll();
+    //             const responseGetBrands = await brandAPI.getAll();
+    //             const responseGetProducts = await productAPI.getAll();
+    //             const resGetNews = await newsAPI.getAll()
+    //             setCategories(responseGetCategories.data.data);
+    //             setBrands(responseGetBrands.data.data);
+    //             setProducts(responseGetProducts.data.data);
+    //             setNews(resGetNews.data.data)
+    //         } catch (error) {
+    //             alert(error)
+    //         }
+    //     }
+    //     getData()
+    // },[])
 
     return (
         <Helmet title="Trang chủ">
@@ -77,7 +79,7 @@ const Home = () => {
                         </Grid>
                     </SectionBody>
                 </Section>
-                {/* end policy section */}
+
                 <Section>
                     <SectionTitle>
                         Thương hiệu hàng đầu
@@ -104,8 +106,6 @@ const Home = () => {
                     </SectionBody>
                 </Section>
 
-
-                {/* section top products*/}
                 <Section>
                     <SectionTitle>
                         Sản phẩm nổi bật
@@ -128,10 +128,7 @@ const Home = () => {
                         </Grid>
                     </SectionBody>
                 </Section>
-                {/* end section top products */}
 
-
-                 {/* section top products*/}
                  <Section>
                     <SectionTitle>
                         Tin tức
@@ -149,7 +146,7 @@ const Home = () => {
                         </Row>
                     </SectionBody>
                 </Section>
-                {/* end section top products */}
+              
 
                 {/* section product by category id */}
                 {/* {
@@ -160,8 +157,17 @@ const Home = () => {
                     ))
                 } */}
                 {/* end section product by category id */}
+                <Section>
+                    <SectionTitle>
+                        Tin cậy bởi các đối tác
+                    </SectionTitle>
+                    <SectionBody>
+                        <Link to="/catalog">
+                            <img src={banner} alt="" />
+                        </Link>
+                    </SectionBody>
+                </Section>
 
-                {/* banner */}
                 <Section>
                     <SectionBody>
                         <Link to="/catalog">
@@ -169,7 +175,7 @@ const Home = () => {
                         </Link>
                     </SectionBody>
                 </Section>
-                {/* end banner */}
+ 
             </Container>
         </Helmet>
     )

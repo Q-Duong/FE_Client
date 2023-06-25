@@ -152,7 +152,7 @@ const Footer = () => {
                                 <script>
                                 document.write(new Date().getFullYear());
                                 </script>
-                                Quốc Dương. All rights reserved.
+                                TechNova. All rights reserved.
                             </p>
                             
                         </div>

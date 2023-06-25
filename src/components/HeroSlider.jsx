@@ -46,6 +46,9 @@ const HeroSlider = props => {
             src={imga}
             alt="First slide"
           />
+          <Link to="/catalog" className="carousel_button btn">
+            Partner with us
+          </Link>
         </Carousel.Item>
         <Carousel.Item>
           <img
@@ -53,6 +56,9 @@ const HeroSlider = props => {
             src={imgb}
             alt="Second slide"
           />
+          <Link to="/catalog" className="carousel_button btn">
+            Partner with us
+          </Link>
         </Carousel.Item>
         <Carousel.Item>
           <img
@@ -60,6 +66,9 @@ const HeroSlider = props => {
             src={imgc}
             alt="Third slide"
           />  
+          <Link to="/catalog" className="carousel_button btn">
+              Partner with us
+          </Link>
         </Carousel.Item>
       </Carousel>
     )
