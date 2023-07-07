@@ -3,7 +3,6 @@ import React, { useState, useEffect, useRef } from 'react'
 import { brandAPI, categoryAPI, productAPI } from '../api/api';
 import Helmet from '../components/Helmet'
 import CheckBox from '../components/CheckBox'
-import Section, { SectionTitle, SectionBody } from '../components/Section'
 import Button from '../components/Button'
 import InfinityList from '../components/InfinityList'
 import ReactPaginate from 'react-paginate'
@@ -11,16 +10,21 @@ import { Container } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from '@mui/material';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import useQuery from '../hooks/useQuery';
+import { useHistory } from 'react-router';
 
 const Catalog = () => {
+    const history = useHistory();
+    const searchTerm = useQuery().get("searchTerm")
+    const selectBrand = useQuery().get('brandId')
+
     const initFilter = {
         categories: [],
         brands: []
     }
 
-    const [products, setProducts] = useState([
-        
-    ])
+
+    const [products, setProducts] = useState([])
 
     const [filter, setFilter] = useState(initFilter)
 
@@ -28,57 +32,67 @@ const Catalog = () => {
 
     const [brands, setBrands] = useState([])
 
-    const [pageCount, setPageCount] = useState(3)
+    const [pageCount, setPageCount] = useState(0)
 
     const [activePage, setActivePage] = useState(1)
 
-    // useEffect(() => {
-    //     async function getCategories() {
-    //         try {
-    //             const response = await categoryAPI.getAll();
-    //             const categories = response.data.data
-    //             setCategories(categories)
-    //         } catch (error) {
-    //             alert(error.response.data.message)
-    //         }
-    //     }
-    //     getCategories()
-    // }, [])
+    useEffect(() => {
+        if(selectBrand){
+            setFilter(
+                {
+                    categories: [],
+                    brands: [selectBrand]
+                }
+            )
+        }
+    },[selectBrand])
 
-    // useEffect(() => {
-    //     async function getBrands() {
-    //         try {
-    //             const response = await brandAPI.getAll();
-    //             const brands = response.data.data
-    //             setBrands(brands)
-    //         } catch (error) {
-    //             alert(error.response.data.message)
-    //         }
-    //     }
-    //     getBrands()
-    // }, [])
+    useEffect(() => {
+        async function getCategories() {
+            try {
+                const response = await categoryAPI.getAll();
+                const categories = response.data.data
+                setCategories(categories)
+            } catch (error) {
+                alert(error.response.data.message)
+            }
+        }
+        getCategories()
+    }, [])
+
+    useEffect(() => {
+        async function getBrands() {
+            try {
+                const response = await brandAPI.getAll();
+                const brands = response.data.data
+                setBrands(brands)
+            } catch (error) {
+                alert(error.response.data.message)
+            }
+        }
+        getBrands()
+    }, [])
 
 
-    // useEffect(() => {
-    //     async function getProducts() {
-    //         try {
-    //             const filterBrands = filter? filter.brands: [];
-    //             const filterCategories = filter? filter.categories: [];
-    //             const queryBrand = filterBrands.length > 0 ? `brandIds[]=${filterBrands.join('&brandIds[]=')}&`: '';
-    //             const queryCategory = filterCategories.length > 0 ? `categoryIds[]=${filterCategories.join('&categoryIds[]=')}&`: '';
-    //             const queryPage = `page=${activePage}`
+    useEffect(() => {
+        async function getProducts() {
+            try {
+                const search = searchTerm ? `q=${searchTerm}`: '';
+                const queryBrand = filter.brands.length > 0 ? `brandIds[]=${filter.brands.join('&brandIds[]=')}&`: selectBrand ? `brandIds[]=${selectBrand}&`: '';
+                const queryCategory = filter.categories.length > 0 ? `categoryIds[]=${filter.categories.join('&categoryIds[]=')}&`: '';
+                const queryPage = `page=${activePage}&`
 
-    //             const queryParams = queryBrand + queryCategory + queryPage;
-    //             const response = await productAPI.getAll(queryParams);
-    //             setPageCount(response.data.meta.pageCount)
-    //             setProducts(response.data.data)
+                const queryParams = queryBrand + queryCategory + queryPage + search;
+                const response = await productAPI.getAll(queryParams);
+                setPageCount(response.data.meta.pageCount)
+                setProducts(response.data.data)
 
-    //         } catch (error) {
-    //             alert(error)
-    //         }
-    //     }
-    //     getProducts()
-    // }, [filter,activePage])
+            } catch (error) {
+                alert(error)
+            }
+        }
+        getProducts()
+    }, [filter,activePage, searchTerm])
 
     const handlePageClick = (event) => {
         setActivePage(event.selected);
@@ -105,7 +119,8 @@ const Catalog = () => {
     }
 
 
-    const clearFilter = () => {setFilter(initFilter)}
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const clearFilter = () => {setFilter(initFilter); history.push('catalog')}
 
     const filterRef = useRef(null)
 
@@ -130,7 +145,7 @@ const Catalog = () => {
                 </div>
             </section>
             <div className="catalog">
-                {/* <div className="catalog__filter" ref={filterRef}>
+                <div className="catalog__filter" ref={filterRef}>
                     <div className="catalog__filter__close" onClick={() => showHideFilter()}>
                         <i className="bx bx-left-arrow-alt"></i>
                     </div>
@@ -180,7 +195,7 @@ const Catalog = () => {
                 </div>
                 <div className="catalog__filter__toggle">
                     <Button size="sm" onClick={() => showHideFilter()}>bộ lọc</Button>
-                </div> */}
+                </div>
                 <div className="catalog__content">
                     <InfinityList
                         products={products}                     

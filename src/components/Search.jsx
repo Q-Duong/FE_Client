@@ -52,11 +52,7 @@ function Search(props) {
             try {
                 
                 const res = await productAPI.getAll(`q=${searchTerm}`);
-                if(res.status === 200) {
-                    setSearchedProducts(res.data.data)
-                } else {
-                    console.log(res.data.message)
-                }
+                setSearchedProducts(res.data.data)
             } catch (error) {
                 alert(error)
             }

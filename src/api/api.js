@@ -5,22 +5,11 @@ const axi =  axios.create({
 });
 
 const brandAPI = {
-  getAll: () => axi.get('/v1/brand?queryType=activate'),
-  update: (brand) => 
-    axi.put(`/brand/${brand.get('_id')}`, 
-      brand,
-      {headers: { 'content-type': `multipart/form-data; boundary=${brand._boundary}` }}
-    ),
+  getAll: () => axi.get('/v1/brand?queryType=activate&order=ASC'),
 }
 
 const categoryAPI = {
   getAll: () => axi.get('/v1/category?queryType=activate'),
-  update: (category) => {
-    return axi.put(`/category/${category._id}`,{
-      categoryName:category.categoryName,
-      categoryImage:category.categoryImage
-    })
-  }
 }
 
 const customerAPI = {
@@ -36,7 +25,13 @@ const customerAPI = {
   }),
   forgotPassword: (email) => axi.post('/v1/auth/forgot-password', {email}),
   getInfo: (token) => axi.get('/v1/user/info', {headers: {'Authorization': `Bearer ${token}`}}),
-  updatePassword: (token, newPassword) => axi.patch('/customer/password',{newPassword},{headers: {'x-access-token': token}})
+  updatePassword: (data) => axi.patch('/v1/auth/update-password',data,{headers: {
+    'Content-Type': 'application/json'
+  }}),
+  update: (data, token) => axi.put(`/v1/user/${data.id}`,data,{headers: {
+    'Content-Type': 'application/json',
+    "Authorization": `Bearer ${token}`
+  }})
 }
 
 const productAPI = {
@@ -49,15 +44,6 @@ const productAPI = {
   getBenefits: (id) => axi.get(`/v1/product/${id}/benefit`),
 }
 
-const supplierAPI = {
-  getAll: () => axi.get('/supplier'),
-  update: (supplier) => {
-    return axi.put(`/supplier/${supplier._id}`,{
-      supplierName:supplier.supplierName,
-      address:supplier.address,
-      phone:supplier.phone})
-  }
-}
 
 const orderAPI = {
   getAll: (token) => axi.get('/v1/order/by-owner',{
@@ -65,11 +51,11 @@ const orderAPI = {
       "Authorization": `Bearer ${token}`
     }
   }),
-  create: (order) => {
+  create: (order, token) => {
     return axi.post(`/v1/order`,order,{
       headers: {
         'Content-Type': `application/json`,
-
+        "Authorization": `Bearer ${token}`
       }
     })
   },
@@ -84,59 +70,32 @@ const orderAPI = {
 
 const contactAPI = {
   create: (inputContact) => {
-    return axi.post(`/contact`,inputContact)
+    return axi.post(`/v1/mail/contact`,inputContact)
   }
 }
 
 const newsAPI = {
   getById: (id) => axi.get(`/v1/news/${id}`),
-  getAll: () => axi.get(`/v1/news?queryType=activate`),
-  create: (createNews) =>
-    axi.post(`/v1/news`, createNews, {
-      headers: {
-        'Content-Type': `application/json`,
-      },
-    }),
-  update: (updateNews) =>
-    axi.put(`/v1/news/${updateNews.id}`, updateNews, {
-      headers: {
-        'Content-Type': `application/json`,
-      },
-    }),
-  delete: (id) => axi.delete(`/v1/news/${id}`),
+  getAll: (query) => axi.get(`/v1/news?queryType=activate&${query}`)
 };
 
 const aboutCompanyAPI = {
+  getById: (id) => axi.get(`/v1/about-company/${id}`),
   getAll: () => axi.get(`/v1/about-company?queryType=activate`),
-  create: (createNews) =>
-    axi.post(`/v1/about-company`, createNews, {
-      headers: {
-        'Content-Type': `application/json`,
-      },
-    }),
-  update: (updateNews) =>
-    axi.put(`/v1/about-company/${updateNews.id}`, updateNews, {
-      headers: {
-        'Content-Type': `application/json`,
-      },
-    }),
-  delete: (id) => axi.delete(`/v1/about-company/${id}`),
 };
 
 const solutionAPI = {
+  getById: (id) => axi.get(`/v1/solution/${id}`),
   getAll: () => axi.get(`/v1/solution?queryType=activate`),
-  create: (createSolution) =>
-    axi.post(`/v1/solution`, createSolution, {
-      headers: {
-        'Content-Type': `application/json`,
-      },
-    }),
-  update: (updateSolution) =>
-    axi.put(`/v1/solution/${updateSolution.id}`, updateSolution, {
-      headers: {
-        'Content-Type': `application/json`,
-      },
-    }),
-  delete: (id) => axi.delete(`/v1/solution/${id}`),
 };
-export {brandAPI, categoryAPI, customerAPI, productAPI, supplierAPI, orderAPI,contactAPI, newsAPI, aboutCompanyAPI, solutionAPI};
+
+const serviceAPI = {
+  getById: (id) => axi.get(`/v1/technova-service/${id}`),
+  getAll: () => axi.get(`/v1/technova-service?queryType=activate`),
+};
+
+const bannerAPI = {
+  getAll: () => axi.get(`/v1/banner?queryType=activate`),
+};
+
+export { brandAPI, categoryAPI, customerAPI, productAPI, serviceAPI, orderAPI,contactAPI, newsAPI, aboutCompanyAPI, solutionAPI, bannerAPI};

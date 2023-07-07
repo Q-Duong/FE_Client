@@ -5,9 +5,10 @@ import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import { useEffect, useState } from 'react';
 import { newsAPI } from '../api/api';
 import { Container } from 'react-bootstrap';
+import NewsCardDetail from '../components/NewsCardDetail';
 
 
-function PageNews() {
+function NewsDetail() {
 
   const {id} = useParams();
 
@@ -30,14 +31,16 @@ function PageNews() {
   )
   return (
     news ?
-    <Helmet title={news.title}>
-        <h3>{news.title}</h3>
-        <Container>
-          <div dangerouslySetInnerHTML={{ __html: news.content }} />
-        </Container>
-    </Helmet>
+    <>
+   
+          <NewsCardDetail
+              key={news.id}
+              item={news}
+          />
+    
+  </> 
     : <div>loading</div>
 )
 }
 
-export default PageNews;
+export default NewsDetail;

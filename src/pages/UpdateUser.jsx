@@ -1,42 +1,41 @@
 import React from 'react';
 
 import { Container } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useHistory } from 'react-router';
 import { customerAPI } from '../api/api';
 
-import RegisterForm from '../components/RegisterForm';
-import { addToken } from '../redux/token/tokenSlice';
+import UpdateUserForm from '../components/UpdateUserForm';
 import {validateCustomerData} from '../utils/valiedateCustomerData';
 
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
 
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 
-function Register() {
+function UpdateUser() {
     const history = useHistory()
-    const dispatch = useDispatch()
+    const token = useSelector(state => state.token.value)
 
-    function handleRegisterSubmit(registerData) {
-        if(!validateCustomerData({...registerData})) {
+    function handleUpdateUserSubmit(updateUser) {
+        if(!validateCustomerData({...updateUser})) {
             alert('thông tin bạn điền chưa hợp lệ')
             return
         }
-        async function createCustomer() {
+        async function updateCustomer() {
             try {
-                const res = await customerAPI.register(registerData)
-                const token = res.data
-                alert('đăng ký thành công')
-                history.push('/login')
+                await customerAPI.update(updateUser, token)
+                alert('Cập nhật thông tin thành công')
+                history.push('/')
             }
             catch (error) {
-                alert(error.response.data.message)
+                alert(`Có lỗi vui lòng thử lại`)
             }
+
         }
-        createCustomer()
+        updateCustomer()
     }
 
     return (
@@ -46,20 +45,20 @@ function Register() {
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="breadcrumb__text">
-                                <h3>Đăng ký</h3>
+                                <h3>Cập nhật thông tin</h3>
                                 <div className="breadcrumb__links">
                                     <Link to="/">Trang chủ</Link>
                                     <FontAwesomeIcon icon={faAngleRight} className="faAngleRight" />
-                                    <span>Đăng ký</span>
+                                    <span>Cập nhật thông tin</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
-            <RegisterForm onRegisterSubmit={handleRegisterSubmit} />
+            <UpdateUserForm onUpdateUserSubmit={handleUpdateUserSubmit} />
         </Container>
     );
 }
 
-export default Register;
+export default UpdateUser;

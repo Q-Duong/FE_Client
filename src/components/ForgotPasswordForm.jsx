@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Form, Button, Col, Container, Row } from 'react-bootstrap';
+import { Form, Button, Col, Row } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleRight,faCartXmark } from '@fortawesome/free-solid-svg-icons';
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 
 
@@ -14,6 +14,7 @@ function ForgotPasswordForm(props) {
         e.preventDefault()
         onForgotPasswordFormSubmit(email)
     }
+    
     return (
 
         <>

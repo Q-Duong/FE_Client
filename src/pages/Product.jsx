@@ -2,12 +2,12 @@ import React, {useEffect, useState} from 'react'
 
 import Helmet from '../components/Helmet'
 import Section, {SectionBody, SectionTitle} from '../components/Section'
-import Grid from '../components/Grid'
-import ProductCard from '../components/ProductCard'
 import ProductView from '../components/ProductView'
 
 import { productAPI } from '../api/api'
 import { useParams } from 'react-router-dom'
+import Related from '../components/Related'
+import { Container, Row } from 'react-bootstrap'
 
 const Product = props => {
 
@@ -22,10 +22,10 @@ const Product = props => {
             try {
                 const resProduct = await productAPI.getById(id);
                 const tempProduct = resProduct.data
-                //const resRelatedProduct = await productAPI.getByCategoryId(tempProduct.product.category)
-                //const tempRelatedproducts = resRelatedProduct.data
+                const resRelatedProduct = await productAPI.getAll(`brandIds[]=${tempProduct.brand.id}&take=5`)
+                const tempRelatedproducts = resRelatedProduct.data.data
                 setProduct(tempProduct)
-                //setRelatedProducts(tempRelatedproducts)
+                setRelatedProducts(tempRelatedproducts)
             } catch (error) {
                 alert(error)
             }
@@ -37,32 +37,28 @@ const Product = props => {
     return (
         product ?
         <Helmet title={product.name}>
-            <Section>
-                <SectionBody>
-                    <ProductView product={product}/>
-                </SectionBody>
-            </Section>
-            {/* <Section>
-                <SectionTitle>
-                    Khám phá thêm
-                </SectionTitle>
-                <SectionBody>
-                    <Grid
-                        col={4}
-                        mdCol={2}
-                        smCol={1}
-                        gap={20}
-                    >
-                        {
-                            relatedProducts.map((item) => (
-                                <ProductCard
+            <Container>
+                <Section>
+                    <SectionBody>
+                        <ProductView product={product}/>
+                    </SectionBody>
+                </Section>
+                <Section>
+                    <SectionTitle>
+                        Khám phá thêm
+                    </SectionTitle>
+                </Section>
+                <Row>
+                    {   
+                        relatedProducts.map((item) => (
+                            <Related
+                                    key={item.id}
                                     item={item}
-                                />
-                            ))
-                        }
-                    </Grid>
-                </SectionBody>
-            </Section> */}
+                            />
+                        ))
+                    }
+                </Row>
+            </Container>
         </Helmet>
         : <div>loading</div>
     )

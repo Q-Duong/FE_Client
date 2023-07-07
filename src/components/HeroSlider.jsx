@@ -3,9 +3,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import {Carousel} from "react-bootstrap"
 import Button from './Button'
-const imga = "https://technova.com.vn/wp-content/uploads/2016/07/12121.png" ;
-const imgb = "https://technova.com.vn/wp-content/uploads/2019/01/cruzr-1000x2500.jpg";
-const imgc = "https://technova.com.vn/wp-content/uploads/2016/07/getmedia.jpg";
+
 const HeroSlider = props => {
 
     const data = props.data
@@ -40,36 +38,20 @@ const HeroSlider = props => {
 
     return (
         <Carousel>
-        <Carousel.Item>
-          <img
-            className="d-block w-100 carousel-item"
-            src={imga}
-            alt="First slide"
-          />
-          <Link to="/catalog" className="carousel_button btn">
-            Partner with us
-          </Link>
-        </Carousel.Item>
-        <Carousel.Item>
-          <img
-            className="d-block w-100 carousel-item"
-            src={imgb}
-            alt="Second slide"
-          />
-          <Link to="/catalog" className="carousel_button btn">
-            Partner with us
-          </Link>
-        </Carousel.Item>
-        <Carousel.Item>
-          <img
-            className="d-block w-100 carousel-item"
-            src={imgc}
-            alt="Third slide"
-          />  
-          <Link to="/catalog" className="carousel_button btn">
-              Partner with us
-          </Link>
-        </Carousel.Item>
+        {
+          data.map(item => (
+          <Carousel.Item>
+            <img
+              className="d-block w-100 carousel-item"
+              src={item.image?.path}
+              alt={item.title}
+            />
+            <Link to="" className="carousel_button btn">
+              {item.title}
+            </Link>
+          </Carousel.Item>
+          ))
+        }
       </Carousel>
     )
 }

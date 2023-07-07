@@ -6,6 +6,7 @@ import { faCircleUser,faBox,faGear,faArrowRightFromBracket } from '@fortawesome/
 import cart from '../assets/images/icon/cart.png';
 import heart from '../assets/images/icon/heart.png';
 import CartPre from '../components/CartPre'
+import numberWithCommas from '../utils/numberWithCommas';
 
 HeaderUserInfo.propTypes = {
     onLogout: PropTypes.func,
@@ -21,8 +22,7 @@ function HeaderUserInfo(props) {
     }
 
     return (
-        <Dropdown.Menu>
-             <span className="caret"></span>
+        <Dropdown.Menu style={{width: "180px"}}>
             {
                     <>
                         
@@ -32,13 +32,17 @@ function HeaderUserInfo(props) {
                             {
                                 cartItems.map((item) => (
                                     <Dropdown.Item className="cartDetails-top" href="/">
-                                        <CartPre item={item} key={item._id}/>
+                                        <CartPre item={item} key={item.id}/>
                                     </Dropdown.Item>
                                 ))
                             }
+                            <Dropdown.Item>
+                                Tổng tiền: {numberWithCommas(cartItems.reduce((total, item) => total + (item.price * item.quantity),0))}
+                            </Dropdown.Item>
                             <Dropdown.Item className="checkout" href="/checkout">
                                 <div className="checkout__button">Thanh toán</div>  
                             </Dropdown.Item>
+                            
                         </>
                         :
                         <>

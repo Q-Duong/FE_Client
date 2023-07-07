@@ -15,7 +15,7 @@ function Order() {
                 const data = res.data.data
                 setOrders(data)
             } catch (error) {
-                window.alert(error)
+                alert(`Xin lỗi đã có lỗi trong quá trình tải, vui lòng thử lại sau`)
             }
         }
         if(token)

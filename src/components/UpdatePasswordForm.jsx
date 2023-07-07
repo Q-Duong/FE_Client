@@ -3,14 +3,15 @@ import { Form, Button, Col } from 'react-bootstrap';
 import Alert from 'react-bootstrap/Alert';
 
 function UpdatePasswordForm(props) {
-    const { onUpdatePasswordFormSubmit } = props
+    const { onUpdatePasswordSubmit } = props
         
+    const [currentPassword, setCurrentPassword] = useState('')
     const [newPassword, setNewPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
 
     function handleUpdatePasswordFormSubmit(e) {
         e.preventDefault()
-        onUpdatePasswordFormSubmit(newPassword)
+        onUpdatePasswordSubmit({currentPassword, newPassword})
     }
 
     return (
@@ -21,7 +22,10 @@ function UpdatePasswordForm(props) {
                 </div>
                 <Form onSubmit={handleUpdatePasswordFormSubmit}>
                     <Form.Group className="mb-3">
-                        
+                        <Form.Control className="loginForm__input" type="password" placeholder="mật khẩu hiện tại" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} />
+                    </Form.Group>
+
+                    <Form.Group className="mb-3">
                         <Form.Control className="loginForm__input" type="password" placeholder="mật khẩu mới" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
                     </Form.Group>
 
@@ -31,7 +35,7 @@ function UpdatePasswordForm(props) {
                        {
                             (confirmPassword !== '' && newPassword !== confirmPassword) &&
                             <Alert variant="danger">
-                                chưa khớp
+                                Mật khẩu bạn nhập chưa khớp
                             </Alert>
                        }
                     </Form.Group>

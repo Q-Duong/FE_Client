@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useHistory } from 'react-router';
 import {  Container, Dropdown,  } from 'react-bootstrap'
 
@@ -12,34 +12,9 @@ import { removeToken } from '../redux/token/tokenSlice'
 import search from '../assets/images/icon/search.png';
 import cart from '../assets/images/icon/cart.png';
 import user from '../assets/images/icon/user.svg';
-import { aboutCompanyAPI, brandAPI, solutionAPI } from '../api/api';
+import { aboutCompanyAPI, brandAPI, solutionAPI, serviceAPI } from '../api/api';
 import { Menu, MenuItem } from '@mui/material';
 const logo1 = "https://technova.com.vn/wp-content/uploads/2016/08/Logo-Technova-01.png";
-const mainNav = [
-    {
-        display: "Microsoft 365 ",
-        path: "/microsoft-365"
-    },
-    {
-        display: "Autodesk",
-        path: "/autodesk"
-    },
-    {
-        display: "Adobe",
-        path: "/adobe"
-    },
-    {
-        display: "Bim",
-        path: "/bim"
-    },
-    {
-        display: "Gải pháp",
-        path: "/giai-phap"
-    },{
-        display: "Dịch vụ",
-        path: "/dich-vu"
-    },
-]
 
 const Header = (props) => {
     const [showSearchForm, setShowSearchForm] = useState(false);
@@ -49,11 +24,10 @@ const Header = (props) => {
     const headerTopRef = useRef(null)
     const dispatch = useDispatch()
     const history = useHistory()
-    const { pathname } = useLocation()
     const [aboutCompany, setAboutCompany] = useState([])
-    const activeNav = mainNav.findIndex(e => e.path === pathname)
     const [brands, setBrands] = useState([])
     const [solutions, setSolutions] = useState([])
+    const [services, setServices] =  useState([])
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -63,13 +37,14 @@ const Header = (props) => {
         setAnchorEl(null);
     };
 
+
     useEffect(() => {
         async function getData() {
             try {
                 const resGetBrands = await brandAPI.getAll();
                 const resGetAboutCompany = await aboutCompanyAPI.getAll();
                 const resGetSolutions = await solutionAPI.getAll();
-
+                const resGetServices = await serviceAPI.getAll();
                 setBrands(resGetBrands.data.data.filter((value, index) => {
                     if(index === 3){
                         return false
@@ -78,6 +53,7 @@ const Header = (props) => {
                 }));
                 setAboutCompany(resGetAboutCompany.data.data);
                 setSolutions(resGetSolutions.data.data)
+                setServices(resGetServices.data.data);
             } catch (error) {
                 alert(error)
             }
@@ -91,7 +67,7 @@ const Header = (props) => {
 
     async function handleSearch(searchTerm) {
         setShowSearchForm(!showSearchForm)
-        history.push(`/catalog?name=${searchTerm}`)
+        history.push(`/catalog?searchTerm=${searchTerm}`)
     };
 
     function handleLogout() {
@@ -123,15 +99,6 @@ const Header = (props) => {
     return (
         <>
             <div className="header" ref={headerRef}>
-                <div className="header__top" ref={headerTopRef}>
-                    {/* <Container>
-                        <Row >
-                            <Col lg="4" xs="4" className="header__top__left"></Col>
-                            <Col lg="4" xs="4" className="header__top__mid"></Col>
-                            <Col lg="4" xs="4" className="header__top__right"><FontAwesomeIcon icon={faMotorcycle} /> HOTLINE: HCM : 08. 3512 8760 - HN :0912611827</Col>
-                        </Row>
-                    </Container> */}
-                </div>
                 <Container>
 
                     <div className="header__menu">
@@ -151,13 +118,13 @@ const Header = (props) => {
                                 <nav class="header__menu mobile-menu">
                                     <ul>
                                         <li className={`nav-item`}>
-                                        <Link to={'/about'}><span></span>About Technova</Link>
+                                        <Link to={''}><span></span>About Technova</Link>
                                             <ul class="dropdown">
                                                 
                                                 {
                                                     aboutCompany?.map(item => (
                                                         <li key={item.id}>
-                                                            <Link to={`about-company/${item.id}`}>{item.title}</Link>
+                                                            <Link to={`/about-company/${item.id}`}>{item.title}</Link>
                                                         </li>
                                                     ))
                                                 }
@@ -175,18 +142,18 @@ const Header = (props) => {
                                     >
                                         <nav class="header__menu mobile-menu">
                                             <ul>
-                                                <li className={`nav-item ${index === activeNav ? 'active' : ''}`}>
-                                                    <Link to={`#`}><span>{item.name}</span></Link>
+                                                <li className={`nav-item`}>
+                                                    <Link to={`/catalog?brandId=${item.id}`}><span>{item.name}</span></Link>
                                                     <ul class="dropdown">
                                                         {
-                                                            item.products?.map((item, index) => (
+                                                            item.products?.map((item) => (
                                                                 <li>
                                                                    <Link to={`/product/${item.id}`}>{item.name}</Link>
                                                                 </li>
                                                             ))
                                                         }
                                                         <li>
-                                                        <Link to={`catalog`}>Xem tất cả</Link>
+                                                        <Link to={`/catalog?brandId=${item.id}`}>Xem tất cả</Link>
                                                         </li>
                                                     </ul>
                                                 </li>
@@ -200,7 +167,7 @@ const Header = (props) => {
                                 <nav class="header__menu mobile-menu">
                                     <ul>
                                         <li className={`nav-item`}>
-                                        <Link to={'/contact'}><span></span>Giải pháp</Link>
+                                        <Link to={''}><span></span>Giải pháp</Link>
                                             <ul class="dropdown">
                                                 {
                                                     solutions?.map(solution => (
@@ -218,17 +185,15 @@ const Header = (props) => {
                                 <nav class="header__menu mobile-menu">
                                     <ul>
                                         <li className={`nav-item`}>
-                                        <Link to={'/contact'}><span></span>Dịch vụ</Link>
+                                        <Link to={''}><span></span>Dịch vụ</Link>
                                             <ul class="dropdown">
-                                                <li>
-                                                    <a href="">Thiết kế đồ hoạ</a>
-                                                </li>
-                                                <li>
-                                                    <a href="">Làm Website</a>
-                                                </li>
-                                                <li>
-                                                    <a href="">Làm Game</a>
-                                                </li>
+                                               {
+                                                services.map(service => (
+                                                    <li>
+                                                        <Link to={`/technova-service/${service.id}`}>{service.title}</Link>
+                                                    </li>
+                                                ))
+                                               }
                                             </ul>
                                         </li>
                                     </ul>
@@ -257,7 +222,7 @@ const Header = (props) => {
                                         <img src={cart} />
                                         {
                                             cartItems.length !== 0 ?
-                                                <span className="header__menu__right__cart__btn__opiton__length">{cartItems.length}</span>
+                                                <span className="header__menu__right__cart__btn__opiton__length">{cartItems.reduce((total, item) => total + item.quantity,0)}</span>
                                                 : <></>
                                         }
 
@@ -286,7 +251,7 @@ const Header = (props) => {
                                             token ?
                                             <>
                                                 <MenuItem onClick={handleClose}>
-                                                    <Link to="/profile">Xem thông tin</Link>
+                                                    <Link to="/update-info">Xem thông tin</Link>
                                                 </MenuItem>
                                                 <MenuItem onClick={handleClose}>
                                                     <Link to="/order">Xem đơn hàng</Link>
@@ -294,6 +259,7 @@ const Header = (props) => {
                                                 <MenuItem onClick={() => {
                                                     handleClose()
                                                     dispatch(removeToken())
+                                                    alert('Đăng xuất thành công')
                                                 }}>
                                                     Đăng xuất
                                                 </MenuItem>

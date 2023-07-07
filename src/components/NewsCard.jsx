@@ -11,9 +11,10 @@ const NewsCard = props => {
         item ?
         <Col lg={3} md={6} sm={6}>
             <div class="blog__item">
-                <img class="blog__item__pic set-bg" src="https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/Content-Card-Bing-AI-No-Text?wid=380&hei=213&fit=crop" alt={'tin tức'} />
+                <img class="img_post" src={item.image.path} alt={'tin tức'} />
                 <div class="blog__item__text">
-                    <h5>{item.title}</h5>
+                    <span>{item.title}</span>
+                    <h5>{item.description}</h5>
                     
                     <Link to={`/news/${item.id}`}>Xem tin</Link>
                 </div>

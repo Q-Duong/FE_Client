@@ -1,58 +1,33 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React, {  useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPhone, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom'
 import logoFooter from '../assets/images/icon/logoSaleNoti.png'
 
 import Grid from './Grid'
-import { aboutCompanyAPI, brandAPI, solutionAPI } from '../api/api';
-import logo from '../assets/images/Logo-2.png'
+import { aboutCompanyAPI, serviceAPI, solutionAPI } from '../api/api';
 import { Row } from 'react-bootstrap';
-const logo1 = "https://technova.com.vn/wp-content/uploads/2016/08/Logo-Technova-01.png";
-const footerAboutLinks = [
 
-    {
-        display: "Liên hệ",
-        path: "/about"
-    },
-    {
-        display: "Tuyển dụng",
-        path: "/about"
-    },
-    {
-        display: "Tin tức",
-        path: "/about"
-    },
-    {
-        display: "Hệ thống cửa hàng",
-        path: "/about"
-    }
-]
-
-const footerCustomerLinks = [
-    {
-        display: "Chính sách đổi trả",
-        path: "/about"
-    },
-    {
-        display: "Chính sách bảo hành",
-        path: "/about"
-    },
-    {
-        display: "Chính sách hoàn tiền",
-        path: "/about"
-    }
-]
 const Footer = () => {
 
     const [aboutCompany, setAboutCompany] = useState([])
-
+    const [solutions, setSolutions] = useState([])
+    const [services, setServices] =  useState([])
+    const address = JSON.parse(process.env.REACT_APP_ADDRESS)
+    const phone = JSON.parse(process.env.REACT_APP_PHONE)
+    const email = JSON.parse(process.env.REACT_APP_EMAIL)
 
     useEffect(() => {
+       
         async function getData() {
             try {
                 const resGetAboutCompany = await aboutCompanyAPI.getAll();
+                const resGetSolutions = await solutionAPI.getAll();
+                const resGetServices = await serviceAPI.getAll();
+
                 setAboutCompany(resGetAboutCompany.data.data);
+                setSolutions(resGetSolutions.data.data)
+                setServices(resGetServices.data.data);
             } catch (error) {
                 alert(error)
             }
@@ -73,31 +48,35 @@ const Footer = () => {
                         <FontAwesomeIcon icon={faLocationDot} /> Địa chỉ
                         </div>
                         <div className="footer__content">
-                            <p>
-                            289/1 Ung Văn Khiêm, <hr />
-                            Phường 25, Quận Binh Thạnh, TP.HCM
-                            </p>
+                            {
+                                address.map(item => (
+                                    <p>{item}</p>
+                                ))
+                            }
                         </div>
                         <div className="footer__border"></div>
                         <div className="footer__title">
                         <FontAwesomeIcon icon={faPhone} /> Liên hệ
                         </div>
                         <div className="footer__content">
-                            <p>
-                                Hồ Chí Minh: <strong>0835128760</strong>
-                            </p>
-                            <p>
-                                Hà Nội: <strong>0912611827</strong>
-                            </p>
+                           
+                           {
+                            phone.map(item => (
+                                <p>
+                                    {item}
+                                </p>
+                            ))
+                           }
                             <p>
                                 <strong>Email: </strong>
                             </p>
-                            <p>
-                                Hồ Chí Minh: <strong>kinhdoanh@technova.com.vn</strong>
-                            </p>
-                            <p>
-                                Hà Nội: <strong>linhnguyen@technova.com.vn</strong>
-                            </p>
+                            {
+                                email.map(item => (
+                                    <p>
+                                    {item}
+                                    </p>
+                                ))
+                            }
                         </div>
                     </div>
                     <div>
@@ -108,7 +87,7 @@ const Footer = () => {
                             {
                                 aboutCompany?.map(item => (
                                     <p key={item.id}>
-                                        <Link to={`about-company/${item.id}`}>{item.title}</Link>
+                                        <Link to={`/about-company/${item.id}`}>{item.title}</Link>
                                     </p>
                                 ))
                             }
@@ -120,9 +99,9 @@ const Footer = () => {
                         </div>
                         <div className="footer__content">
                             {
-                                aboutCompany?.map(item => (
+                                solutions?.map(item => (
                                     <p key={item.id}>
-                                        <Link to={`about-company/${item.id}`}>{item.title}</Link>
+                                        <Link to={`/solution/${item.id}`}>{item.title}</Link>
                                     </p>
                                 ))
                             }
@@ -134,9 +113,9 @@ const Footer = () => {
                         </div>
                         <div className="footer__content">
                             {
-                                aboutCompany?.map(item => (
+                                services?.map(item => (
                                     <p key={item.id}>
-                                        <Link to={`about-company/${item.id}`}>{item.title}</Link>
+                                        <Link to={`/about-company/${item.id}`}>{item.title}</Link>
                                     </p>
                                 ))
                             }

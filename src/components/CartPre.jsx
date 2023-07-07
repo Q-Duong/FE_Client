@@ -15,7 +15,7 @@ const CartPre = props => {
 
     return (
         item ? 
-        <Link to={`/product/${item._id}`}>
+        <Link to="">
             <div className="cartpre__item" >
                 <div className="cartpre__item__image">
                     <img src={`${item.imagePath}`} alt="" />
@@ -25,7 +25,10 @@ const CartPre = props => {
                         {`${item.name}`}  
                     </div>
                     <div className="cartpre__item__info__quantity">      
-                        x{item.quantity}                
+                        Số lượng: {item.quantity}                
+                    </div>
+                    <div className="cartpre__item__info__quantity">      
+                        Giá: {numberWithCommas(item.price)}                
                     </div>
                 </div>
             </div>

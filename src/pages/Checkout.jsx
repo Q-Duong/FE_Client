@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom'
 
 import Helmet from '../components/Helmet'
 import Button from '../components/Button'
-import { Form } from 'react-bootstrap';
+import { Container, Form } from 'react-bootstrap';
 import { customerAPI, orderAPI } from '../api/api'
 import { useDispatch } from 'react-redux'
 import { removeAll } from '../redux/shopping-cart/cartItemsSlide'
@@ -81,7 +81,7 @@ const Checkout = () => {
                 }))        
             }
 
-            const res = await orderAPI.create(createOrder)
+            const res = await orderAPI.create(createOrder, token)
 
             if (paymentMethod === 'offline') {
                 alert('đặt hàng thành công')
@@ -105,6 +105,7 @@ const Checkout = () => {
 
     return (
         <Helmet title="Thanh toán">
+            <Container>
             <CartForCheckout></CartForCheckout>
             <div class="checkout__form">
                 <h4 class="checkout__title">Điền thông tin gửi hàng</h4>
@@ -183,17 +184,16 @@ const Checkout = () => {
                                         </Form.Select> */}
 
                             </div>
-
-
                         </div>
-
                     </div>
+                    
                 </Form>
+                <Button onClick={handleCreateOrder} class="checkout__button">
+                        Đặt hàng
+                    </Button>
             </div>
-            <Button onClick={handleCreateOrder} size="block">
-                Đặt hàng
-            </Button>
-
+            
+            </Container>
         </Helmet>
     )
 }

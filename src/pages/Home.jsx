@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { productAPI, categoryAPI, brandAPI, newsAPI } from '../api/api';
+import { productAPI, categoryAPI, brandAPI, newsAPI, bannerAPI } from '../api/api';
 
 import Helmet from '../components/Helmet'
 import HeroSlider from '../components/HeroSlider'
@@ -11,10 +11,7 @@ import Grid from '../components/Grid'
 import ProductCard from '../components/ProductCard'
 import CategoryCard from '../components/CategoryCard'
 
-import heroSliderData from '../assets/fake-data/hero-slider'
 import { Container, Row } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
-import { addItem } from '../redux/shopping-cart/cartItemsSlide';
 import NewsCard from '../components/NewsCard';
 const banner = "https://technova.com.vn/wp-content/uploads/2016/07/12121.png" ;
 
@@ -23,26 +20,29 @@ const Home = () => {
     const [products, setProducts] = useState([])
     const [categories, setCategories] = useState([])
     const [brands, setBrands] = useState([])
-    const [news, setNews] = useState([
-       
-    ])
-    // useEffect(() => {
-    //     async function getData() {
-    //         try {
-    //             const responseGetCategories = await categoryAPI.getAll();
-    //             const responseGetBrands = await brandAPI.getAll();
-    //             const responseGetProducts = await productAPI.getAll();
-    //             const resGetNews = await newsAPI.getAll()
-    //             setCategories(responseGetCategories.data.data);
-    //             setBrands(responseGetBrands.data.data);
-    //             setProducts(responseGetProducts.data.data);
-    //             setNews(resGetNews.data.data)
-    //         } catch (error) {
-    //             alert(error)
-    //         }
-    //     }
-    //     getData()
-    // },[])
+    const [news, setNews] = useState([])
+    const [banners, setBanners] = useState([])
+
+    useEffect(() => {
+        async function getData() {
+            try {
+                const responseGetCategories = await categoryAPI.getAll('take=5');
+                const responseGetBrands = await brandAPI.getAll('take=5');
+                const responseGetProducts = await productAPI.getAll('take=5');
+                const resGetNews = await newsAPI.getAll('take=5')
+                const resGetBanners = await bannerAPI.getAll('take=3');
+
+                setCategories(responseGetCategories.data.data);
+                setBrands(responseGetBrands.data.data);
+                setProducts(responseGetProducts.data.data);
+                setBanners(resGetBanners.data);
+                setNews(resGetNews.data.data)
+            } catch (error) {
+                alert(error)
+            }
+        }
+        getData()
+    },[])
 
     return (
         <Helmet title="Trang chủ">
@@ -50,7 +50,7 @@ const Home = () => {
             {/* <Carousel /> */}
             
                 <HeroSlider
-                    data={heroSliderData}
+                    data={banners}
                     control={true}
                     auto={false}
                     timeOut={5000}
@@ -168,14 +168,6 @@ const Home = () => {
                     </SectionBody>
                 </Section>
 
-                <Section>
-                    <SectionBody>
-                        <Link to="/catalog">
-                            <img src={banner} alt="" />
-                        </Link>
-                    </SectionBody>
-                </Section>
- 
             </Container>
         </Helmet>
     )

@@ -7,14 +7,14 @@ import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 
 import { addItem } from '../redux/shopping-cart/cartItemsSlide'
-import { remove } from '../redux/product-modal/productModalSlice'
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
 import Button from './Button'
 
 import {   Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { productAPI } from '../api/api';
-
+import numberWithCommas from '../utils/numberWithCommas';
+import months from '../enum/months'
 
 const ProductView = props => {
     const dispatch = useDispatch()
@@ -22,21 +22,6 @@ const ProductView = props => {
     const { product } = props
     const [productPackages, setProductPackages] = useState([]);
     const [productBenefits, setProductBenefits] = useState([]);
-    const [quantity, setQuantity] = useState(1)
-
-    const updateQuantity = (type) => {
-        if (type === 'plus') {
-            setQuantity(quantity + 1)
-        } else {
-            setQuantity(quantity - 1 < 1 ? 1 : quantity - 1)
-        }
-    }
-  
-    const addToCart = () => {
-        const action = addItem({ ...product, quantity })
-        dispatch(action)
-        alert('Thêm thành công')
-    }
 
     useEffect(
         () => {
@@ -47,7 +32,6 @@ const ProductView = props => {
             try {
               const resPackages = await productAPI.getPackages(product.id);
               const resBenefits = await productAPI.getBenefits(product.id);
-                console.log(resPackages)
               const productPackages = resPackages.data;
               const benefits = resBenefits.data;
               
@@ -60,7 +44,6 @@ const ProductView = props => {
                   sortBenefitValues.push(foundValue);
                 }    
 
-                console.log(resPackages)
                 benefit.benefitValues = sortBenefitValues;
                 return benefit;
               })
@@ -73,13 +56,6 @@ const ProductView = props => {
           }
           prepareData()
         },[product])
-
-    const goToCart = () => {
-        const action = addItem({ ...product, quantity })
-        dispatch(action)
-        dispatch(remove())
-        props.history.push('/cart')
-    }
 
     return (
         product ?
@@ -127,10 +103,10 @@ const ProductView = props => {
                             <div class="product__details__tab">
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li class="nav-item" onClick={() => {setIsLeft(true)}}>
-                                        <a class="nav-link active"  href="#tabs-5" role="tab">Gói sản phẩm</a>
+                                        <a className={isLeft ? "nav-link active": "nav-link"}  href="#tabs-5" role="tab">Gói sản phẩm</a>
                                     </li>
                                     <li class="nav-item" onClick={() => {setIsLeft(false)}}>
-                                        <a class="nav-link"  href="#tabs-6" role="tab">Mô tả</a>
+                                        <a className={!isLeft ? "nav-link active": "nav-link"}  href="#tabs-6" role="tab">Mô tả</a>
                                     </li>
                                 </ul>
                                     <div class="tab-content">
@@ -143,14 +119,49 @@ const ProductView = props => {
                                                             <TableRow>
                                                             <TableCell></TableCell>
                                                                 {
-                                                                productPackages?.map(productPackage => (
-                                                                    <TableCell className="package_title">{productPackage.name}</TableCell>
-                                                                ))
+                                                                    productPackages?.map(productPackage => (
+                                                                        <TableCell className="package_title">
+                                                                            {
+                                                                            productPackage.name
+                                                                            }                                                                          
+                                                                            
+                                                                        </TableCell>
+                                                                    ))
                                                                 }
                                                                 
                                                             </TableRow>
                                                             </TableHead>
                                                             <TableBody>
+                                                            {
+                                                                 <TableRow >
+                                                                 <TableCell className="benefit_title" align="center">Số người sở hữu</TableCell>
+                                                                 {
+                                                                    productPackages?.map(productPackage => (
+                                                                        <TableCell className="package_title">
+                                                                            {
+                                                                            productPackage.userNumber
+                                                                            }                                                                          
+                                                                            
+                                                                        </TableCell>
+                                                                    ))
+                                                                 }
+                                                             </TableRow>
+                                                            }
+                                                            {
+                                                                 <TableRow >
+                                                                 <TableCell className="benefit_title" align="center">Thời hạn sử dụng</TableCell>
+                                                                 {
+                                                                    productPackages?.map(productPackage => (
+                                                                        <TableCell className="package_title">
+                                                                            {
+                                                                            `${productPackage.timeRangeNumber} ${months[productPackage.timeRange]}` 
+                                                                            }                                                                          
+                                                                            
+                                                                        </TableCell>
+                                                                    ))
+                                                                 }
+                                                             </TableRow>
+                                                            }
                                                             {
                                                                 productBenefits?.map(benefit => (
                                                                 <TableRow >
@@ -158,7 +169,7 @@ const ProductView = props => {
                                                                     {
                                                                     benefit.benefitValues.map(benefitValue => (
                                                                         <TableCell  align="center">
-                                                                            <p>{benefitValue.value}</p>
+                                                                            <p>{benefitValue? benefitValue.value: ''}</p>
                                                                         </TableCell>
                                                                     ))
                                                                     }
@@ -169,12 +180,22 @@ const ProductView = props => {
                                                             <TableRow>
                                                                 <TableCell></TableCell>
                                                                 {
-                                                                    productPackages.map(item => 
+                                                                    productPackages.map(item =>
+                                                                        product.isContactToSell ?
                                                                         <TableCell align="center">
-                                                                        <Button className="carousel_button btn" onClick={() => {
-                                                                                dispatch(addItem({id: item.id, name: `${product.name} - ${item.name}`, quantity: 1, imagePath: product.image.path, price: item.price}))
-                                                                        }}>Chọn Mua</Button>
-                                                                    </TableCell>
+                                                                                <Link to="/contact">
+                                                                                    <Button className="carousel_button btn">
+                                                                                        Liên hệ
+                                                                                    </Button>
+                                                                                </Link>
+                                                                        </TableCell>:
+                                                                        <TableCell align="center">
+                                                                            <Button className="carousel_button btn" onClick={() => {
+                                                                                    dispatch(addItem({id: item.id, name: `${product.name} - ${item.name}`, quantity: 1, imagePath: product.image.path, price: item.price}))
+                                                                            }}>  <strong>{
+                                                                                numberWithCommas(item.price)
+                                                                            }</strong></Button>
+                                                                        </TableCell>
                                                                     )
                                                                 }
                                                             </TableRow>
