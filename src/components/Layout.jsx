@@ -20,8 +20,8 @@ const Layout = () => {
                         <div className="main">
                             <Routes/>
             <TawkMessengerReact
-                propertyId="6494723894cf5d49dc5f4486"
-                widgetId="1h3htsbu1"
+                propertyId="577e1fa8715e087f69eae4f6"
+                widgetId="default"
                 onLoad={onLoad}
                 ref={tawkMessengerRef}
             />
