@@ -162,7 +162,7 @@ const Home = () => {
                     </SectionTitle>
                     <SectionBody>
                         <Link to="/catalog">
-                            <img src="https://res.cloudinary.com/dzbas7r2c/image/upload/v1689999379/xtuchp8kaepknpn3onso-Banner_wide_gbhiak.png" alt="banner" />
+                            <img src="https://res.cloudinary.com/dzbas7r2c/image/upload/v1690008111/cvoir70sc1psjsrwddzg_qovles.png" alt="banner" />
                         </Link>
                     </SectionBody>
                 </Section>
