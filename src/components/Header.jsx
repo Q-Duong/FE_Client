@@ -14,7 +14,6 @@ import cart from '../assets/images/icon/cart.png';
 import user from '../assets/images/icon/user.svg';
 import { aboutCompanyAPI, brandAPI, solutionAPI, serviceAPI } from '../api/api';
 import { Menu, MenuItem } from '@mui/material';
-import logo1 from './main-logo.png'
 
 const Header = (props) => {
     const [showSearchForm, setShowSearchForm] = useState(false);
@@ -107,7 +106,7 @@ const Header = (props) => {
                         </div>
                         <div className="header__logo">
                             <Link to="/">
-                                <img src={logo1} alt="" />
+                                <img src="https://res.cloudinary.com/dzbas7r2c/image/upload/v1689999378/main-logo_jd8pxn.png" alt="" />
                             </Link>
                         </div>
                         <div className="header__menu__left" ref={menuLeft}>
