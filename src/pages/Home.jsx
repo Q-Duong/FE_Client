@@ -13,7 +13,6 @@ import CategoryCard from '../components/CategoryCard'
 
 import { Container, Row } from 'react-bootstrap';
 import NewsCard from '../components/NewsCard';
-const banner = "https://technova.com.vn/wp-content/uploads/2016/07/12121.png" ;
 
 
 const Home = () => {
@@ -163,7 +162,7 @@ const Home = () => {
                     </SectionTitle>
                     <SectionBody>
                         <Link to="/catalog">
-                            <img src={banner} alt="" />
+                            <img src={banners[0]?.image?.path} alt="banner 1" />
                         </Link>
                     </SectionBody>
                 </Section>
