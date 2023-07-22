@@ -14,7 +14,7 @@ import cart from '../assets/images/icon/cart.png';
 import user from '../assets/images/icon/user.svg';
 import { aboutCompanyAPI, brandAPI, solutionAPI, serviceAPI } from '../api/api';
 import { Menu, MenuItem } from '@mui/material';
-const logo1 = "https://technova.com.vn/wp-content/uploads/2016/08/Logo-Technova-01.png";
+import logo1 from './main-logo.png'
 
 const Header = (props) => {
     const [showSearchForm, setShowSearchForm] = useState(false);
