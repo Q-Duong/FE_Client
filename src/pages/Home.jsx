@@ -162,7 +162,7 @@ const Home = () => {
                     </SectionTitle>
                     <SectionBody>
                         <Link to="/catalog">
-                            <img src={banners[0]?.image?.path} alt="banner 1" />
+                            <img src="https://res.cloudinary.com/dzbas7r2c/image/upload/v1689999379/xtuchp8kaepknpn3onso-Banner_wide_gbhiak.png" alt="banner" />
                         </Link>
                     </SectionBody>
                 </Section>
