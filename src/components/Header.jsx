@@ -40,16 +40,11 @@ const Header = (props) => {
     useEffect(() => {
         async function getData() {
             try {
-                const resGetBrands = await brandAPI.getAll();
+                const resGetBrands = await brandAPI.getAll('take=3');
                 const resGetAboutCompany = await aboutCompanyAPI.getAll();
                 const resGetSolutions = await solutionAPI.getAll();
                 const resGetServices = await serviceAPI.getAll();
-                setBrands(resGetBrands.data.data.filter((value, index) => {
-                    if(index === 3){
-                        return false
-                    }
-                    return true
-                }));
+                setBrands(resGetBrands.data.data);
                 setAboutCompany(resGetAboutCompany.data.data);
                 setSolutions(resGetSolutions.data.data)
                 setServices(resGetServices.data.data);
