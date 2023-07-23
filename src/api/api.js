@@ -5,7 +5,7 @@ const axi =  axios.create({
 });
 
 const brandAPI = {
-  getAll: () => axi.get('/v1/brand?queryType=activate&order=ASC'),
+  getAll: (query) => axi.get(`/v1/brand?queryType=activate&order=ASC&${query}`),
 }
 
 const categoryAPI = {
