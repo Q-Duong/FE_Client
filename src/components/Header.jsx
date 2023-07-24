@@ -101,7 +101,7 @@ const Header = (props) => {
                         </div>
                         <div className="header__logo">
                             <Link to="/">
-                                <img src="https://res.cloudinary.com/dzbas7r2c/image/upload/v1689999378/main-logo_jd8pxn.png" alt="" />
+                                <img src="https://res.cloudinary.com/dzbas7r2c/image/upload/v1690207793/technova_q5ubtc.png" alt="" />
                             </Link>
                         </div>
                         <div className="header__menu__left" ref={menuLeft}>
