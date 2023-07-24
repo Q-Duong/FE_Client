@@ -1,49 +1,39 @@
-import React from 'react'
+import React, {  useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPhone, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom'
 import logoFooter from '../assets/images/icon/logoSaleNoti.png'
 
 import Grid from './Grid'
-
-import logo from '../assets/images/Logo-2.png'
+import { aboutCompanyAPI, serviceAPI, solutionAPI } from '../api/api';
 import { Row } from 'react-bootstrap';
-const logo1 = "https://technova.com.vn/wp-content/uploads/2016/08/Logo-Technova-01.png";
-const footerAboutLinks = [
 
-    {
-        display: "Liên hệ",
-        path: "/about"
-    },
-    {
-        display: "Tuyển dụng",
-        path: "/about"
-    },
-    {
-        display: "Tin tức",
-        path: "/about"
-    },
-    {
-        display: "Hệ thống cửa hàng",
-        path: "/about"
-    }
-]
-
-const footerCustomerLinks = [
-    {
-        display: "Chính sách đổi trả",
-        path: "/about"
-    },
-    {
-        display: "Chính sách bảo hành",
-        path: "/about"
-    },
-    {
-        display: "Chính sách hoàn tiền",
-        path: "/about"
-    }
-]
 const Footer = () => {
+
+    const [aboutCompany, setAboutCompany] = useState([])
+    const [solutions, setSolutions] = useState([])
+    const [services, setServices] =  useState([])
+    const address = JSON.parse(process.env.REACT_APP_ADDRESS)
+    const phone = JSON.parse(process.env.REACT_APP_PHONE)
+    const email = JSON.parse(process.env.REACT_APP_EMAIL)
+
+    useEffect(() => {
+       
+        async function getData() {
+            try {
+                const resGetAboutCompany = await aboutCompanyAPI.getAll();
+                const resGetSolutions = await solutionAPI.getAll();
+                const resGetServices = await serviceAPI.getAll();
+
+                setAboutCompany(resGetAboutCompany.data.data);
+                setSolutions(resGetSolutions.data.data)
+                setServices(resGetServices.data.data);
+            } catch (error) {
+                alert(error)
+            }
+        }
+        getData()
+    },[])
     return (
         <footer className="footer">
             <div className="container">
@@ -58,44 +48,32 @@ const Footer = () => {
                         <FontAwesomeIcon icon={faLocationDot} /> Địa chỉ
                         </div>
                         <div className="footer__content">
-                            <p>
-                            289/1 Ung Văn Khiêm, <hr />
-                            Phường 25, Quận Binh Thạnh, TP.HCM
-                            </p>
+                            {
+                                address.map(item => (
+                                    <p>{item}</p>
+                                ))
+                            }
                         </div>
                         <div className="footer__border"></div>
                         <div className="footer__title">
                         <FontAwesomeIcon icon={faPhone} /> Liên hệ
                         </div>
                         <div className="footer__content">
-                            <p>
-                                Hồ Chí Minh: <strong>0835128760</strong>
-                            </p>
-                            <p>
-                                Hà Nội: <strong>0912611827</strong>
-                            </p>
+                           
+                           {
+                            phone.map(item => (
+                                <p>
+                                    {item}
+                                </p>
+                            ))
+                           }
                             <p>
                                 <strong>Email: </strong>
                             </p>
-                            <p>
-                                Hồ Chí Minh: <strong>kinhdoanh@technova.com.vn</strong>
-                            </p>
-                            <p>
-                                Hà Nội: <strong>linhnguyen@technova.com.vn</strong>
-                            </p>
-                        </div>
-                    </div>
-                    <div>
-                        <div className="footer__title">
-                            Giới thiệu
-                        </div>
-                        <div className="footer__content">
                             {
-                                footerAboutLinks.map((item, index) => (
-                                    <p key={index}>
-                                        <Link to={item.path}>
-                                            {item.display}
-                                        </Link>
+                                email.map(item => (
+                                    <p>
+                                    {item}
                                     </p>
                                 ))
                             }
@@ -103,29 +81,45 @@ const Footer = () => {
                     </div>
                     <div>
                         <div className="footer__title">
-                            Chăm sóc khách hàng
+                            About TechNova
                         </div>
                         <div className="footer__content">
                             {
-                                footerCustomerLinks.map((item, index) => (
-                                    <p key={index}>
-                                        <Link to={item.path}>
-                                            {item.display}
-                                        </Link>
+                                aboutCompany?.map(item => (
+                                    <p key={item.id}>
+                                        <Link to={`/about-company/${item.id}`}>{item.title}</Link>
                                     </p>
                                 ))
                             }
                         </div>
                     </div>
-                    <div className="footer__about">
-                        <p>
-                            <Link to="/">
-                                <img src={logo1} className="footer__logo" alt="" />
-                            </Link>
-                        </p>
-                        <p>
-                            Hướng đến mục tiêu mang lại niềm vui ăn mặc mới mỗi ngày cho hàng triệu người tiêu dùng Việt.
-                        </p>
+                    <div>
+                        <div className="footer__title">
+                            Giải Pháp
+                        </div>
+                        <div className="footer__content">
+                            {
+                                solutions?.map(item => (
+                                    <p key={item.id}>
+                                        <Link to={`/solution/${item.id}`}>{item.title}</Link>
+                                    </p>
+                                ))
+                            }
+                        </div>
+                    </div>
+                    <div>
+                        <div className="footer__title">
+                            Dịch vụ
+                        </div>
+                        <div className="footer__content">
+                            {
+                                services?.map(item => (
+                                    <p key={item.id}>
+                                        <Link to={`/about-company/${item.id}`}>{item.title}</Link>
+                                    </p>
+                                ))
+                            }
+                        </div>
                     </div>
                 </Grid>
                 <Row>
@@ -137,7 +131,7 @@ const Footer = () => {
                                 <script>
                                 document.write(new Date().getFullYear());
                                 </script>
-                                Quốc Dương. All rights reserved.
+                                TechNova. All rights reserved.
                             </p>
                             
                         </div>

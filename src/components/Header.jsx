@@ -1,12 +1,9 @@
 import React, { useRef, useEffect, useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSelector } from 'react-redux'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useHistory } from 'react-router';
-import { Col, Container, Dropdown, Row } from 'react-bootstrap'
-import { faLocationDot, faPhone, faMotorcycle } from '@fortawesome/free-solid-svg-icons';
+import {  Container, Dropdown,  } from 'react-bootstrap'
 
-import logo from '../assets/images/Logo-2.png'
 import { useDispatch } from 'react-redux'
 import HeaderUserInfo from './HeaderInfo'
 import Search from './Search'
@@ -15,34 +12,8 @@ import { removeToken } from '../redux/token/tokenSlice'
 import search from '../assets/images/icon/search.png';
 import cart from '../assets/images/icon/cart.png';
 import user from '../assets/images/icon/user.svg';
-import { propTypes } from 'react-bootstrap/esm/Image';
-import { brandAPI, categoryAPI } from '../api/api';
-const logo1 = "https://technova.com.vn/wp-content/uploads/2016/08/Logo-Technova-01.png";
-const mainNav = [
-    {
-        display: "Microsoft 365 ",
-        path: "/microsoft-365"
-    },
-    {
-        display: "Autodesk",
-        path: "/autodesk"
-    },
-    {
-        display: "Adobe",
-        path: "/adobe"
-    },
-    {
-        display: "Bim",
-        path: "/bim"
-    },
-    {
-        display: "Gải pháp",
-        path: "/giai-phap"
-    },{
-        display: "Dịch vụ",
-        path: "/dich-vu"
-    },
-]
+import { aboutCompanyAPI, brandAPI, solutionAPI, serviceAPI, newsAPI } from '../api/api';
+import { Menu, MenuItem } from '@mui/material';
 
 const Header = (props) => {
     const [showSearchForm, setShowSearchForm] = useState(false);
@@ -52,37 +23,40 @@ const Header = (props) => {
     const headerTopRef = useRef(null)
     const dispatch = useDispatch()
     const history = useHistory()
-    const { pathname } = useLocation()
-
-    const activeNav = mainNav.findIndex(e => e.path === pathname)
+    const [aboutCompany, setAboutCompany] = useState([])
     const [brands, setBrands] = useState([])
-    const [categories, setCategories] = useState([])
-    
+    const [solutions, setSolutions] = useState([])
+    const [services, setServices] =  useState([])
+    const [news, setNews] = useState([])
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+
     useEffect(() => {
-        async function getBrands() {
+        async function getData() {
             try {
-                const response = await brandAPI.getAll();
-                const brands = response.data
-                setBrands(brands)
+                const resGetBrands = await brandAPI.getAll('take=3');
+                const resGetAboutCompany = await aboutCompanyAPI.getAll('take=5');
+                const resGetSolutions = await solutionAPI.getAll('take=5');
+                const resGetServices = await serviceAPI.getAll('take=5');
+                const resGetNews = await newsAPI.getAll('take=5')
+                setBrands(resGetBrands.data.data);
+                setAboutCompany(resGetAboutCompany.data.data);
+                setSolutions(resGetSolutions.data.data)
+                setServices(resGetServices.data.data);
+                setNews(resGetNews.data.data);
             } catch (error) {
                 alert(error)
             }
         }
-        getBrands()
+        getData()
     },[])
-
-    useEffect(() => {
-        async function getCategories() {
-            try {
-                const response = await categoryAPI.getAll();
-                const categories = response.data
-                setCategories(categories)
-            } catch (error) {
-                alert(error.response.data.message)
-            }
-        }
-        getCategories()
-    }, [])
 
     function handleSearchFormShow() {
         setShowSearchForm(!showSearchForm)
@@ -90,7 +64,7 @@ const Header = (props) => {
 
     async function handleSearch(searchTerm) {
         setShowSearchForm(!showSearchForm)
-        history.push(`/search?searchTerm=${searchTerm}`)
+        history.push(`/catalog?searchTerm=${searchTerm}`)
     };
 
     function handleLogout() {
@@ -119,31 +93,9 @@ const Header = (props) => {
 
     const menuToggle = () => menuLeft.current.classList.toggle('active')
 
-
-    const iconUser = React.forwardRef(({ children, onClick }, ref) => (
-        <i className="bx bx-user"
-            ref={ref}
-            onClick={(e) => {
-                e.preventDefault();
-                onClick(e);
-            }}>
-            {children}
-        </i>
-    ));
-
-
     return (
         <>
             <div className="header" ref={headerRef}>
-                <div className="header__top" ref={headerTopRef}>
-                    {/* <Container>
-                        <Row >
-                            <Col lg="4" xs="4" className="header__top__left"></Col>
-                            <Col lg="4" xs="4" className="header__top__mid"></Col>
-                            <Col lg="4" xs="4" className="header__top__right"><FontAwesomeIcon icon={faMotorcycle} /> HOTLINE: HCM : 08. 3512 8760 - HN :0912611827</Col>
-                        </Row>
-                    </Container> */}
-                </div>
                 <Container>
 
                     <div className="header__menu">
@@ -152,39 +104,33 @@ const Header = (props) => {
                         </div>
                         <div className="header__logo">
                             <Link to="/">
-                                <img src={logo1} alt="" />
+                                <img src="https://res.cloudinary.com/dzbas7r2c/image/upload/v1690207793/technova_q5ubtc.png" alt="" />
                             </Link>
                         </div>
                         <div className="header__menu__left" ref={menuLeft}>
                             <div className="header__menu__left__close" onClick={menuToggle}>
                                 <i className='bx bx-chevron-left'></i>
                             </div>
-                            <div
-                                className={`header__menu__item header__menu__left__item`}
-                            >
+                            <div className={`header__menu__item header__menu__left__item`}>
                                 <nav class="header__menu mobile-menu">
                                     <ul>
                                         <li className={`nav-item`}>
-                                        <Link to={'/about'}><span></span>About Technova</Link>
+                                        <Link to={''}><span></span>About Technova</Link>
                                             <ul class="dropdown">
-                                                <li>
-                                                    <a href="">Giới thiệu</a>
-                                                </li>
-                                                <li>
-                                                    <a href="">Đối tác</a>
-                                                </li>
-                                                <li>
-                                                    <a href="">Tuyển dụng</a>
-                                                </li>
-                                                <li>
-                                                    <a href="">Hỗ trợ</a>
-                                                </li>
+                                                
+                                                {
+                                                    aboutCompany?.map(item => (
+                                                        <li key={item.id}>
+                                                            <Link to={`/about-company/${item.id}`}>{item.title}</Link>
+                                                        </li>
+                                                    ))
+                                                }
                                             </ul>
                                         </li>
                                     </ul>
                                 </nav>
                             </div>
-                            {/* {
+                            {
                                 brands.map((item, index) => (
                                     <div
                                         key={index}
@@ -193,114 +139,94 @@ const Header = (props) => {
                                     >
                                         <nav class="header__menu mobile-menu">
                                             <ul>
-                                                <li className={`nav-item ${index === activeNav ? 'active' : ''}`}>
-                                                    <Link to={item.path}><span>{item.display}</span></Link>
+                                                <li className={`nav-item`}>
+                                                    <Link to={`/catalog?brandId=${item.id}`}><span>{item.name}</span></Link>
                                                     <ul class="dropdown">
                                                         {
-                                                            categories.map((item, index) => (
+                                                            item.products?.filter((_,index) => index <=4).map(item => (
                                                                 <li>
-                                                                    <a href={item.path}>{item.display}</a>
+                                                                   <Link to={`/product/${item.id}`}>{item.name}</Link>
                                                                 </li>
                                                             ))
                                                         }
+                                                        <li>
+                                                        <Link to={`/catalog?brandId=${item.id}`}>Xem tất cả</Link>
+                                                        </li>
                                                     </ul>
                                                 </li>
                                             </ul>
                                         </nav>
                                     </div>
                                 ))
-                            } */}
+                            }
+                            <div className={`header__menu__item header__menu__left__item`}>
+                                <nav class="header__menu mobile-menu">
+                                    <ul>
+                                        <li className={`nav-item`}>
+                                        <Link to={''}><span></span>Giải pháp</Link>
+                                            <ul class="dropdown">
+                                                {
+                                                    solutions?.map(solution => (
+                                                        <li key={solution.id}>
+                                                            <Link to={`/solution/${solution.id}`}>{solution.title}</Link>
+                                                        </li>
+                                                    ))
+                                                }
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                            <div className={`header__menu__item header__menu__left__item`}>
+                                <nav class="header__menu mobile-menu">
+                                    <ul>
+                                        <li className={`nav-item`}>
+                                        <Link to={''}><span></span>Dịch vụ</Link>
+                                            <ul class="dropdown">
+                                               {
+                                                services.map(service => (
+                                                    <li>
+                                                        <Link to={`/technova-service/${service.id}`}>{service.title}</Link>
+                                                    </li>
+                                                ))
+                                               }
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+
+                            <div className={`header__menu__item header__menu__left__item`}>
+                                <nav class="header__menu mobile-menu">
+                                    <ul>
+                                        <li className={`nav-item`}>
+                                        <Link to={'/news'}><span></span>Tin tức</Link>
+                                            <ul class="dropdown">
+                                               {
+                                                news.map(service => (
+                                                    <li>
+                                                        <Link to={`/news/${service.id}`}>{service.title}</Link>
+                                                    </li>
+                                                ))
+                                               }
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                            
+                            <div className={`header__menu__item header__menu__left__item`}>
+                                <nav class="header__menu mobile-menu">
+                                    <ul>
+                                        <li className={`nav-item`}>
+                                        <Link to={'/contact'}><span></span>Liên hệ</Link>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
                             
                         </div>
-                        <div
-                            className={`header__menu__item header__menu__left__item`}
-                        >
-                            <nav class="header__menu mobile-menu">
-                                <ul>
-                                    <li className={`nav-item`}>
-                                    <Link to={'/contact'}><span></span>Toàn bộ sản phẩm</Link>
-                                        <ul class="dropdown">
-                                            <li>
-                                                <a href=""></a>
-                                            </li>
-                                            <li>
-                                                <a href="">Làm Website</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Làm Game</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                        <div
-                            className={`header__menu__item header__menu__left__item`}
-                        >
-                            <nav class="header__menu mobile-menu">
-                                <ul>
-                                    <li className={`nav-item`}>
-                                    <Link to={'/contact'}><span></span>Giải pháp</Link>
-                                        <ul class="dropdown">
-                                            <li>
-                                                <a href="">Cloud Solutions</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Backup & Restore</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Dành cho doanh nghiệp CRM</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Máy chủ / Hệ thống</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Giáo dục</a>
-                                            </li>
-                                            <li>
-                                                <a href="">EHMS</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Email Marketing</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                        <div
-                            className={`header__menu__item header__menu__left__item`}
-                        >
-                            <nav class="header__menu mobile-menu">
-                                <ul>
-                                    <li className={`nav-item`}>
-                                    <Link to={'/contact'}><span></span>Dịch vụ</Link>
-                                        <ul class="dropdown">
-                                            <li>
-                                                <a href="">Thiết kế đồ hoạ</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Làm Website</a>
-                                            </li>
-                                            <li>
-                                                <a href="">Làm Game</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                        <div
-                            className={`header__menu__item header__menu__left__item`}
-                        >
-                            <nav class="header__menu mobile-menu">
-                                <ul>
-                                    <li className={`nav-item`}>
-                                    <Link to={'/contact'}><span></span>Liên hệ</Link>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
+                        
                         <div className="header__menu__right">
                             <div className="header__menu__right__search__item">
                                 <img src={search} className="search" onClick={handleSearchFormShow} />
@@ -312,7 +238,7 @@ const Header = (props) => {
                                         <img src={cart} />
                                         {
                                             cartItems.length !== 0 ?
-                                                <span className="header__menu__right__cart__btn__opiton__length">{cartItems.length}</span>
+                                                <span className="header__menu__right__cart__btn__opiton__length">{cartItems.reduce((total, item) => total + item.quantity,0)}</span>
                                                 : <></>
                                         }
 
@@ -321,9 +247,50 @@ const Header = (props) => {
                                 </Dropdown>
                             </div>
                             <div className="header__menu__right__user__item">
-                                <Link to={'/login'}>
-                                    <img src={user} />
-                                </Link>
+                                    <img 
+                                        src={user} 
+                                        aria-controls={open ? 'basic-menu' : undefined}
+                                        aria-haspopup="true"
+                                        aria-expanded={open ? 'true' : undefined}
+                                        onClick={handleClick}
+                                    />
+                                    <Menu
+                                        id="basic-menu"
+                                        anchorEl={anchorEl}
+                                        open={open}
+                                        onClose={handleClose}
+                                        MenuListProps={{
+                                        'aria-labelledby': 'basic-button',
+                                        }}
+                                    >
+                                        {
+                                            token ?
+                                            <>
+                                                <MenuItem onClick={handleClose}>
+                                                    <Link to="/update-info">Xem thông tin</Link>
+                                                </MenuItem>
+                                                <MenuItem onClick={handleClose}>
+                                                    <Link to="/order">Xem đơn hàng</Link>
+                                                </MenuItem>
+                                                <MenuItem onClick={() => {
+                                                    handleClose()
+                                                    dispatch(removeToken())
+                                                    alert('Đăng xuất thành công')
+                                                }}>
+                                                    Đăng xuất
+                                                </MenuItem>
+                                            </>:
+                                            <>
+                                                <MenuItem onClick={handleClose}>
+                                                    <Link to="/login">Đăng nhập</Link>
+                                                </MenuItem>
+                                                <MenuItem onClick={handleClose}>
+                                                    <Link to="/register">Đăng ký</Link>
+                                                </MenuItem>
+                                            </> 
+                                        }
+                                        
+                                    </Menu>
                             </div>
                         </div>
                     </div>

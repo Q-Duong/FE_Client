@@ -1,23 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useHistory } from 'react-router';
 import { customerAPI } from '../api/api';
 import ForgotPasswordForm from '../components/ForgotPasswordForm';
 
 
-function ForgotPassword(props) {
-    const [isSent, setIsSent] = useState(false)
+function ForgotPassword() {
+    const history = useHistory();
+
     async function handleForgotPasswordFormSubmit(email) {
         try {
             await customerAPI.forgotPassword(email)
-            setIsSent(true)
+            alert(`Vui lòng kiểm tra email để lấy mật khẩu hiện tại`)
+            history.push(`/update-password?email=${email}`)
         } catch (error) {
-            alert(error.response.data.message)
+            alert(`Có lỗi xảy ra, vui lòng thử lại`)
         }
     }
-    return (
-        !isSent ?
-       <ForgotPasswordForm onForgotPasswordFormSubmit={handleForgotPasswordFormSubmit} /> :
-       <div>vui lòng truy cập email để cập nhật mật khẩu mới</div>
-    );
+    return <ForgotPasswordForm onForgotPasswordFormSubmit={handleForgotPasswordFormSubmit} />
+
 }
 
 export default ForgotPassword;

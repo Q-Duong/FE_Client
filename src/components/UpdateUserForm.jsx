@@ -2,39 +2,56 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Form, Button, Col } from 'react-bootstrap';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import Helmet from '../components/Helmet'
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { customerAPI } from '../api/api';
 
-RegisterForm.propTypes = {
-    onRegisterSubmit: PropTypes.func.isRequired,
+UpdateUserFrom.propTypes = {
+    onUpdateUserSubmit: PropTypes.func.isRequired,
 };
 
-function RegisterForm(props) {
+function UpdateUserFrom(props) {
+    const token = useSelector(state => state.token.value)
+
     const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
     const [name, setName] = useState('')
     const [address, setAddress] = useState('')
     const [phone, setPhone] = useState('')
-
-    const { onRegisterSubmit } = props
+    const [id, setId] = useState('')
+    const { onUpdateUserSubmit } = props
 
     function handleRegisterSubmit(e) {
         e.preventDefault()
 
-        onRegisterSubmit({email,password,name,phone,address})
+        onUpdateUserSubmit({id,email,name,phone,address})
     }
+
+    useEffect(() => {
+        async function getInfo(){
+            try {
+                const resGetUser = await customerAPI.getInfo(token);
+                const {id, email, name, phone, address} = resGetUser.data;
+
+                setId(id);
+                setEmail(email);
+                setName(name)
+                setAddress(address)
+                setPhone(phone)
+            } catch (error) {   
+                alert('Bạn cần đăng nhập khi vào đây.')
+            }
+        }
+        if(token)
+            getInfo()
+    },[])
+
     return (
 
         <Helmet title="Đăng ký">
             <Col className="registerForm">
                 <div className="registerForm__title">
-                    <h1>Tạo tài khoản của bạn</h1>
-                    <div className="registerForm__intro-text">
-                        Một ID là tất cả những gì bạn cần để truy cập vào tất cả các dịch vụ.
-                    </div>
-                    <div className="registerForm__intro-link">
-                        Đã có ID ?<Link className="registerForm__link" to="/forgot-password"> Tìm nó ở đây</Link>
-                    </div>
+                    <h1>Cập nhật thông tin</h1>
                 </div>
                 <Form  onSubmit={handleRegisterSubmit}>
                     <Form.Group className="mb-3" >
@@ -52,13 +69,9 @@ function RegisterForm(props) {
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Control className="registerForm__input" type="text" placeholder="Địa chỉ" name="address" value={address} onChange={(e) => setAddress(e.target.value)}/>
                     </Form.Group>
-
-                    <Form.Group className="mb-3" controlId="formBasicPassword">
-                        <Form.Control className="registerForm__input" type="password" placeholder="Mật khẩu" name="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
-                    </Form.Group>
                    
                     <Button className="registerForm__button"  type="submit">
-                        Đăng ký
+                        Cập nhật
                     </Button>
                 </Form>
             </Col>
@@ -66,4 +79,4 @@ function RegisterForm(props) {
     );
 }
 
-export default RegisterForm;
+export default UpdateUserFrom;

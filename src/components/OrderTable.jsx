@@ -20,9 +20,7 @@ function OrderTable(props) {
                 <tr>
                     <th>Mã đơn hàng</th>
                     <th>Ngày mua</th>
-                    <th>Ngày giao hàng</th>
                     <th>Sản phẩm</th>
-                    <th>Người bán</th>
                     <th>Tổng tiền</th>
                     <th>Trạng thái đơn hàng</th>
                 </tr>
@@ -31,21 +29,19 @@ function OrderTable(props) {
                 {
                     orders.map((order) => (
                         <tr>
-                            <td>{order._id}</td>
+                            <td>{order.id}</td>
                             <td>{formatDate(order.createdAt)}</td>
-                            <td>{formatDate(order.shippedDate)}</td>
                             <td>
                                     {
                                         order.details.map((detail) =>
                                             <p>
-                                                {`${detail.product.name} - ${detail.productQuantity} ${detail.product.unit}`}
+                                                {`${detail.productName} - ${detail.quantity}`}
                                             </p>
                                         )
                                     }
                             </td>
-                            <td>{``}</td>
-                            <td>{numWithCommas(order.totalBill)}</td>
-                            <td>{order.status}</td>
+                            <td>{numWithCommas(order.totalPrice)}</td>
+                            <td>{order.status === "pending" ? "Chờ duyệt" : order.status === "success"? "Thành công": "Bhất bại"} - {order.isPaid ? "Đã thanh toán": "Chưa thanh toán"}</td>
                         </tr>
                     ))
                 }

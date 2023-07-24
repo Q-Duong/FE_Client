@@ -4,6 +4,7 @@ import { Form, Button, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
+import Helmet from '../components/Helmet'
 
 LoginForm.propTypes = {
     onLoginSubmit: PropTypes.func.isRequired
@@ -12,20 +13,20 @@ LoginForm.propTypes = {
 function LoginForm(props) {
     const { onLoginSubmit } = props
 
-    const [phone, setPhone] = useState('')
+    const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
     function handleLoginSubmit(e) {
         e.preventDefault()
         const formvalues = {
-            phone,
+            email,
             password
         }
         onLoginSubmit(formvalues)
     }
 
     return (
-        <>
+        <Helmet title="Đăng nhập">
             <Col className="loginForm">
                 <div className="loginForm__title">
                     Đăng nhập
@@ -33,7 +34,7 @@ function LoginForm(props) {
                 <Form onSubmit={handleLoginSubmit}>
                     <Form.Group className="mb-3">
                         
-                        <Form.Control className="loginForm__input" type="text" placeholder="Số điện thoại" minLength={10} name="phone" value={phone} onChange={(e) => setPhone(e.target.value)} />
+                        <Form.Control pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" className="loginForm__input" type="text" placeholder="email" minLength={10} name="phone" value={email} onChange={(e) => setEmail(e.target.value)} />
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -41,7 +42,7 @@ function LoginForm(props) {
                         <Form.Control className="loginForm__input" type="password" placeholder="Mật khẩu" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                     </Form.Group>
                     <Form.Group className="loginForm__link">
-                        <Link to="/forgotpassword">Quên mật khẩu? <FontAwesomeIcon className="userCircle" icon={faUpRightFromSquare} /></Link>
+                        <Link to="/forgot-password">Quên mật khẩu? <FontAwesomeIcon className="userCircle" icon={faUpRightFromSquare} /></Link>
                     </Form.Group>
                     <Form.Group  className="loginForm__link">
                         <span className="loginForm__notlink">Chưa có tài khoản?</span>
@@ -52,7 +53,7 @@ function LoginForm(props) {
                     </Button>
                 </Form>
             </Col>
-        </>
+        </Helmet>
     );
 }
 

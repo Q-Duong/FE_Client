@@ -1,11 +1,9 @@
 import React, { useRef, useState } from 'react';
-import PropTypes from 'prop-types';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import search from '../assets/images/icon/search-icon.svg';
 import { useEffect } from 'react';
-import { productModalSlice } from '../redux/product-modal/productModalSlice';
 import { productAPI } from '../api/api';
 import {ListGroup} from 'react-bootstrap'
 import { useHistory } from 'react-router-dom';
@@ -43,20 +41,20 @@ function Search(props) {
     },[showSearchForm])
 
     useEffect(() => {
+        if(!searchTerm)
+            return;
+
         if(typingTimeoutRef.current) {
             clearTimeout(typingTimeoutRef.current)
         }
 
         async function searching() {
             try {
-                const res = await productAPI.search(searchTerm);
-                if(res.status === 200) {
-                    setSearchedProducts(res.data)
-                } else {
-                    console.log(res.data.message)
-                }
+                
+                const res = await productAPI.getAll(`q=${searchTerm}`);
+                setSearchedProducts(res.data.data)
             } catch (error) {
-                alert.log(error.response.data.message)
+                alert(error)
             }
         }
         typingTimeoutRef.current = setTimeout(searching,200)
@@ -78,8 +76,8 @@ function Search(props) {
                         <ListGroup className="search_seggest">
                         {
                             searchedProducts.map(product => (
-                                <ListGroup.Item onClick={() => handleClickSearchItem(product._id)}>
-                                   <FontAwesomeIcon className='search_icon' icon={faMagnifyingGlass} /> {product.product.name}
+                                <ListGroup.Item onClick={() => handleClickSearchItem(product.id)}>
+                                   <FontAwesomeIcon className='search_icon' icon={faMagnifyingGlass} /> {product.name}
                                 </ListGroup.Item>
                             ))
                         }

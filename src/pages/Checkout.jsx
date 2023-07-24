@@ -5,8 +5,8 @@ import { useHistory } from 'react-router-dom'
 
 import Helmet from '../components/Helmet'
 import Button from '../components/Button'
-import { Form } from 'react-bootstrap';
-import { customerAPI, exportOrderAPI } from '../api/api'
+import { Container, Form } from 'react-bootstrap';
+import { customerAPI, orderAPI } from '../api/api'
 import { useDispatch } from 'react-redux'
 import { removeAll } from '../redux/shopping-cart/cartItemsSlide'
 import CartForCheckout from './CartForCheckout';
@@ -20,11 +20,8 @@ const Checkout = () => {
 
     const history = useHistory()
 
-    const [totalProducts, setTotalProducts] = useState(0)
-
     const [totalBill, setTotalBill] = useState(0)
 
-    const [address, setAddress] = useState('')
 
     const [phone, setPhone] = useState('')
 
@@ -32,16 +29,17 @@ const Checkout = () => {
 
     const [name, setName] = useState('')
 
-    const [paymentMethod, setPaymentMethod] = useState('INPERSON')
+    const [paymentMethod, setPaymentMethod] = useState('offline')
 
     useEffect(() => {
-        if (!token)
-            return
+        if (!token){
+            alert('Vui lòng đăng nhập để tiến hành thanh toán')
+            history.push('/login')
+        }
         async function getUserInfo() {
             try {
                 const res = await customerAPI.getInfo(token)
                 const user = res.data
-                setAddress(user.address)
                 setPhone(user.phone)
                 setEmail(user.email)
                 setName(user.name)
@@ -50,11 +48,10 @@ const Checkout = () => {
             }
         }
         getUserInfo()
-    }, [token])
+    }, [token, history])
 
     useEffect(() => {
-        setTotalBill(cartItems.reduce((total, item) => total + (Number(item.quantity) * Number(item.soldPrice)), 0))
-        setTotalProducts(cartItems.length)
+        setTotalBill(cartItems.reduce((total, item) => total + (Number(item.quantity) * Number(item.price)), 0))
     }, [cartItems])
 
     async function handleCreateOrder() {
@@ -71,40 +68,44 @@ const Checkout = () => {
                 alert('email không đúng')
                 return
             }
-            const exportOrder = {
-                totalBill,
-                paymentMethod,
-                shipAddress: address,
-                customer: {
-                    email, phone, name
-                }
+            const createOrder = {
+                totalPrice: totalBill,
+                customerName: name,
+                phone,
+                email,
+                details: cartItems.map(item => ({
+                    price: item.price,
+                    quantity: item.quantity,
+                    productName: item.name,
+                    productPackageId: item.id
+                }))        
             }
 
-            const purchaseProducts = cartItems.map(cart => {
-                return {
-                    warehouseId: cart._id,
-                    productId: cart.product._id,
-                    price: cart.soldPrice,
-                    quantity: cart.quantity,
-                }
-            })
-            const res = await exportOrderAPI.create({ exportOrder, purchaseProducts })
-            dispatch(removeAll())
+            const res = await orderAPI.create(createOrder, token)
 
-            if (paymentMethod === 'INPERSON') {
+            if (paymentMethod === 'offline') {
                 alert('đặt hàng thành công')
-                console.log(res.data)
-                history.push(`/order?extraData=asplitString${res.data.accessToken}&orderId=${res.data.orderId}`)
+                history.push(`/order`)
             } else {
-                window.location.href = res.data.payUrl
+                const payload = {
+                    requestId: res.data.id,
+                    orderId: res.data.id,
+                    orderInfo: `Thanh toán đơn hàng ${res.data.id}`,
+                    amount: res.data.totalPrice,
+                }
+                const resPayment = await orderAPI.payMoMo(payload);
+                window.location.href = resPayment.data.payUrl
             }
         } catch (error) {
             alert(error.response.data.message)
+        } finally{
+            // dispatch(removeAll())
         }
     }
 
     return (
         <Helmet title="Thanh toán">
+            <Container>
             <CartForCheckout></CartForCheckout>
             <div class="checkout__form">
                 <h4 class="checkout__title">Điền thông tin gửi hàng</h4>
@@ -125,19 +126,15 @@ const Checkout = () => {
                                             type="text"
                                             placeholder="số điện thoại"
                                             value={phone}
+                                            pattern="(84|0[3|5|7|8|9])+([0-9]{8})\b"
                                             onChange={(e) => setPhone(e.target.value)}
                                         />
                                         <Form.Control
                                             type="email"
                                             placeholder="email"
                                             value={email}
+                                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                                             onChange={(e) => setEmail(e.target.value)}
-                                        />
-                                        <Form.Control
-                                            type="text"
-                                            placeholder="địa chỉ giao hàng"
-                                            value={address}
-                                            onChange={(e) => setAddress(e.target.value)}
                                         />
                                     </div>
                                 </div>
@@ -148,7 +145,7 @@ const Checkout = () => {
 
                                 <div className="custom-radios">
                                     <div>
-                                        <input type="radio" id="color-3" name="paymentMethod" value="INPERSON" checked
+                                        <input type="radio" id="color-3" name="paymentMethod" value="offline" checked
                                             onChange={(e) => setPaymentMethod(e.target.value)}
                                         />
                                         <label for="color-3">
@@ -158,12 +155,12 @@ const Checkout = () => {
                                             <span className="bgimg">
                                                 <img src="https://minio.thecoffeehouse.com/image/tchmobileapp/1000_photo_2021-04-06_11-17-08.jpg" alt="Checked Icon" />
                                             </span>
-                                            <span className="text">Tiền mặt</span>
+                                            <span className="text">Liên hệ để thanh toán</span>
                                         </label>
                                     </div>
 
                                     <div>
-                                        <input type="radio" id="color-4" name="paymentMethod" value="MOMO"
+                                        <input type="radio" id="color-4" name="paymentMethod" value="momo"
                                             onChange={(e) => setPaymentMethod(e.target.value)}
                                         />
                                         <label for="color-4">
@@ -187,31 +184,16 @@ const Checkout = () => {
                                         </Form.Select> */}
 
                             </div>
-
-
-                        </div>
-
-                        <div class="col-lg-5 col-md-6">
-                            <div class="checkout__order">
-                                {/* <div class="checkout__order__products">
-                                            <p>Ghi chú đơn hàng<span>*</span></p>
-                                            <textarea name="shipping_notes" class="shipping_notes"
-                                                placeholder="Ghi chú đơn hàng của bạn (Không bắt buộc)" rows="10" cols="42"
-                                                ></textarea>
-                                        </div> */}
-                                <Button size="block">
-                                    Tiếp tục thanh toán
-                                </Button>
-
-                            </div>
                         </div>
                     </div>
+                    
                 </Form>
+                <Button onClick={handleCreateOrder} class="checkout__button">
+                        Đặt hàng
+                    </Button>
             </div>
-            <Button onClick={handleCreateOrder} size="block">
-                Đặt hàng
-            </Button>
-
+            
+            </Container>
         </Helmet>
     )
 }

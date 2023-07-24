@@ -7,19 +7,21 @@ import Iframe from 'react-iframe'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom'
-function Contactus() {
+function Contact() {
   const [subject, setSubject] = useState('')
-  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
   const [content, setContent] = useState('')
+  const address = JSON.parse(process.env.REACT_APP_ADDRESS)
+  const phone = JSON.parse(process.env.REACT_APP_PHONE)
+  const myEmail = JSON.parse(process.env.REACT_APP_EMAIL)
 
   const handleSubmit = async (event) => {
     event.preventDefault()
     try {
-      const res = await contactAPI.create({subject,name,content})
-      const message = res.data.message
-      alert(message)
+      await contactAPI.create({subject,email,content})
+      alert(`Cảm ơn bạn đã gửi thông tin đến chúng tôi. Chúng tôi sẽ sớm phản hồi lại trong thơi gian sớm nhất`)
     } catch (error) {
-      alert(error.response.data.message)
+      alert(`Có lỗi, vui lòng thử lại sau`)
     }
   }
 
@@ -50,9 +52,9 @@ function Contactus() {
                           <div className="section-title">
                               <span>Thông tin</span>
                               <h2>Liên hệ với chúng tôi</h2>
-                              <p>Địa chỉ <span>289/1 Ung Văn Khiêm, Phường 25, Quận Binh Thạnh, TP.HCM</span> 
-                                Điện thoại<span>Hồ Chí Minh: 0835128760</span> <span>Hà Nội: 0912611827</span>
-                                Email <span>Hồ Chí Minh: kinhdoanh@technova.com.vn</span><span>Hà Nội: linhnguyen@technova.com.vn</span>
+                              <p>Địa chỉ {address.map(item => (<span>{item}</span>))}
+                                Điện thoại {phone.map(item => (<span>{item}</span>))}
+                                Email {myEmail.map(item => (<span>{item}</span>))}
                               </p>
                           </div>
                       </div>
@@ -61,7 +63,7 @@ function Contactus() {
                       <div className="contact__form">
                         <Form onSubmit={handleSubmit}>
                           <Form.Group classNameName="mb-3" controlId="formBasicText">
-                            <Form.Control type="text" placeholder="Họ và tên..." value={name} onChange={(e) => setName(e.target.value)} />
+                            <Form.Control type="email" placeholder="Email..." value={email} onChange={(e) => setEmail(e.target.value)} />
                           </Form.Group>
 
                           <Form.Group className="mb-3" controlId="formBasicText">
@@ -85,4 +87,4 @@ function Contactus() {
   );
 }
 
-export default Contactus;
+export default Contact;

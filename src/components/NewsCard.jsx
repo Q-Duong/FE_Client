@@ -2,52 +2,30 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { Link } from 'react-router-dom'
+import { Col } from 'react-bootstrap'
 
-import { useDispatch } from 'react-redux'
-
-import { set } from '../redux/news-modal/NewsModalSlice'
-
-import Button from './Button'
-
-import numberWithCommas from '../utils/numberWithCommas'
-
-const ProductCard = props => {
+const NewsCard = props => {
     const {item} = props
-    const dispatch = useDispatch()
 
     return (
         item ?
-        <div className="news-card">
-            <Link to={`/news/${item._id}`}>
-                <div className="news-card__image">
-                    <img src={`${process.env.REACT_APP_IMAGEURL}${item.news.image}`} alt="" />
-                    {/* <img src={`${process.env.REACT_APP_IMAGEURL}${item.news.productImage}`} alt="" /> */}
-                </div>
-                <h3 className="news-card__name">{item.news.name}</h3>
-                <div className="news-card__content__left">
-                    <p className="news-card__content__left__text">{numberWithCommas(item.soldPrice)}</p> 
-                </div>
-            </Link>
-            <div className="news-card__content__right">
-                <div className="news-card__btn">
-                    <Button
-                        
-                        icon="bx bx-cart"
-                        animate={true}
-                        onClick={() => dispatch(set(item))}
-                        className="add"
-                    >
-                        +
-                    </Button>
+        <Col lg={3} md={6} sm={6}>
+            <div class="blog__item">
+                <img class="img_post" src={item.image.path} alt={'tin tức'} />
+                <div class="blog__item__text">
+                    <span>{item.title}</span>
+                    <h5>{item.description}</h5>
+                    
+                    <Link to={`/news/${item.id}`}>Xem tin</Link>
                 </div>
             </div>
-        </div>
+        </Col> 
         : <div>loading</div>
     )
 }
 
-ProductCard.propTypes = {
+NewsCard.propTypes = {
     item: PropTypes.object,
 }
 
-export default ProductCard
+export default NewsCard

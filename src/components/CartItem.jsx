@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { updateItem, removeItem } from '../redux/shopping-cart/cartItemsSlide'
 
@@ -25,7 +24,7 @@ const CartItem = props => {
     }
 
     useEffect(() => {
-        setTotalProductPrice(item.soldPrice* item.quantity)
+        setTotalProductPrice(item.price* item.quantity)
     }, [item])
 
     // const updateCartItem = () => {
@@ -33,7 +32,6 @@ const CartItem = props => {
     // }
 
     const removeCartItem = () => {
-        console.log('removeCartItem')
         dispatch(removeItem(item))
     }
 
@@ -43,13 +41,13 @@ const CartItem = props => {
             <tbody>
                 <tr>
                     <td className="product__cart__item">
-                        <Link to={`/product/${item._id}`}>
+                        <Link to={`/product/${item.id}`}>
                             <div className="product__cart__item__pic">
-                                <img className="imgCart" src={`${process.env.REACT_APP_IMAGEURL}${item.product.image}`} alt="" />
+                                <img className="imgCart" src={`${item.imagePath}`} alt="" />
                             </div>
                             <div className="product__cart__item__text">
-                                <h5>{item.product.name}</h5>
-                                <h6>{numberWithCommas(item.soldPrice)}</h6>
+                                <h5>{item.name}</h5>
+                                <h6>{numberWithCommas(item.price)}</h6>
                             </div>
                         </Link>
                     </td>

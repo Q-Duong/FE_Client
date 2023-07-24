@@ -2,12 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { Link } from 'react-router-dom'
+import { Col } from 'react-bootstrap'
 
-const ProductCard = props => {
+const Related = props => {
     const {item} = props
 
     return (
         item ?
+        <Col lg={3} md={6} sm={6}>
         <div  icon="bx bx-cart"
         animate={true}
          className="product-card">
@@ -17,13 +19,14 @@ const ProductCard = props => {
                 </div>
                 <h3 className="product-card__name">{item.name}</h3>
             </Link>
-        </div>
+            </div>
+        </Col>
         : <div>loading</div>
     )
 }
 
-ProductCard.propTypes = {
+Related.propTypes = {
     item: PropTypes.object,
 }
 
-export default ProductCard
+export default Related
