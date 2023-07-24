@@ -95,7 +95,7 @@ const Catalog = () => {
     }, [filter,activePage, searchTerm])
 
     const handlePageClick = (event) => {
-        setActivePage(event.selected);
+        setActivePage(event.selected + 1);
       };
     
 
