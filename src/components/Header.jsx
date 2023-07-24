@@ -12,7 +12,7 @@ import { removeToken } from '../redux/token/tokenSlice'
 import search from '../assets/images/icon/search.png';
 import cart from '../assets/images/icon/cart.png';
 import user from '../assets/images/icon/user.svg';
-import { aboutCompanyAPI, brandAPI, solutionAPI, serviceAPI } from '../api/api';
+import { aboutCompanyAPI, brandAPI, solutionAPI, serviceAPI, newsAPI } from '../api/api';
 import { Menu, MenuItem } from '@mui/material';
 
 const Header = (props) => {
