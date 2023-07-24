@@ -81,17 +81,17 @@ const newsAPI = {
 
 const aboutCompanyAPI = {
   getById: (id) => axi.get(`/v1/about-company/${id}`),
-  getAll: () => axi.get(`/v1/about-company?queryType=activate`),
+  getAll: (query) => axi.get(`/v1/about-company?queryType=activate&${query}`),
 };
 
 const solutionAPI = {
   getById: (id) => axi.get(`/v1/solution/${id}`),
-  getAll: () => axi.get(`/v1/solution?queryType=activate`),
+  getAll: (query) => axi.get(`/v1/solution?queryType=activate&${query}`),
 };
 
 const serviceAPI = {
   getById: (id) => axi.get(`/v1/technova-service/${id}`),
-  getAll: () => axi.get(`/v1/technova-service?queryType=activate`),
+  getAll: (query) => axi.get(`/v1/technova-service?queryType=activate&${query}`),
 };
 
 const bannerAPI = {
