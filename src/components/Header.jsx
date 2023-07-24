@@ -140,7 +140,7 @@ const Header = (props) => {
                                                     <Link to={`/catalog?brandId=${item.id}`}><span>{item.name}</span></Link>
                                                     <ul class="dropdown">
                                                         {
-                                                            item.products?.map((item) => (
+                                                            item.products?.filter((_,index) => index <=4).map(item => (
                                                                 <li>
                                                                    <Link to={`/product/${item.id}`}>{item.name}</Link>
                                                                 </li>
@@ -156,7 +156,6 @@ const Header = (props) => {
                                     </div>
                                 ))
                             }
-
                             <div className={`header__menu__item header__menu__left__item`}>
                                 <nav class="header__menu mobile-menu">
                                     <ul>
