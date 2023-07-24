@@ -27,7 +27,7 @@ const Home = () => {
             try {
                 const responseGetCategories = await categoryAPI.getAll('take=5');
                 const responseGetBrands = await brandAPI.getAll('take=5');
-                const responseGetProducts = await productAPI.getAll('take=5');
+                const responseGetProducts = await productAPI.getAll('take=5&orderBy=createdAt&order=DESC');
                 const resGetNews = await newsAPI.getAll('take=5')
                 const resGetBanners = await bannerAPI.getAll('take=3');
 
