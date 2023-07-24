@@ -205,7 +205,7 @@ const Catalog = () => {
                         breakLabel="..."
                         nextLabel=">"
                         onPageChange={handlePageClick}
-                        pageRangeDisplayed={1}
+                        pageRangeDisplayed={4}
                         pageCount={pageCount? pageCount: 0}
                         previousLabel="<"
                         renderOnZeroPageCount={null}
