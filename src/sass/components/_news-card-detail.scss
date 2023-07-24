@@ -1,6 +1,6 @@
 
 .blog-details {
-	margin-top: -115px;
+	margin-top: 30px;
 	padding-top: 0;
 }
 
@@ -9,7 +9,8 @@
 }
 
 .blog__details__pic {
-	margin-bottom: 130px;
+	height: 50%;
+	margin-bottom: 50px;
 }
 
 .blog__details__pic img {
@@ -194,8 +195,8 @@
 
 .blog-hero {
 	background: #f3f2ee;
-	padding-top: 125px;
-	padding-bottom: 190px;
+	padding-top: 100px;
+	padding-bottom: 100px;
 }
 
 .blog__hero__text h2 {
@@ -203,7 +204,6 @@
 	font-size: 42px;
 	font-weight: 700;
 	line-height: 50px;
-	margin-bottom: 18px;
 }
 
 .blog__hero__text ul li {

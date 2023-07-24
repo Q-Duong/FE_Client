@@ -84,10 +84,10 @@ const ProductView = props => {
                                 <div class="product__details__text">
                                     <h2>{product.name}</h2>
                                     <div>
-                                        <span>Thương hiệu: </span> {product?.brand?.name}  
+                                        <span>Thương hiệu:  {product?.brand?.name}</span>
                                     </div>
                                     <div>
-                                        <span>Loại sản phẩm: </span>({product?.category?.name})
+                                        <span>Loại sản phẩm: ({product?.category?.name})</span>
                                     </div>
                                 </div>
                             </div>

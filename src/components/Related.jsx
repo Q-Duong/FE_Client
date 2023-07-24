@@ -9,7 +9,7 @@ const Related = props => {
 
     return (
         item ?
-        <Col lg={3} md={6} sm={6}>
+        <Col lg={2} md={3} sm={3}>
         <div  icon="bx bx-cart"
         animate={true}
          className="product-card">
