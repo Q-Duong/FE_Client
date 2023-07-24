@@ -27,7 +27,7 @@ const Header = (props) => {
     const [brands, setBrands] = useState([])
     const [solutions, setSolutions] = useState([])
     const [services, setServices] =  useState([])
-    const [news, setNews) = useState([])
+    const [news, setNews] = useState([])
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
