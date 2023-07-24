@@ -27,6 +27,7 @@ const Header = (props) => {
     const [brands, setBrands] = useState([])
     const [solutions, setSolutions] = useState([])
     const [services, setServices] =  useState([])
+    const [news, setNews) = useState([])
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -41,13 +42,15 @@ const Header = (props) => {
         async function getData() {
             try {
                 const resGetBrands = await brandAPI.getAll('take=3');
-                const resGetAboutCompany = await aboutCompanyAPI.getAll();
-                const resGetSolutions = await solutionAPI.getAll();
-                const resGetServices = await serviceAPI.getAll();
+                const resGetAboutCompany = await aboutCompanyAPI.getAll('take=5');
+                const resGetSolutions = await solutionAPI.getAll('take=5');
+                const resGetServices = await serviceAPI.getAll('take=5');
+                const resGetNews = await newsAPI.getAll('take=5')
                 setBrands(resGetBrands.data.data);
                 setAboutCompany(resGetAboutCompany.data.data);
                 setSolutions(resGetSolutions.data.data)
                 setServices(resGetServices.data.data);
+                setNews(resGetNews.data.data);
             } catch (error) {
                 alert(error)
             }
@@ -192,6 +195,26 @@ const Header = (props) => {
                                     </ul>
                                 </nav>
                             </div>
+
+                            <div className={`header__menu__item header__menu__left__item`}>
+                                <nav class="header__menu mobile-menu">
+                                    <ul>
+                                        <li className={`nav-item`}>
+                                        <Link to={'/news'}><span></span>Tin tức</Link>
+                                            <ul class="dropdown">
+                                               {
+                                                news.map(service => (
+                                                    <li>
+                                                        <Link to={`/news/${service.id}`}>{service.title}</Link>
+                                                    </li>
+                                                ))
+                                               }
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                            
                             <div className={`header__menu__item header__menu__left__item`}>
                                 <nav class="header__menu mobile-menu">
                                     <ul>
