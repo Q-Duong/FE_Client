@@ -45,7 +45,7 @@ const Header = (props) => {
                 const resGetAboutCompany = await aboutCompanyAPI.getAll('take=5');
                 const resGetSolutions = await solutionAPI.getAll('take=5');
                 const resGetServices = await serviceAPI.getAll('take=5');
-                const resGetNews = await newsAPI.getAll('take=5')
+                const resGetNews = await newsAPI.getAll('take=4')
                 setBrands(resGetBrands.data.data);
                 setAboutCompany(resGetAboutCompany.data.data);
                 setSolutions(resGetSolutions.data.data)
@@ -209,6 +209,7 @@ const Header = (props) => {
                                                     </li>
                                                 ))
                                                }
+                                                 <li><Link to={`/news`}>Xem tất cả</Link></li>
                                             </ul>
                                         </li>
                                     </ul>

@@ -26,7 +26,7 @@ const Home = () => {
         async function getData() {
             try {
                 const responseGetCategories = await categoryAPI.getAll('take=5');
-                const responseGetBrands = await brandAPI.getAll('take=5');
+                const responseGetBrands = await brandAPI.getAll('take=8');
                 const responseGetProducts = await productAPI.getAll('take=5&orderBy=createdAt&order=DESC');
                 const resGetNews = await newsAPI.getAll('take=5')
                 const resGetBanners = await bannerAPI.getAll('take=3');
@@ -54,8 +54,7 @@ const Home = () => {
                     auto={false}
                     timeOut={5000}
                 />
-            
-            
+    
             {/* end hero slider */}
             {/* policy section */}
             <Container>
@@ -68,12 +67,12 @@ const Home = () => {
                             gap={20}
                         >
                             {
-                                categories.map((item, index) => <Link key={index} to="/policy">
+                                categories.map((item, index) => 
                                     <PolicyCard
                                         name={item.name}
                                         icon={item.image.path}
                                     />
-                                </Link>)
+                                )
                             }
                         </Grid>
                     </SectionBody>
@@ -92,7 +91,7 @@ const Home = () => {
                         >
                             {
                                 brands.map((item) => (
-                                    <Link to={`/category/${item.id}`}>
+                                    <Link to={`/catalog?brandId=${item.id}`}>
                                         <CategoryCard
                                             name={item.id}
                                             item={item}
