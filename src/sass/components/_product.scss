@@ -209,9 +209,9 @@
 	text-align: center;
 	background: #fff;
 	padding: 0px 60px 0 60px;
-	// margin-bottom: 100px;
+	height: 500px;
 	@include tablet {
-		height: 500px;
+		height: 350px;
 	}
 
 	@include mobile {
@@ -328,6 +328,9 @@
 .product__details__text {
 	text-align: left;
 	// background-color: #f2f2f2;
+	@include mobile {
+		font-size: 20px;
+	}
 }
 .details_left{}
 .product__details__text h4 {
