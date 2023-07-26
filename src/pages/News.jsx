@@ -59,24 +59,26 @@ const News = () => {
             </section>
             <div className="catalog">
                 <div className="catalog__content">
-                {
-                                news.map((item) => (
-                                    <NewsCard
-                                        key={item.id}
-                                        item={item}
-                                    />
-                                ))
-                            }                
-                    <ReactPaginate
-                        className="pagination"
-                        breakLabel="..."
-                        nextLabel=">"
-                        onPageChange={handlePageClick}
-                        pageRangeDisplayed={1}
-                        pageCount={pageCount? pageCount: 0}
-                        previousLabel="<"
-                        renderOnZeroPageCount={null}
-                    />
+                    <div className="row">
+                    {
+                                    news.map((item) => (
+                                        <NewsCard
+                                            key={item.id}
+                                            item={item}
+                                        />
+                                    ))
+                                }                
+                        <ReactPaginate
+                            className="pagination"
+                            breakLabel="..."
+                            nextLabel=">"
+                            onPageChange={handlePageClick}
+                            pageRangeDisplayed={1}
+                            pageCount={pageCount? pageCount: 0}
+                            previousLabel="<"
+                            renderOnZeroPageCount={null}
+                        />
+                    </div>
                 </div>
             </div>      
             </Container> 

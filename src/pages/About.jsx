@@ -35,41 +35,35 @@ function About() {
     <Helmet title={about.title}>
       <Container>
         <section class="shop-details">
-          <div class="product__details__pic">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="product__details__breadcrumb">
-                            <Link to="/">Trang chủ</Link>
-                            <FontAwesomeIcon icon={faAngleRight} className="faAngleRight" />
-                            <span>{about.title}</span>
-                        </div>
+          <div class="product__details__title">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="product__details__breadcrumb">
+                        <Link to="/">Trang chủ</Link>
+                        <FontAwesomeIcon icon={faAngleRight} className="faAngleRight" />
+                        <span>{about.title}</span>
                     </div>
                 </div>
+            </div>
+          </div>
+        </section>
+        <section class="blog-hero spad">
+          <div class="row d-flex justify-content-center">
+              <div class="col-lg-9 text-center">
+                  <div class="blog__hero__text">
+                      <h2>{about.title}</h2>
+                  </div>
               </div>
-            </div>
-          </section>
-          <section class="blog-hero spad">
-            <div class="container">
-                <div class="row d-flex justify-content-center">
-                    <div class="col-lg-9 text-center">
-                        <div class="blog__hero__text">
-                            <h2>{about.title}</h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          </div>
         </section>
         <section class="blog-details spad">
-          <div class="container">
-              <div class="row d-flex justify-content-center">
-                  <div class="col-lg-8">
-                      <div class="blog__details__content">
-                          <div class="blog__details__share">
-                          </div>
-                          <div class="blog__details__text">
-                              <p dangerouslySetInnerHTML={{ __html: about.content }} ></p>
-                          </div>
+          <div class="row d-flex justify-content-center">
+              <div class="col-lg-10">
+                  <div class="blog__details__content">
+                      <div class="blog__details__share">
+                      </div>
+                      <div class="blog__details__text">
+                          <p dangerouslySetInnerHTML={{ __html: about.content }} ></p>
                       </div>
                   </div>
               </div>

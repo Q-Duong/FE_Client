@@ -294,10 +294,10 @@
 	background-color: #f3f2ee;
 	padding: 20px 0;
 	border-bottom: 1px #d2d2d7 solid;
-    // width: 100vw;
-    // position: relative;
-    // margin-left: -50vw;
-    // left: 50%;
+    width: 100vw;
+    position: relative;
+    margin-left: -50vw;
+    left: 50%;
 }
 
 .product__details__breadcrumb a {
@@ -332,36 +332,7 @@
 		font-size: 20px;
 	}
 }
-.details_left{}
-.product__details__text h4 {
-	color: #0d0d0d;
-	font-weight: 700;
-	margin-bottom: 10px;
-}
 
-.product__details__text span {
-	color: #1d1d1f;
-	font-weight: 700;
-	margin-bottom: 10px;
-	font-size: 18px;
-}
-
-.product__details__text .rating {
-	margin-bottom: 10px;
-}
-
-.product__details__text .rating i {
-	font-size: 15px;
-	color: #f7941d;
-	display: inline-block;
-	margin-right: -5px;
-}
-
-.product__details__text .rating span {
-	display: inline-block;
-	color: #3d3d3d;
-	margin-left: 5px;
-}
 
 .product__details__text h2 {
 	color: #1d1d1f !important;
@@ -646,4 +617,9 @@
 }
 .benefit_content{
 	text-align: center !important;
+}
+.product__details__title {
+	text-align: center;
+	background: #fff;
+	width: 100%;
 }
