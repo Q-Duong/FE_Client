@@ -61,38 +61,36 @@ const ProductView = props => {
         product ?
             <section class="shop-details">
                 <div class="product__details__pic">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="product__details__breadcrumb">
-                                    <Link to="/">Trang chủ</Link>
-                                    <FontAwesomeIcon icon={faAngleRight} className="faAngleRight" />
-                                    <span>{product.name}</span>
-                                </div>
-                                
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="product__details__breadcrumb">
+                                <Link to="/">Trang chủ</Link>
+                                <FontAwesomeIcon icon={faAngleRight} className="faAngleRight" />
+                                <span>{product.name}</span>
                             </div>
+                            
                         </div>
+                    </div>
 
-                        <div class="row">
-                            <div class="col-lg-7 col-md-7 col-sm-6 col-6">
-                                    <img className="img__details" src={`${product.image.path}`} alt="" />
-                            </div>
-                            <div class="col-lg-1 d-none d-lg-block"> </div>
-                            <div class="col-lg-4 col-md-5 col-sm-6 col-6">
-                                <div class="product__details__text">
-                                    <h2>{product.name}</h2>
-                                    <div>
-                                        <span>Thương hiệu:  {product?.brand?.name}</span>
-                                    </div>
-                                    <div>
-                                        <span>Loại sản phẩm: ({product?.category?.name})</span>
-                                    </div>
+                    <div class="row">
+                        <div class="col-lg-7 col-md-7 col-sm-6">
+                            <img className="img__details" src={`${product.image.path}`} alt="" />
+                        </div>
+                        <div class="col-lg-1 d-none d-lg-block"> </div>
+                        <div class="col-lg-4 col-md-5 col-sm-6">
+                            <div class="product__details__text">
+                                <h2>{product.name}</h2>
+                                <div>
+                                    <span>Thương hiệu:  {product?.brand?.name}</span>
+                                </div>
+                                <div>
+                                    <span>Loại sản phẩm: ({product?.category?.name})</span>
                                 </div>
                             </div>
                         </div>
-                    
+                    </div>
                 </div>
 
-            
                 <div class="product__details__content">
                 <div class="container">
                     <div class="row">
