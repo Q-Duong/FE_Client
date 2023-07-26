@@ -115,7 +115,7 @@ const Footer = () => {
                             {
                                 services?.map(item => (
                                     <p key={item.id}>
-                                        <Link to={`/about-company/${item.id}`}>{item.title}</Link>
+                                        <Link to={`/technova-service/${item.id}`}>{item.title}</Link>
                                     </p>
                                 ))
                             }
