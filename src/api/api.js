@@ -35,7 +35,7 @@ const customerAPI = {
 }
 
 const productAPI = {
-  getAll: (filter) => axi.get(`/v1/product?order=DESC&queryType=activate&${filter}`),
+  getAll: (filter) => axi.get(`/v1/product?queryType=activate&${filter}`),
   getAndSortBySoldQuantity: (limit) => axi.get(`/warehouse/top/${limit}`),
   search: (searchTerm) => axi.get(`/warehouse?searchTerm=${searchTerm}`),
   getById: (id) => axi.get(`/v1/product/${id}`),
