@@ -80,8 +80,8 @@ const newsAPI = {
 };
 
 const aboutCompanyAPI = {
-  getById: (id) => axi.get(`/v1/about-company/${id}&order=DESC`),
-  getAll: (query) => axi.get(`/v1/about-company?queryType=activate&${query}`),
+  getById: (id) => axi.get(`/v1/about-company/${id}`),
+  getAll: (query) => axi.get(`/v1/about-company?order=DESC&queryType=activate&${query}`),
 };
 
 const solutionAPI = {
