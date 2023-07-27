@@ -75,8 +75,8 @@ const contactAPI = {
 }
 
 const newsAPI = {
-  getById: (id) => axi.get(`/v1/news/${id}&order=DESC`),
-  getAll: (query) => axi.get(`/v1/news?queryType=activate&${query}`)
+  getById: (id) => axi.get(`/v1/news/${id}`),
+  getAll: (query) => axi.get(`/v1/news?queryType=activate&order=DESC&${query}`)
 };
 
 const aboutCompanyAPI = {
