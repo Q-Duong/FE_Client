@@ -143,7 +143,7 @@ const Header = (props) => {
                                                     <Link to={`/catalog?brandId=${item.id}`}><span>{item.name}</span></Link>
                                                     <ul class="dropdown">
                                                         {
-                                                            item.products?.filter((_,index) => index <=4).map(item => (
+                                                            item.products?.filter((_,index) => index <=4).sort((a,b) => a.createdAt.getTime() - b.createdAt.getTime()).map(item => (
                                                                 <li>
                                                                    <Link to={`/product/${item.id}`}>{item.name}</Link>
                                                                 </li>
