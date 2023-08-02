@@ -27,7 +27,6 @@ const Header = (props) => {
     const [brands, setBrands] = useState([])
     const [solutions, setSolutions] = useState([])
     const [services, setServices] =  useState([])
-    const [news, setNews] = useState([])
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -45,12 +44,10 @@ const Header = (props) => {
                 const resGetAboutCompany = await aboutCompanyAPI.getAll('take=5');
                 const resGetSolutions = await solutionAPI.getAll('take=5');
                 const resGetServices = await serviceAPI.getAll('take=5');
-                const resGetNews = await newsAPI.getAll('take=4')
                 setBrands(resGetBrands.data.data);
                 setAboutCompany(resGetAboutCompany.data.data);
                 setSolutions(resGetSolutions.data.data)
                 setServices(resGetServices.data.data);
-                setNews(resGetNews.data.data);
             } catch (error) {
                 alert(error)
             }
@@ -201,16 +198,6 @@ const Header = (props) => {
                                     <ul>
                                         <li className={`nav-item`}>
                                         <Link to={'/news'}><span></span>Tin tức</Link>
-                                            <ul class="dropdown">
-                                               {
-                                                news.map(service => (
-                                                    <li>
-                                                        <Link to={`/news/${service.id}`}>{service.title}</Link>
-                                                    </li>
-                                                ))
-                                               }
-                                                 <li><Link to={`/news`}>Xem tất cả</Link></li>
-                                            </ul>
                                         </li>
                                     </ul>
                                 </nav>
