@@ -82,7 +82,7 @@ const Catalog = () => {
                 const queryCategory = filter.categories.length > 0 ? `categoryIds[]=${filter.categories.join('&categoryIds[]=')}&`: '';
                 const queryPage = `page=${activePage}&`
 
-                const queryParams = queryBrand + queryCategory + queryPage + search;
+                const queryParams = 'order=ASC&' + queryBrand + queryCategory + queryPage + search;
                 const response = await productAPI.getAll(queryParams);
                 setPageCount(response.data.meta.pageCount)
                 setProducts(response.data.data)
