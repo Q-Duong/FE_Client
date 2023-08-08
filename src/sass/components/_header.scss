@@ -65,7 +65,7 @@
         }
         img {
             height: 45px;
-            width: 100px;
+            width: 450px;
         }
     }
 
@@ -297,7 +297,7 @@
 	left: 0;
 	top: 56px;
 	width: 200px;
-	background: #111111;
+	background: rgba(0,0,0,.6);
 	text-align: left;
 	padding: 5px 0;
 	z-index: 9;
@@ -323,7 +323,9 @@
 	text-transform: capitalize;
 	
 }
-
+.header__menu ul li .dropdown li a:hover {
+	color: #f3f2ee;
+}
 .header__menu ul li .dropdown li a:after {
 	display: none;
 }

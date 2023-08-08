@@ -22,7 +22,7 @@ function HeaderUserInfo(props) {
     }
 
     return (
-        <Dropdown.Menu style={{width: "180px"}}>
+        <Dropdown.Menu style={{width: "300px"}}>
             {
                     <>
                         

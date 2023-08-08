@@ -71,20 +71,21 @@ const ProductView = props => {
                             
                         </div>
                     </div>
-
-                    <div class="row">
-                        <div class="col-lg-7 col-md-7 col-sm-6">
-                            <img className="img__details" src={`${product.image.path}`} alt="" />
-                        </div>
-                        <div class="col-lg-1 d-none d-lg-block"> </div>
-                        <div class="col-lg-4 col-md-5 col-sm-6">
-                            <div class="product__details__text">
-                                <h2>{product.name}</h2>
-                                <div>
-                                    <span>Thương hiệu:  {product?.brand?.name}</span>
-                                </div>
-                                <div>
-                                    <span>Loại sản phẩm: ({product?.category?.name})</span>
+                    <div className="product__details__border">
+                        <div class="row">
+                            <div class="col-lg-7 col-md-7 col-sm-6">
+                                <img className="img__details" src={`${product.image.path}`} alt="" />
+                            </div>
+                            <div class="col-lg-1 d-none d-lg-block"> </div>
+                            <div class="col-lg-4 col-md-5 col-sm-6">
+                                <div class="product__details__text">
+                                    <h2>{product.name}</h2>
+                                    <div>
+                                        <span>Thương hiệu:  {product?.brand?.name}</span>
+                                    </div>
+                                    <div>
+                                        <span>Loại sản phẩm: ({product?.category?.name})</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
