@@ -46,7 +46,7 @@ const productAPI = {
 
 
 const orderAPI = {
-  getAll: (token) => axi.get('/v1/order/by-owner',{
+  getAll: (token) => axi.get('/v1/order/by-owner?order=DESC',{
     headers: {
       "Authorization": `Bearer ${token}`
     }
@@ -76,26 +76,26 @@ const contactAPI = {
 
 const newsAPI = {
   getById: (id) => axi.get(`/v1/news/${id}`),
-  getAll: (query) => axi.get(`/v1/news?queryType=activate&${query}`)
+  getAll: (query) => axi.get(`/v1/news?queryType=activate&order=DESC&${query}`)
 };
 
 const aboutCompanyAPI = {
   getById: (id) => axi.get(`/v1/about-company/${id}`),
-  getAll: (query) => axi.get(`/v1/about-company?queryType=activate&${query}`),
+  getAll: (query) => axi.get(`/v1/about-company?order=DESC&queryType=activate&${query}`),
 };
 
 const solutionAPI = {
   getById: (id) => axi.get(`/v1/solution/${id}`),
-  getAll: (query) => axi.get(`/v1/solution?queryType=activate&${query}`),
+  getAll: (query) => axi.get(`/v1/solution?order=DESC&queryType=activate&${query}`),
 };
 
 const serviceAPI = {
   getById: (id) => axi.get(`/v1/technova-service/${id}`),
-  getAll: (query) => axi.get(`/v1/technova-service?queryType=activate&${query}`),
+  getAll: (query) => axi.get(`/v1/technova-service?order=DESC&queryType=activate&${query}`),
 };
 
 const bannerAPI = {
-  getAll: () => axi.get(`/v1/banner?queryType=activate`),
+  getAll: () => axi.get(`/v1/banner?order=DESC&queryType=activate`),
 };
 
 export { brandAPI, categoryAPI, customerAPI, productAPI, serviceAPI, orderAPI,contactAPI, newsAPI, aboutCompanyAPI, solutionAPI, bannerAPI};
