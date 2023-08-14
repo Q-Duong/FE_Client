@@ -130,7 +130,7 @@ const ProductView = props => {
                                                             <TableBody>
                                                             {
                                                                  <TableRow >
-                                                                 <TableCell className="benefit_title" align="center">Số người sở hữu</TableCell>
+                                                                 <TableCell className="benefit_title" align="left">Số người sở hữu</TableCell>
                                                                  {
                                                                     productPackages?.map(productPackage => (
                                                                         <TableCell className="package_title">
@@ -145,7 +145,7 @@ const ProductView = props => {
                                                             }
                                                             {
                                                                  <TableRow >
-                                                                 <TableCell className="benefit_title" align="center">Thời hạn sử dụng</TableCell>
+                                                                 <TableCell className="benefit_title" align="left">Thời hạn sử dụng</TableCell>
                                                                  {
                                                                     productPackages?.map(productPackage => (
                                                                         <TableCell className="package_title">
@@ -161,7 +161,7 @@ const ProductView = props => {
                                                             {
                                                                 productBenefits?.map(benefit => (
                                                                 <TableRow >
-                                                                    <TableCell className="benefit_title" align="center">{benefit.name}</TableCell>
+                                                                    <TableCell className="benefit_title" align="left">{benefit.name}</TableCell>
                                                                     {
                                                                     benefit.benefitValues.map(benefitValue => (
                                                                         <TableCell  align="center">
