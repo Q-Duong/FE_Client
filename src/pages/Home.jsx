@@ -28,7 +28,7 @@ const Home = () => {
                 const responseGetCategories = await categoryAPI.getAll('take=8&orderBy=createdAt&order=ASC');
                 const responseGetBrands = await brandAPI.getAll('take=8');
                 const responseGetProducts = await productAPI.getAll('take=5&orderBy=createdAt&order=ASC');
-                const resGetNews = await newsAPI.getAll('take=8&orderBy=createdAt&order=DESC')
+                const resGetNews = await newsAPI.getAll('take=8')
                 const resGetBanners = await bannerAPI.getAll();
 
                 setCategories(responseGetCategories.data.data);
