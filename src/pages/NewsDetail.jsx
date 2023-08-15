@@ -39,7 +39,7 @@ function NewsDetail() {
           />
     
   </> 
-    : <div>loading</div>
+    : <div className="loading-screen"></div>
 )
 }
 
