@@ -25,7 +25,7 @@ const Home = () => {
     useEffect(() => {
         async function getData() {
             try {
-                const responseGetCategories = await categoryAPI.getAll('take=8&orderBy=createdAt&order=ASC');
+                const responseGetCategories = await categoryAPI.getAll('take=6&orderBy=createdAt&order=ASC');
                 const responseGetBrands = await brandAPI.getAll('take=8');
                 const responseGetProducts = await productAPI.getAll('take=5&orderBy=createdAt&order=ASC');
                 const resGetNews = await newsAPI.getAll('take=8')
