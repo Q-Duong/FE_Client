@@ -77,7 +77,7 @@ function TechnovaService() {
           </section>
         </Container>
     </Helmet>
-    : <div>loading</div>
+    : <div className="loading-screen"></div>
 )
 }
 
