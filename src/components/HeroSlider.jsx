@@ -46,9 +46,9 @@ const HeroSlider = props => {
               src={item.image?.path}
               alt={item.title}
             />
-            <Link to="https://technova.cloud" className="carousel_button btn">
+            <a to="https://technova.cloud" className="carousel_button btn">
               {item.title}
-            </Link>
+            </a>
           </Carousel.Item>
           ))
         }
