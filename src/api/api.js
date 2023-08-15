@@ -9,7 +9,7 @@ const brandAPI = {
 }
 
 const categoryAPI = {
-  getAll: () => axi.get('/v1/category?queryType=activate'),
+  getAll: () => axi.get('/v1/category?queryType=activate&'),
 }
 
 const customerAPI = {
