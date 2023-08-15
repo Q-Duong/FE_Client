@@ -72,7 +72,7 @@ function About() {
 
       </Container>
     </Helmet>
-    : <div>loading</div>
+    : <div className="loading-screen"></div>
 )
 }
 
