@@ -91,7 +91,7 @@ const Home = () => {
                         >
                             {
                                 brands.map((item) => (
-                                    <Link to={`/catalog?brandId=${item.id}`}>
+                                    <Link to={`/catalog?brandName=${item.name.replace(/\s/g,'-')}`}>
                                         <CategoryCard
                                             name={item.id}
                                             item={item}
