@@ -16,7 +16,7 @@ import { useHistory } from 'react-router';
 const Catalog = () => {
     const history = useHistory();
     const searchTerm = useQuery().get("searchTerm")
-    const selectBrand = useQuery().get('brandId')
+    const selectBrand = useQuery().get('brandName')
 
     const initFilter = {
         categories: [],
@@ -37,15 +37,19 @@ const Catalog = () => {
     const [activePage, setActivePage] = useState(1)
 
     useEffect(() => {
-        if(selectBrand){
-            setFilter(
-                {
-                    categories: [],
-                    brands: [selectBrand]
-                }
-            )
-        }
-    },[selectBrand])
+            const SELECTED_BRAND = selectBrand? selectBrand.replaceAll('-', ' '): false;
+            const foundBrand = brands.find(item => item.name === SELECTED_BRAND)
+            if(foundBrand){
+                setFilter(
+                    {
+                        categories: [],
+                        brands: [foundBrand.id]
+                    }
+                )
+            }
+            
+        
+    },[selectBrand, brands])
 
     useEffect(() => {
         async function getCategories() {
@@ -78,7 +82,9 @@ const Catalog = () => {
         async function getProducts() {
             try {
                 const search = searchTerm ? `q=${searchTerm}`: '';
-                const queryBrand = filter.brands.length > 0 ? `brandIds[]=${filter.brands.join('&brandIds[]=')}&`: selectBrand ? `brandIds[]=${selectBrand}&`: '';
+                const SELECTED_BRAND = selectBrand ? selectBrand.replaceAll('-', ' '): false;
+                const foundBrand = brands.find(item => item.name === SELECTED_BRAND)
+                const queryBrand = filter.brands.length > 0 ? `brandIds[]=${filter.brands.join('&brandIds[]=')}&`: foundBrand? `brandIds[]=${foundBrand.id}&`: '';
                 const queryCategory = filter.categories.length > 0 ? `categoryIds[]=${filter.categories.join('&categoryIds[]=')}&`: '';
                 const queryPage = `page=${activePage}&`
 

@@ -12,7 +12,7 @@ import { removeToken } from '../redux/token/tokenSlice'
 import search from '../assets/images/icon/search.png';
 import cart from '../assets/images/icon/cart.png';
 import user from '../assets/images/icon/user.svg';
-import { aboutCompanyAPI, brandAPI, solutionAPI, serviceAPI, newsAPI } from '../api/api';
+import { aboutCompanyAPI, brandAPI, solutionAPI, serviceAPI } from '../api/api';
 import { Menu, MenuItem } from '@mui/material';
 
 const Header = (props) => {
@@ -137,7 +137,7 @@ const Header = (props) => {
                                         <nav class="header__menu mobile-menu">
                                             <ul>
                                                 <li className={`nav-item`}>
-                                                    <Link to={`/catalog?brandId=${item.id}`}><span>{item.name}</span></Link>
+                                                    <Link to={`/catalog?brandName=${item.name.replace(/\s/g,'-')}`}><span>{item.name}</span></Link>
                                                     <ul class="dropdown">
                                                         {
                                                             item.products?.sort((a,b) => Date.parse(a.createdAt) - Date.parse(b.createdAt)).filter((_,index) => index <=4).map(item => (
@@ -147,7 +147,7 @@ const Header = (props) => {
                                                             ))
                                                         }
                                                         <li>
-                                                        <Link to={`/catalog?brandId=${item.id}`}>Xem tất cả</Link>
+                                                        <Link to={`/catalog?brandName=${item.name.replace(/\s/g,'-')}`}>Xem tất cả</Link>
                                                         </li>
                                                     </ul>
                                                 </li>
