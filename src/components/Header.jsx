@@ -101,7 +101,7 @@ const Header = (props) => {
                         </div>
                         <div className="header__logo">
                             <Link to="/">
-                                <img src="https://res.cloudinary.com/quanglong1150/image/upload/v1690300712/Skype_Picture_2023_07_25T15_58_18_638Z_fukqyl.png" alt="" />
+                                <img src="https://res.cloudinary.com/quanglong1150/image/upload/v1690300712/Skype_Picture_2023_07_25T15_58_18_638Z_fukqyl.png" alt="image-logo" />
                             </Link>
                         </div>
                         <div className="header__menu__left" ref={menuLeft}>
@@ -217,13 +217,13 @@ const Header = (props) => {
                         
                         <div className="header__menu__right">
                             <div className="header__menu__right__search__item">
-                                <img src={search} className="search" onClick={handleSearchFormShow} />
+                                <img src={search} className="search" onClick={handleSearchFormShow} alt={search}/>
                             </div>
                             <div className="header__menu__right__cart">
                                 <Dropdown className="header__menu__right__cart__btn">
                                     <Dropdown.Toggle className="header__menu__right__cart__btn__opiton" id="dropdown-custom-components">
 
-                                        <img src={cart} />
+                                        <img src={cart} alt={cart} />
                                         {
                                             cartItems.length !== 0 ?
                                                 <span className="header__menu__right__cart__btn__opiton__length">{cartItems.reduce((total, item) => total + item.quantity,0)}</span>
@@ -241,6 +241,7 @@ const Header = (props) => {
                                         aria-haspopup="true"
                                         aria-expanded={open ? 'true' : undefined}
                                         onClick={handleClick}
+                                        alt={user}
                                     />
                                     <Menu
                                         id="basic-menu"

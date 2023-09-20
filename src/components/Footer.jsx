@@ -139,7 +139,7 @@ const Footer = () => {
                     <div className="col-lg-6 d-none d-lg-block footer__img"></div>
                     <div className="col-5 col-lg-2">
                         <div className="footer__img">
-                            <img src={logoFooter} className="img_logo_footer"/>
+                            <img src={logoFooter} className="img_logo_footer" alt={logoFooter} />
                         </div>
                     </div>
                 </Row> 

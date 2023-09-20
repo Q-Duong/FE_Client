@@ -67,7 +67,7 @@ function Search(props) {
                 <form onSubmit={(e) => handleSearch(e)} autocomplete="off" className="search-model-form">
                     
                     <div className="input_container">
-                        <img src={search} className="input_img"/>
+                        <img src={search} className="input_img" alt={search}/>
                         <input ref={inputRef} type="text" id="keywords"  name="keywords_submit" placeholder="Tìm kiếm sản phẩm" className="input_search" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                         <div className="search-close-switch" onClick={handleSearchFormShow}>+</div>
                     </div>

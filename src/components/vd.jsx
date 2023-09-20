@@ -56,14 +56,14 @@ const ProductView = props => {
         <div className="product">
             <div className="product__images">
                 <div className="product__images__main">
-                    <img src={`${process.env.REACT_APP_IMAGEURL}${previewImg}`} alt="" />
+                    <img src={`${process.env.REACT_APP_IMAGEURL}${previewImg}`} alt={previewImg} />
                 </div>
                 <div className="product__images__list">
                     <div className="product__images__list__item" onClick={() => setPreviewImg(product.product.image)}>
-                        <img src={`${process.env.REACT_APP_IMAGEURL}${product.product.image}`} alt="" />
+                        <img src={`${process.env.REACT_APP_IMAGEURL}${product.product.image}`} alt={product.product.image} />
                     </div>
                     <div className="product__images__list__item" onClick={() => setPreviewImg(product.product.image)}>
-                        <img src={`${process.env.REACT_APP_IMAGEURL}${product.product.image}`} alt="" />
+                        <img src={`${process.env.REACT_APP_IMAGEURL}${product.product.image}`} alt={product.product.image} />
                     </div>
                 </div>
                 

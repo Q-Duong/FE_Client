@@ -74,7 +74,7 @@ const ProductView = props => {
                     <div className="product__details__border">
                         <div class="row">
                             <div class="col-lg-7 col-md-7 col-sm-6">
-                                <img className="img__details" src={`${product.image.path}`} alt="" />
+                                <img className="img__details" src={`${product.image.path}`} alt={product.image.path} />
                             </div>
                             <div class="col-lg-1 d-none d-lg-block"> </div>
                             <div class="col-lg-4 col-md-5 col-sm-6">

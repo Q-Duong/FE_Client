@@ -145,27 +145,6 @@ const Home = () => {
                     </SectionBody>
                 </Section>
               
-
-                {/* section product by category id */}
-                {/* {
-                    categories.map((item) => (
-                        <SectionProductsbyCategory
-                            category={item}
-                        />
-                    ))
-                } */}
-                {/* end section product by category id */}
-                {/* <Section>
-                    <SectionTitle>
-                        Tin cậy bởi các đối tác
-                    </SectionTitle>
-                    <SectionBody>
-                        <Link to="/catalog">
-                            <img src="https://res.cloudinary.com/dzbas7r2c/image/upload/v1690008111/cvoir70sc1psjsrwddzg_qovles.png" alt="banner" />
-                        </Link>
-                    </SectionBody>
-                </Section> */}
-
             </Container>
         </Helmet>
     )

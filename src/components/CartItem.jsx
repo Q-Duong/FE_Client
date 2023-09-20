@@ -43,7 +43,7 @@ const CartItem = props => {
                     <td className="product__cart__item">
                         <Link to={`/product/${item.id}`}>
                             <div className="product__cart__item__pic">
-                                <img className="imgCart" src={`${item.imagePath}`} alt="" />
+                                <img className="imgCart" src={`${item.imagePath}`} alt={item.id} />
                             </div>
                             <div className="product__cart__item__text">
                                 <h5>{item.name}</h5>

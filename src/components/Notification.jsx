@@ -11,7 +11,7 @@ function Notification(props) {
     return (
         <div className="notification">
             <div className="notification__left">
-                <img className="notification__left__img" src={``}></img>
+                <img className="notification__left__img" src={``} alt="notification_left"></img>
             </div>
             <div className="notification__right">
                 {/* <h2 className="notification__right__title">Đơn hàng {orderStatus[notification?.r_order.status]}</h2> */}

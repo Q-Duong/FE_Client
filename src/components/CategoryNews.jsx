@@ -14,7 +14,7 @@ const CategoryCard = props => {
         <div className="category_product">
             <Link to={`/news/${item._id}`}>
                 <div class="category_product_item">
-                    <img className='image_category' src={`${process.env.REACT_APP_IMAGEURL}${item.image}`}/>
+                    <img className='image_category' src={`${process.env.REACT_APP_IMAGEURL}${item.image}`} alt={item.image} />
                     <p>
                     {item.name}
                     </p>
