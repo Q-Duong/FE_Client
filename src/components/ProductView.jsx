@@ -18,7 +18,6 @@ import months from '../enum/months'
 
 const ProductView = props => {
     const dispatch = useDispatch()
-    const [isLeft, setIsLeft] = useState(true)
     const { product } = props
     const [productPackages, setProductPackages] = useState([]);
     const [productBenefits, setProductBenefits] = useState([]);
@@ -97,17 +96,15 @@ const ProductView = props => {
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="product__details__tab">
-                                <ul class="nav nav-tabs" role="tablist">
-                                    <li class="nav-item" onClick={() => {setIsLeft(true)}}>
-                                        <a className={isLeft ? "nav-link active": "nav-link"}  href="#tabs-5" role="tab">Gói sản phẩm</a>
-                                    </li>
-                                    <li class="nav-item" onClick={() => {setIsLeft(false)}}>
-                                        <a className={!isLeft ? "nav-link active": "nav-link"}  href="#tabs-6" role="tab">Mô tả</a>
-                                    </li>
-                                </ul>
                                     <div class="tab-content">
-                                        {
-                                            isLeft ?
+                                                <div class="tab-pane active" id="tabs-6" role="tabpanel">
+                                                    <div class="product__details__tab__content">
+                                                        <p class="note"></p>
+                                                        <div class="product__details__tab__content__item">
+                                                            <p dangerouslySetInnerHTML={{ __html: product.description }}></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <div class="tab-pane active" id="tabs-5" role="tabpanel">
                                                     <TableContainer style={{maxWidth: '100%', width: '100%', overflowX: 'auto'}}>
                                                         <Table>
@@ -198,16 +195,7 @@ const ProductView = props => {
                                                             </TableBody>
                                                         </Table>
                                                     </TableContainer>
-                                                </div> :
-                                                <div class="tab-pane active" id="tabs-6" role="tabpanel">
-                                                    <div class="product__details__tab__content">
-                                                        <p class="note"></p>
-                                                        <div class="product__details__tab__content__item">
-                                                            <p dangerouslySetInnerHTML={{ __html: product.description }}></p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                        }
+                                                </div>         
                                     </div>
                                 </div>
                             </div>

@@ -12,7 +12,7 @@ const InfinityList = props => {
         products ?
         <div ref={listRef}>
             <Grid
-                col={6}
+                col={5}
                 mdCol={2}
                 smCol={1}
                 gap={20}
