@@ -230,16 +230,6 @@ const Catalog = () => {
             {!loading ? (
               <>
                 <InfinityList products={products} />
-                <ReactPaginate
-                  className="pagination"
-                  breakLabel="..."
-                  nextLabel=">"
-                  onPageChange={handlePageClick}
-                  pageRangeDisplayed={4}
-                  pageCount={pageCount ? pageCount : 0}
-                  previousLabel="<"
-                  renderOnZeroPageCount={null}
-                />
               </>
             ) : (
               <div
@@ -255,6 +245,16 @@ const Catalog = () => {
                 <div className="loading-screen" />
               </div>
             )}
+            <ReactPaginate
+                  className="pagination"
+                  breakLabel="..."
+                  nextLabel=">"
+                  onPageChange={handlePageClick}
+                  pageRangeDisplayed={4}
+                  pageCount={pageCount}
+                  previousLabel="<"
+                  renderOnZeroPageCount={null}
+                />
           </div>
         </div>
       </Container>
