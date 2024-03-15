@@ -227,7 +227,7 @@ const Catalog = () => {
             </Button>
           </div>
           <div className="catalog__content">
-            {loading ? (
+            {!loading ? (
               <>
                 <InfinityList products={products} />
                 <ReactPaginate
